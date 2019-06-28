@@ -1,5 +1,8 @@
 // vue.config.js 配置说明
 // 这里只列一部分，具体配置惨考文档啊
+
+const autoprefixer = require("autoprefixer");
+const pxtorem = require("postcss-pxtorem");
 module.exports = {
   // todo: 基本路径
   publicPath: "./",
@@ -29,6 +32,24 @@ module.exports = {
   runtimeCompiler: true, //包含运行时编译器的 Vue 构建版本
   productionSourceMap: false, // 生产环境是否生成 sourceMap 文件
   parallel: undefined,
+  css: {
+    // modules:false,
+    // extract:true,
+    sourceMap: false,
+    loaderOptions: {
+      postcss: {
+        plugins: [
+          // autoprefixer({
+          //   browsers: ["Android >= 4.0", "iOS >= 7"]
+          // }),
+          pxtorem({
+            rootValue: 16,
+            propList: ["*"]
+          })
+        ]
+      }
+    }
+  },
   // 第三方插件配置
   pluginOptions: {
     // ...

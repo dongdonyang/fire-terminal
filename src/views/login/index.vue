@@ -66,30 +66,31 @@ export default {
   methods: {
     //  todo 登录、判断之前有没有设置过引导页，没有设置则跳转引导页，否则根据角色跳转到相应的页面、判断是否勾选自动登录
     login() {
-      if (!this.form.account || !this.form.password) {
-        this.$toast("请输入账号和密码！");
-        return;
-      }
-      this.$axios.post(this.$api.USER_LOGIN, this.form).then(res => {
-        if (res.success) {
-          // 账号错误
-          if (!res.result.success) {
-            this.$toast(res.result.failCause);
-            return;
-          }
-          // 是否自动登录
-          if (this.isAuto) {
-          } else {
-          }
-          //  是否跳转引导页
-          if (res.result.guideFlage) {
-            this.$router.push("/guide");
-          } else {
-            // 角色不同跳不同的主页、权限不同
-            this.$router.push("/home");
-          }
-        }
-      });
+      this.$router.push("/guide");
+      // if (!this.form.account || !this.form.password) {
+      //   this.$toast("请输入账号和密码！");
+      //   return;
+      // }
+      // this.$axios.post(this.$api.USER_LOGIN, this.form).then(res => {
+      //   if (res.success) {
+      //     // 账号错误
+      //     if (!res.result.success) {
+      //       this.$toast(res.result.failCause);
+      //       return;
+      //     }
+      //     // 是否自动登录
+      //     if (this.isAuto) {
+      //     } else {
+      //     }
+      //     //  是否跳转引导页
+      //     if (res.result.guideFlage) {
+      //       this.$router.push("/guide");
+      //     } else {
+      //       // 角色不同跳不同的主页、权限不同
+      //       this.$router.push("/home");
+      //     }
+      //   }
+      // });
     }
   }
 };
