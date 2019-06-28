@@ -4,6 +4,10 @@ import store from "../store";
 const service = axios.create({
   timeout: 30000
 });
+// todo 打包上线后统一加上后端地址
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development" ? "11" : "http://fd.sctsjkj.com:5080";
+console.log("service.baseURL", service.baseURL);
 
 service.interceptors.request.use(
   function(config) {

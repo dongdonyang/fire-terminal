@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--    todo 头部-->
-    <van-cell title="单元格" value="内容"></van-cell>
+    <van-nav-bar left-text="返回" right-text="按钮"></van-nav-bar>
     <!--    todo 内容-->
     <router-view />
     <!--      todo 底部导航栏-->
@@ -60,7 +60,9 @@ export default {
   created() {
     this.getRole();
   },
-  mounted() {},
+  mounted() {
+    this.$router.push("/login");
+  },
   methods: {
     //    todo 角色判断、管理员-设置故障、其余角色进入值班巡查、且没有底部四个导航按钮、用户的角色得存在vuex中
     getRole() {

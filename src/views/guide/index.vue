@@ -1,5 +1,22 @@
 <template>
-  <div>引导页</div>
+  <div class="guide">
+    <!--    TODO 头部title-->
+    <van-nav-bar class="header-style" title="引导设置"></van-nav-bar>
+
+    <div class="guide-main">
+      <div>
+        <img width="90%" src="../../assets/load_img_01.png" alt="" />
+        <p v-for="(item, index) in contents" :key="index">{{ item }}</p>
+      </div>
+      <van-button
+        @click="$router.push('AddWorker')"
+        class="large-but"
+        type="primary"
+        size="large"
+        >开始</van-button
+      >
+    </div>
+  </div>
 </template>
 
 <script>
@@ -12,7 +29,14 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      contents: [
+        "感谢您使用城市智慧消防作业终端！",
+        "首先，我们需要您进行一些初步设置，以使得系统更贴切符合贵公司的实际情况。",
+        "初期设置的所有数据，如果后期发生了更改，您都可以进行修改",
+        "接下来开始吧！"
+      ]
+    };
   },
   computed: {},
   watch: {},
@@ -22,4 +46,19 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.guide {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  &-main {
+    flex: 2 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding: 10px 20px;
+    text-align: center;
+  }
+}
+</style>

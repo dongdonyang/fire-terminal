@@ -62,15 +62,39 @@ const router = new Router({
     },
     //  todo 引导
     {
-      path: "",
-      name: "",
-      component: () => import("./views/")
+      path: "/guide",
+      name: "guide",
+      component: () => import("./views/guide/index.vue")
     },
+    //  工作人员
+    {
+      path: "/AddWorker",
+      name: "AddWorker",
+      component: () => import("./views/guide/AddWorker.vue")
+    },
+    // //  维保单位
+    // {
+    //   path: "/AddWorker",
+    //   name: "AddWorker",
+    //   component: () => import("./views/guide/AddWorker.vue")
+    // },
+    // //  消防巡查
+    // {
+    //   path: "/AddWorker",
+    //   name: "AddWorker",
+    //   component: () => import("./views/guide/AddWorker.vue")
+    // },
+    // //  消防系统
+    // {
+    //   path: "/AddWorker",
+    //   name: "AddWorker",
+    //   component: () => import("./views/guide/AddWorker.vue")
+    // },
     //  todo 登录
     {
-      path: "",
-      name: "",
-      component: () => import("./views/")
+      path: "/login",
+      name: "login",
+      component: () => import("./views/login/index.vue")
     },
     //  todo 注册
     {

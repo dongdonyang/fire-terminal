@@ -1,5 +1,5 @@
 <template>
-  <div>设置故障</div>
+  <p>{{ info }}</p>
 </template>
 
 <script>
@@ -12,13 +12,23 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      info: {}
+    };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.test();
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    test() {
+      this.$axios.get(this.$api.GET_FIRE_UNIT_TYPE_HISTOGRAM).then(res => {
+        this.info = res;
+      });
+    }
+  }
 };
 </script>
 

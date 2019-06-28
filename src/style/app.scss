@@ -1,0 +1,22 @@
+html, body, #app{
+  height: 100%;
+  background: #ededed;
+  &>:nth-child(1){
+    height: 100%;
+  }
+}
+
+//头部样式
+.header-style{
+  background-color: #0392fe !important;
+  & > :nth-child(2) {
+    color: #fff;
+    font-size: 26px;
+  }
+}
+// large按钮样式
+.large-but{
+  background-color: #0392fe !important;
+  border-color: #0392fe !important;
+  border-radius: 5px !important;
+}
