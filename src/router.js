@@ -37,10 +37,11 @@ const router = new Router({
       ]
     },
     //  todo 设施故障
+    //  详情页面、新增-0、编辑-1、查看-2、绑定的事当前激活的选项
     {
-      path: "",
-      name: "",
-      component: () => import("./views/")
+      path: "/FaultDetail/:status",
+      name: "FaultDetail",
+      component: () => import("./views/fault/FaultDetail.vue")
     },
     //  todo 值班巡逻
     {
@@ -72,29 +73,35 @@ const router = new Router({
       name: "AddWorker",
       component: () => import("./views/guide/AddWorker.vue")
     },
-    // //  维保单位
-    // {
-    //   path: "/AddWorker",
-    //   name: "AddWorker",
-    //   component: () => import("./views/guide/AddWorker.vue")
-    // },
-    // //  消防巡查
-    // {
-    //   path: "/AddWorker",
-    //   name: "AddWorker",
-    //   component: () => import("./views/guide/AddWorker.vue")
-    // },
-    // //  消防系统
-    // {
-    //   path: "/AddWorker",
-    //   name: "AddWorker",
-    //   component: () => import("./views/guide/AddWorker.vue")
-    // },
-    //  todo 登录
+    //  维保单位
+    {
+      path: "/SafeUnit",
+      name: "SafeUnit",
+      component: () => import("./views/guide/SafeUnit.vue")
+    },
+    //  消防巡查
+    {
+      path: "/FirePatrol",
+      name: "FirePatrol",
+      component: () => import("./views/guide/FirePatrol.vue")
+    },
+    //  消防系统
+    {
+      path: "/FireSystem",
+      name: "FireSystem",
+      component: () => import("./views/guide/FireSystem.vue")
+    },
+    //  todo 消防预警
     {
       path: "/login",
       name: "login",
       component: () => import("./views/login/index.vue")
+    },
+    //  todo 登录
+    {
+      path: "/warning",
+      name: "warning",
+      component: () => import("./views/warning/index.vue")
     },
     //  todo 注册
     {

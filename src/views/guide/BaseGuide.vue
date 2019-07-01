@@ -14,7 +14,9 @@
     <!--      todo 插槽-->
     <div class="base-guide-main">
       <slot>内容</slot>
-      <slot name="button">按钮</slot>
+      <div id="guide-but">
+        <slot name="button">按钮</slot>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +84,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    & > :first-child {
+      flex: 2 0 auto;
+    }
+    #guide-but {
+      padding: 10px 20px;
+    }
   }
 }
 </style>

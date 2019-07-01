@@ -1,16 +1,24 @@
 <template>
-  <div>
+  <div class="index">
     <!--    todo 头部-->
-    <van-nav-bar left-text="返回" right-text="按钮"></van-nav-bar>
+    <van-nav-bar fixed @click-right="$router.push('./warning')">
+      <div slot="left">
+        <img src="../assets/ssgz_img_01.png" alt="" />
+        <div>22222222</div>
+      </div>
+      <img slot="right" src="../assets/ssgz_btn_alarm.png" alt="" />
+    </van-nav-bar>
+
     <!--    todo 内容-->
-    <router-view />
+    <router-view style="margin-top: 50px" />
+
     <!--      todo 底部导航栏-->
     <van-tabbar v-model="active">
       <van-tabbar-item
         v-for="(item, index) in tabBars"
         :key="index"
         :icon="item.icon"
-        info="5"
+        info=""
         replace
         :to="item.router"
         >{{ item.label }}</van-tabbar-item
@@ -58,15 +66,13 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.getRole();
+    // this.getRole();
   },
-  mounted() {
-    this.$router.push("/login");
-  },
+  mounted() {},
   methods: {
     //    todo 角色判断、管理员-设置故障、其余角色进入值班巡查、且没有底部四个导航按钮、用户的角色得存在vuex中
     getRole() {
-      if (0) {
+      if (1) {
         this.active = 0;
         this.$router.push("fault");
       } else {
@@ -78,4 +84,14 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.index {
+  & > :first-child {
+    color: #fff;
+    background: linear-gradient(to right, #0385fe, #039dfe);
+    img {
+      width: 70%;
+    }
+  }
+}
+</style>
