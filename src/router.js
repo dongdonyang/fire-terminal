@@ -124,6 +124,24 @@ const router = new Router({
       name: "login",
       component: () => import("./views/login/index.vue")
     },
+    //  验证手机号
+    {
+      path: "/CheckPhone",
+      name: "CheckPhone",
+      meta: {
+        notCheck: 1
+      }, // 跳过登录验证
+      component: () => import("./views/login/CheckPhone.vue")
+    },
+    //  重置密码
+    {
+      path: "/ResetPassword",
+      name: "ResetPassword",
+      meta: {
+        notCheck: 1
+      }, // 跳过登录验证
+      component: () => import("./views/login/ResetPassword.vue")
+    },
     //  todo 消防预警
     {
       path: "/warning",
@@ -138,9 +156,20 @@ const router = new Router({
     },
     //  todo 注册
     {
-      path: "",
-      name: "",
-      component: () => import("./views/")
+      path: "/RegisterOne",
+      name: "RegisterOne",
+      meta: {
+        notCheck: 1
+      }, // 跳过登录验证
+      component: () => import("./views/login/RegisterOne.vue")
+    },
+    {
+      path: "/RegisterTwo",
+      name: "RegisterTwo",
+      meta: {
+        notCheck: 1
+      }, // 跳过登录验证
+      component: () => import("./views/login/RegisterTwo.vue")
     }
   ]
 });
@@ -154,7 +183,7 @@ router.beforeEach(function(to, from, next) {
       next();
     }
   } else {
-    if (to.name !== "login") {
+    if (to.name !== "login" && !to.meta.notCheck) {
       next("/login");
     } else {
       next(); //放行了,不能少，否则不会执行跳转

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <!--    TODO 头部title-->
-    <van-nav-bar class="header-style" title="登录"></van-nav-bar>
+    <base-nav title="登录" :show-left="false"></base-nav>
 
     <!--    todo 登录main-->
     <div class="login-main">
@@ -11,7 +11,12 @@
       </div>
       <van-cell-group>
         <van-field v-model="form.account" placeholder="请输入手机号">
-          <img slot="left-icon" src="../../assets/load_img_02.png" alt="" />
+          <img
+            width="80%"
+            slot="left-icon"
+            src="../../assets/load_img_02.png"
+            alt=""
+          />
         </van-field>
 
         <van-field
@@ -19,12 +24,22 @@
           placeholder="请输入密码"
           type="password"
         >
-          <img slot="left-icon" src="../../assets/load_img_03.png" alt="" />
+          <img
+            width="80%"
+            slot="left-icon"
+            src="../../assets/load_img_03.png"
+            alt=""
+          />
         </van-field>
       </van-cell-group>
       <div class="login-main-pass">
         <van-checkbox v-model="isAuto">自动登录</van-checkbox>
-        <van-button type="primary" size="small">忘记密码</van-button>
+        <van-button
+          type="primary"
+          size="small"
+          @click="$router.push('/CheckPhone')"
+          >忘记密码</van-button
+        >
       </div>
       <van-button
         @click="login"
@@ -37,6 +52,7 @@
         class="login-main-but-last large-but"
         type="primary"
         size="large"
+        @click="$router.push('/RegisterOne')"
         >注册</van-button
       >
     </div>
@@ -106,7 +122,7 @@ export default {
 .login {
   /*  todo 登录main*/
   &-main {
-    margin-top: 50px;
+    margin-top: 40px;
     padding: 10px 20px;
     & > :nth-child(1) {
       text-align: center;

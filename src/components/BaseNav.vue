@@ -2,7 +2,7 @@
   <van-nav-bar
     class="base-nav"
     :title="title"
-    left-arrow
+    :left-arrow="showLeft"
     @click-left="$router.back()"
   ></van-nav-bar>
 </template>
@@ -19,6 +19,10 @@ export default {
     title: {
       type: String,
       default: "标题"
+    },
+    showLeft: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

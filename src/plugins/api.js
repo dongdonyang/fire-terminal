@@ -19,6 +19,6 @@ const API = {
   UpdateFireUnitSystem: "/api/services/app/AppGuideSet/UpdateFireUnitSystem", //更新防火单位消防系统
   AddFireSystem: "/api/services/app/AppGuideSet/AddFireSystem", //增加消防系统
   GET_FIRE_UNIT_TYPE_HISTOGRAM:
-      "/api/services/app/BigScreen/GetFireUnitTypeHistogram", // 防火单位：类型柱状图
+    "/api/services/app/BigScreen/GetFireUnitTypeHistogram" // 防火单位：类型柱状图
 };
 export default API;
