@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 Vue.use(Router);
+import Cookies from "js-cookie";
 
 const router = new Router({
   routes: [
@@ -14,24 +15,36 @@ const router = new Router({
         {
           path: "fault",
           name: "fault",
+          meta: {
+            active: 0
+          },
           component: () => import("./views/fault/index.vue")
         },
         //  todo 值班巡逻
         {
           path: "patrol",
           name: "patrol",
+          meta: {
+            active: 1
+          },
           component: () => import("./views/patrol/index.vue")
         },
         //  todo 物联终端
         {
           path: "terminal",
           name: "terminal",
+          meta: {
+            active: 2
+          },
           component: () => import("./views/terminal/index.vue")
         },
         //  todo 我的设置
         {
           path: "setting",
           name: "setting",
+          meta: {
+            active: 3
+          },
           component: () => import("./views/setting/index.vue")
         }
       ]
@@ -44,10 +57,11 @@ const router = new Router({
       component: () => import("./views/fault/FaultDetail.vue")
     },
     //  todo 值班巡逻
+    //  详情页面、新增、编辑、删除
     {
-      path: "",
-      name: "",
-      component: () => import("./views/")
+      path: "/PatrolDetail/:status",
+      name: "PatrolDetail",
+      component: () => import("./views/patrol/PatrolDetail.vue")
     },
     //  todo 物联终端
     {
@@ -56,10 +70,23 @@ const router = new Router({
       component: () => import("./views/")
     },
     //  todo 我的设置
+    //  绑定设施编号
     {
-      path: "",
-      name: "",
-      component: () => import("./views/")
+      path: "/BingNumber",
+      name: "BingNumber",
+      component: () => import("./views/setting/BingNumber.vue")
+    },
+    //  修改密码
+    {
+      path: "/ChangePassword",
+      name: "ChangePassword",
+      component: () => import("./views/setting/ChangePassword.vue")
+    },
+    //  技术支持
+    {
+      path: "/TechnicalSupport",
+      name: "TechnicalSupport",
+      component: () => import("./views/setting/TechnicalSupport.vue")
     },
     //  todo 引导
     {
@@ -91,17 +118,23 @@ const router = new Router({
       name: "FireSystem",
       component: () => import("./views/guide/FireSystem.vue")
     },
-    //  todo 消防预警
+    //  todo 登录
     {
       path: "/login",
       name: "login",
       component: () => import("./views/login/index.vue")
     },
-    //  todo 登录
+    //  todo 消防预警
     {
       path: "/warning",
       name: "warning",
       component: () => import("./views/warning/index.vue")
+    },
+    //  预警详情、查看、新增
+    {
+      path: "/WarningDetail/:status",
+      name: "WarningDetail",
+      component: () => import("./views/warning/WarningDetail.vue")
     },
     //  todo 注册
     {
@@ -110,5 +143,22 @@ const router = new Router({
       component: () => import("./views/")
     }
   ]
+});
+// todo 登录判定
+router.beforeEach(function(to, from, next) {
+  if (Cookies.get("isLogin")) {
+    //表示登陆状态
+    if (to.name === "login") {
+      next("/home");
+    } else {
+      next();
+    }
+  } else {
+    if (to.name !== "login") {
+      next("/login");
+    } else {
+      next(); //放行了,不能少，否则不会执行跳转
+    }
+  }
 });
 export default router;

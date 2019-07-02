@@ -1,6 +1,9 @@
 <template>
-  <div class="index-tem">
-    <van-cell :title="title" value="23条" @click="show = true"></van-cell>
+  <div>
+    <van-cell :title="title" @click="show = true">
+      <van-button size="mini" icon="plus" type="primary">新增</van-button>
+    </van-cell>
+
     <van-list
       v-model="loading"
       :finished="finished"
@@ -9,12 +12,12 @@
     >
       <van-cell-group>
         <van-cell
-          @click="getDetail(item)"
+          @click="getDetail"
           v-for="(item, index) in list"
           :key="index"
-          title="张胜利 （12354698745）"
-          value="值班"
-          label="2019-6-27 11:32"
+          title="张全升"
+          value="正常"
+          label="2019-6-26 12:00"
         ></van-cell>
       </van-cell-group>
     </van-list>
@@ -30,14 +33,13 @@
 
 <script>
 /**
- *  作者：0          时间：2019/7/1 16:16
+ *  作者：0          时间：2019/7/2 09:12
  *  1,常量从js文件引入，不要定义魔术变量
  */
 export default {
-  name: "IndexTem",
+  name: "PatrolTem",
   components: {},
   props: {
-    // todo 当前激活的选项、用来判断详情的类型、新增、编辑、查看
     active: {
       type: Number,
       default: 0
@@ -58,17 +60,6 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    //    todo 选项
-    onSelect(item) {
-      this.show = false;
-      this.title = item.name;
-      this.$toast(item.name);
-    },
-    // todo 查看详情、编辑
-    getDetail(val) {
-      console.log(val);
-      this.$router.push(`./FaultDetail/${this.active}`);
-    },
     onLoad() {
       // 异步更新数据
       setTimeout(() => {
@@ -83,15 +74,19 @@ export default {
           this.finished = true;
         }
       }, 500);
+    },
+    //    todo 选项
+    onSelect(item) {
+      this.show = false;
+      this.title = item.name;
+      this.$toast(item.name);
+    },
+    //    todo 获取详情、新增、编辑、查看
+    getDetail() {
+      this.$router.push(`./PatrolDetail/${this.active}`);
     }
   }
 };
 </script>
 
-<style lang="scss">
-.index-tem {
-  & > :first-child {
-    margin-bottom: 4px;
-  }
-}
-</style>
+<style lang="scss"></style>

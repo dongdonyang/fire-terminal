@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userInfo: {}, // 用户登录信息
+    userInfo: {}, // 用户登录信息、1-管理员、2-值班员、3-巡查员
     token: 0 // 保存的登录token信息
   },
 

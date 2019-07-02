@@ -1,5 +1,17 @@
 <template>
-  <div>我的设置</div>
+  <div>
+    <van-cell-group>
+      <van-cell
+        @click="toNext(item.router, index)"
+        v-for="(item, index) in setList"
+        :key="index"
+        icon="location-o"
+        :title="item.label"
+        :value="item.content"
+        is-link
+      ></van-cell>
+    </van-cell-group>
+  </div>
 </template>
 
 <script>
@@ -12,13 +24,61 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      setList: [
+        {
+          icon: "",
+          label: "引导设置",
+          router: "/guide"
+        },
+        {
+          icon: "",
+          label: "绑定设置编号",
+          router: "/BingNumber"
+        },
+        {
+          icon: "",
+          label: "修改密码",
+          router: "/ChangePassword"
+        },
+        {
+          icon: "",
+          label: "技术支持",
+          content: "天树聚城市智慧消防",
+          router: "/TechnicalSupport"
+        },
+        {
+          icon: "",
+          label: "注销登录",
+          router: ""
+        }
+      ]
+    };
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 跳转到相应的页面
+    toNext(rou, index) {
+      rou ? this.$router.push(rou) : this.logOut();
+    },
+    //  todo 注销
+    logOut() {
+      this.$dialog
+        .confirm({
+          title: "注销登录",
+          message: "您是否要注销登录？"
+        })
+        .then(() => {
+          // on confirm
+        })
+        .catch(() => {
+          // on cancel
+        });
+    }
+  }
 };
 </script>
 

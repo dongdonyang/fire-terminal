@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-tabs type="card" color="#0385fe" class="fault-index" v-model="active">
+    <van-tabs color="#0385fe" class="fault-index" v-model="active">
       <van-tab title="待处理"><index-tem :active="active"></index-tem></van-tab>
       <van-tab title="处理中"><index-tem :active="active"></index-tem></van-tab>
       <van-tab title="已解决"><index-tem :active="active"></index-tem></van-tab>

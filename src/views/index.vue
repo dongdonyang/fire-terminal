@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <!--    todo 头部-->
-    <van-nav-bar fixed @click-right="$router.push('./warning')">
+    <van-nav-bar @click-right="$router.push('./warning')">
       <div slot="left">
         <img src="../assets/ssgz_img_01.png" alt="" />
         <div>22222222</div>
@@ -10,7 +10,7 @@
     </van-nav-bar>
 
     <!--    todo 内容-->
-    <router-view style="margin-top: 50px" />
+    <router-view />
 
     <!--      todo 底部导航栏-->
     <van-tabbar v-model="active">
@@ -66,21 +66,10 @@ export default {
   computed: {},
   watch: {},
   created() {
-    // this.getRole();
+    this.active = this.$route.meta.active;
   },
   mounted() {},
-  methods: {
-    //    todo 角色判断、管理员-设置故障、其余角色进入值班巡查、且没有底部四个导航按钮、用户的角色得存在vuex中
-    getRole() {
-      if (1) {
-        this.active = 0;
-        this.$router.push("fault");
-      } else {
-        this.active = 1;
-        this.$router.push("patrol");
-      }
-    }
-  }
+  methods: {}
 };
 </script>
 

@@ -58,7 +58,9 @@ export default {
     },
     //  todo 完成
     hasFinash() {
-      this.$router.push("./");
+      let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
+      let router = role ? "/fault" : "/patrol"; // 路由
+      this.$router.push(router);
     }
   }
 };

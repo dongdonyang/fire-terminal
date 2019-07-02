@@ -66,28 +66,34 @@ export default {
   methods: {
     //  todo 登录、判断之前有没有设置过引导页，没有设置则跳转引导页，否则根据角色跳转到相应的页面、判断是否勾选自动登录
     login() {
-      if (!this.form.account || !this.form.password) {
+      let f = this.form;
+      if (!f.account || !f.password) {
         this.$toast("请输入账号和密码！");
         return;
       }
-      this.$axios.post(this.$api.USER_LOGIN, this.form).then(res => {
+      this.$axios.post(this.$api.USER_LOGIN, f).then(res => {
         if (res.success) {
+          let r = res.result;
+          let role = r.rolelist.includes(1); // 角色
+          let router = role ? "/fault" : "/patrol"; // 路由
           // 账号错误
-          if (!res.result.success) {
-            this.$toast(res.result.failCause);
+          if (!r.success) {
+            this.$toast(r.failCause);
             return;
           }
           // 是否自动登录
-          this.$store.commit("setUserInfo", res.result); // todo 设置自动登录后，得重新赋值，因为不会调用这个方法
-          if (this.isAuto) {
-          } else {
-          }
+          this.$cookies.set("isLogin", 1);
+          this.$cookies.set("userInfo", r);
+          this.$store.commit("setUserInfo", r);
+          // if (this.isAuto) {
+          // } else {
+          // }
           //  是否跳转引导页
-          if (res.result.guideFlage) {
+          if (r.guideFlage) {
             this.$router.push("/guide");
           } else {
             // 角色不同跳不同的主页、权限不同
-            this.$router.push("/home");
+            this.$router.push(router);
           }
         }
       });
