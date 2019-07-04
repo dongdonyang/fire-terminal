@@ -69,16 +69,38 @@ export default {
      * @fileOverview 扫描一维码、二维码信息
      */
     getCode() {
-      console.log("erweim");
+      let barcode = plus.barcode.create("barcode", [plus.barcode.QR], {
+        width: "100%",
+        height: "100%"
+      });
+      barcode.onmarked = this.onmarked;
+      plus.webview.currentWebview().append(barcode);
+      barcode.start();
+    },
+    onmarked(type, result) {
+      console.log(type, result);
+      let text = "未知: ";
+      switch (type) {
+        case plus.barcode.QR:
+          text = "QR: ";
+          break;
+        case plus.barcode.EAN13:
+          text = "EAN13: ";
+          break;
+        case plus.barcode.EAN8:
+          text = "EAN8: ";
+          break;
+      }
+      alert(text + result);
     }
   }
 };
 </script>
 
 <style lang="scss">
-  .base-form{
-    & > div{
-      line-height: 25px;
-    }
+.base-form {
+  & > div {
+    line-height: 25px;
   }
+}
 </style>

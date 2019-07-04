@@ -1,36 +1,10 @@
 <template>
-  <div>
-    <base-nav title="修改密码"></base-nav>
+  <div class="change-pass">
     <div>
-      <van-cell-group>
-        <van-field
-          v-model="form.password"
-          type="password"
-          label="密码"
-          placeholder="请输入密码"
-          required
-        ></van-field>
-        <van-field
-          v-model="form.password"
-          type="password"
-          label="密码"
-          placeholder="请输入密码"
-          required
-        ></van-field>
-        <van-field
-          v-model="form.password"
-          type="password"
-          label="密码"
-          placeholder="请输入密码"
-          required
-        ></van-field>
-      </van-cell-group>
+      <base-nav title="修改密码"></base-nav>
+      <base-form :form="form" :form-list="formList"></base-form>
     </div>
-    <div>
-      <van-button class="large-but" type="primary" size="large"
-        >提交</van-button
-      >
-    </div>
+    <base-button>提交</base-button>
   </div>
 </template>
 
@@ -45,7 +19,24 @@ export default {
   props: {},
   data() {
     return {
-      form: {}
+      form: {},
+      formList: [
+        {
+          icon: require("../../assets/wjmm_img_02.png"),
+          remind: "请输入原密码",
+          value: ""
+        },
+        {
+          icon: require("../../assets/wjmm_img_03.png"),
+          remind: "请设置新密码",
+          value: ""
+        },
+        {
+          icon: require("../../assets/wjmm_img_04.png"),
+          remind: "请再次输入密码",
+          value: ""
+        }
+      ]
     };
   },
   computed: {},
@@ -56,4 +47,9 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import "../../style/app";
+.change-pass {
+  @include my-flex();
+}
+</style>

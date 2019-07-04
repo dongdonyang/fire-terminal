@@ -10,24 +10,24 @@ module.exports = {
   // launch_path: "index.html", //指定生成的 index.html 的输出路径(相对于 outputDir)也可以是一个绝对路径。
   configureWebpack: {},
   // todo: webpack-dev-server 相关配置
-  devServer: {
-    port: 8084, // 端口号
-    host: "0.0.0.0",
-    https: false, // https:{type:Boolean}
-    open: false, //配置自动启动浏览器
-    proxy: {
-      "/api": {
-        target: "http://fd.sctsjkj.com:5080", //线上环境
-        // target: "http://192.168.0.67:5080", //调试环境、陈龙
-        // target: "http://192.168.0.179:5000", //调试环境、陈昊文
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": "/api"
-        }
-      }
-    }
-  },
+  // devServer: {
+  //   port: 8084, // 端口号
+  //   host: "0.0.0.0",
+  //   https: false, // https:{type:Boolean}
+  //   open: false, //配置自动启动浏览器
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://fd.sctsjkj.com:5080", //线上环境
+  //       // target: "http://192.168.0.67:5080", //调试环境、陈龙
+  //       // target: "http://192.168.0.179:5000", //调试环境、陈昊文
+  //       ws: true,
+  //       changeOrigin: true,
+  //       pathRewrite: {
+  //         "^/api": "/api"
+  //       }
+  //     }
+  //   }
+  // },
   lintOnSave: false, //是否在保存的时候检查
   runtimeCompiler: true, //包含运行时编译器的 Vue 构建版本
   productionSourceMap: false, // 生产环境是否生成 sourceMap 文件

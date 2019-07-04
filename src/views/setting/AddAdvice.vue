@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <base-nav title="我要提建议"></base-nav>
-    <van-field
-      v-model="value"
-      type="textarea"
-      rows="12"
-      placeholder="在这请输入您的建议内容"
-    ></van-field>
+  <div class="add-advice">
     <div>
-      <van-button class="large-but" type="primary" size="large"
-        >提交</van-button
-      >
+      <base-nav title="我要提建议"></base-nav>
+      <van-field
+        v-model="value"
+        type="textarea"
+        rows="12"
+        placeholder="在这请输入您的建议内容"
+      ></van-field>
     </div>
+    <base-button>提交</base-button>
   </div>
 </template>
 
@@ -35,4 +33,9 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import "../../style/app";
+.add-advice {
+  @include my-flex();
+}
+</style>

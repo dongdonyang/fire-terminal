@@ -24,7 +24,7 @@
       <base-button
         @click="$router.push('/RegisterOne')"
         my-class="login-main-but"
-        >注册</base-button
+        >单位消防管理员注册</base-button
       >
     </div>
   </div>
