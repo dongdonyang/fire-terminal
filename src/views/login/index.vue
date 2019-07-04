@@ -9,51 +9,22 @@
         <img width="90%" src="../../assets/load_img_01.png" alt="" />
         <p>{{ title }}</p>
       </div>
-      <van-cell-group>
-        <van-field v-model="form.account" placeholder="请输入手机号">
-          <img
-            width="80%"
-            slot="left-icon"
-            src="../../assets/load_img_02.png"
-            alt=""
-          />
-        </van-field>
 
-        <van-field
-          v-model="form.password"
-          placeholder="请输入密码"
-          type="password"
-        >
-          <img
-            width="80%"
-            slot="left-icon"
-            src="../../assets/load_img_03.png"
-            alt=""
-          />
-        </van-field>
-      </van-cell-group>
+      <!--      todo form-->
+      <base-form :form="form" :form-list="formList"></base-form>
+
       <div class="login-main-pass">
         <van-checkbox v-model="isAuto">自动登录</van-checkbox>
-        <van-button
-          type="primary"
-          size="small"
-          @click="$router.push('/CheckPhone')"
-          >忘记密码</van-button
+        <base-button @click="$router.push('/CheckPhone')" my-size="small"
+          >忘记密码</base-button
         >
       </div>
-      <van-button
-        @click="login"
-        class="login-main-but large-but"
-        type="primary"
-        size="large"
-        >登录</van-button
-      >
-      <van-button
-        class="login-main-but-last large-but"
-        type="primary"
-        size="large"
+
+      <base-button @click="login">登录</base-button>
+      <base-button
         @click="$router.push('/RegisterOne')"
-        >注册</van-button
+        my-class="login-main-but"
+        >注册</base-button
       >
     </div>
   </div>
@@ -72,7 +43,19 @@ export default {
     return {
       isAuto: true,
       title: "防火单位作业终端",
-      form: {}
+      form: {},
+      formList: [
+        {
+          icon: require("../../assets/load_img_02.png"),
+          remind: "请输入手机号",
+          value: "account"
+        },
+        {
+          icon: require("../../assets/load_img_03.png"),
+          remind: "请输入密码",
+          value: "password"
+        }
+      ]
     };
   },
   computed: {},
@@ -90,13 +73,13 @@ export default {
       this.$axios.post(this.$api.USER_LOGIN, f).then(res => {
         if (res.success) {
           let r = res.result;
-          let role = r.rolelist.includes(1); // 角色
-          let router = role ? "/fault" : "/patrol"; // 路由
           // 账号错误
           if (!r.success) {
             this.$toast(r.failCause);
             return;
           }
+          let role = r.rolelist.includes(1); // 角色、1-管理员
+          let router = role ? "/fault" : "/patrol"; // 路由
           // 是否自动登录
           this.$cookies.set("isLogin", 1);
           this.$cookies.set("userInfo", r);
@@ -133,9 +116,9 @@ export default {
       padding: 20px 16px;
     }
     &-but {
-      &-last {
-        margin-top: 20px;
-      }
+      background-color: #00b7e4;
+      border-color: #00b7e4;
+      border-radius: 5px;
     }
   }
 }

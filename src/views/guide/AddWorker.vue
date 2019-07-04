@@ -1,36 +1,32 @@
 <template>
   <base-guide :active="0" class="add-worker">
     <div>
-      <van-panel
-        class="add-worker-content"
-        v-for="(item, index) in userList"
-        :key="index"
-        :title="item.name"
-        :desc="item.account"
+      <base-list
+        :table-list="userList"
+        :table-name="tableName"
+        @cellClick="editUser"
+        @refresh="getList"
+        @onLoad="getList"
       >
-        <!--        <div slot="header">11</div>-->
-        <div slot="footer" class="add-worker-content-buts">
-          <van-button size="small">编辑</van-button>
-          <van-button size="small" type="danger" @click="deleteUser(item)"
-            >删除</van-button
-          >
+        <div slot="cellValue" slot-scope="slotProp">
+          <img
+            v-for="i in slotProp.item.rolelist"
+            :key="i"
+            :src="iconList[i]"
+            style="width: 20%;margin: 0 5px"
+          />
         </div>
-      </van-panel>
+      </base-list>
 
       <!--        todo 添加人员-->
-      <div class="add-worker-add">
-        <van-button @click="show = true" type="info">添加人员</van-button>
-      </div>
+      <base-button class="add-worker-add" @click="openPopup"
+        >添加人员</base-button
+      >
     </div>
 
     <!--    todo 底部按钮-->
-    <van-button
-      slot="button"
-      class="large-but"
-      type="primary"
-      size="large"
-      @click="$router.push('./SafeUnit')"
-      >下一步</van-button
+    <base-button slot="button" @click="$router.push('./SafeUnit')"
+      >下一步</base-button
     >
 
     <!--      todo 添加人员弹窗-->
@@ -40,22 +36,13 @@
       position="bottom"
       :style="{ height: '80%' }"
     >
-      <van-nav-bar title="新增工作人员">
+      <van-nav-bar :title="popupTitle">
         <van-icon name="cross" slot="right" @click="show = false"></van-icon>
       </van-nav-bar>
 
       <div>
         <div>
-          <van-cell-group>
-            <van-field v-model="form.name" placeholder="请输入真实姓名">
-              <img slot="left-icon" src="../../assets/load_img_02.png" alt="" />
-            </van-field>
-
-            <van-field v-model="form.account" placeholder="请输入手机号">
-              <img slot="left-icon" src="../../assets/load_img_03.png" alt="" />
-            </van-field>
-          </van-cell-group>
-
+          <base-form :form="form" :form-list="formList"></base-form>
           <div class="add-worker-dia-set">
             <p>设置角色</p>
             <ul>
@@ -67,13 +54,7 @@
             </van-checkbox-group>
           </div>
         </div>
-        <van-button
-          class="large-but"
-          type="primary"
-          size="large"
-          @click="setUser"
-          >确定</van-button
-        >
+        <base-button @click="setUser">确定</base-button>
       </div>
     </van-popup>
   </base-guide>
@@ -95,9 +76,33 @@ export default {
   props: {},
   data() {
     return {
+      popupTitle: "",
+      tableName: {
+        title: "name",
+        label: "account"
+      },
+      formList: [
+        {
+          icon: require("../../assets/load_img_02.png"),
+          remind: "请输入真实姓名",
+          value: "name"
+        },
+        {
+          icon: require("../../assets/load_img_03.png"),
+          remind: "请输入手机号",
+          value: "account"
+        }
+      ],
+      iconList: {
+        1: require("../../assets/guide_img_01.png"),
+        2: require("../../assets/guide_img_03.png"),
+        3: require("../../assets/guide_img_02.png")
+      },
       userList: [],
       show: false,
-      form: {},
+      form: {
+        fireUnitInfoID: this.$store.state.userInfo.fireUnitID
+      },
       setInfo: [
         "使用手机号登录系统，初始密码是666666",
         "值班员拥有值班记录功能权限",
@@ -109,19 +114,32 @@ export default {
   computed: {},
   watch: {},
   created() {},
-  mounted() {
-    this.getList();
-  },
+  mounted() {},
   methods: {
+    // todo 打开新增人员弹窗
+    openPopup() {
+      this.form = {};
+      this.form.fireUnitInfoID = this.$store.state.userInfo.fireUnitID;
+      this.popupTitle = "新增工作人员";
+      this.show = true;
+    },
+    // todo 编辑人员
+    editUser(val) {
+      console.log(val);
+      this.popupTitle = "编辑工作人员";
+      this.form = val;
+      this.show = true;
+    },
     // todo 查询人员列表
-    getList() {
+    getList(success) {
       this.$axios
         .get(this.$api.GET_FIRE_UNIT_PEOPLE, {
-          params: { AccountID: 3 }
+          params: { AccountID: this.$store.state.userInfo.userId }
         })
         .then(res => {
           if (res.success) {
             this.userList = res.result;
+            success(this.userList.length);
           }
         });
     },
@@ -135,6 +153,7 @@ export default {
     setUser() {
       this.$axios.post(this.$api.ADD_USER, this.form).then(res => {
         if (res.success) {
+          this.getList();
           this.$toast.success(`新增人员成功！`);
           this.show = false;
         }
@@ -147,7 +166,7 @@ export default {
 <style lang="scss">
 .add-worker {
   &-content {
-    margin-bottom: 16px;
+    margin-bottom: 6px;
     &-buts {
       text-align: right;
       & > :first-child {

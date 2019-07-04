@@ -1,42 +1,15 @@
 <template>
-  <div class="check-phone">
-    <base-nav title="忘记密码"></base-nav>
-    <van-cell-group>
-      <van-field v-model="form.account" placeholder="请输入手机号">
-        <img
-          width="70%"
-          slot="left-icon"
-          src="../../assets/load_img_02.png"
-          alt=""
-        />
-      </van-field>
-
-      <van-field
-        v-model="form.sms"
-        center
-        clearable
-        placeholder="请输入短信验证码"
-      >
-        <img
-          width="70%"
-          slot="left-icon"
-          src="../../assets/wjmm_img_02.png"
-          alt=""
-        />
-        <van-button slot="button" size="small" type="primary"
-          >发送验证码</van-button
-        >
-      </van-field>
-    </van-cell-group>
+  <div class="check-phone flex-between">
     <div>
-      <van-button
-        class="large-but"
-        type="primary"
-        size="large"
-        @click="$router.push('ResetPassword')"
-        >下一步</van-button
-      >
+      <base-nav title="忘记密码"></base-nav>
+      <base-form
+        :form="form"
+        :form-list="formList"
+        @mySlotClick="getCode"
+      ></base-form>
     </div>
+
+    <base-button @click="$router.push('ResetPassword')">下一步</base-button>
   </div>
 </template>
 
@@ -51,22 +24,34 @@ export default {
   props: {},
   data() {
     return {
-      form: {}
+      form: {},
+      formList: [
+        {
+          icon: require("../../assets/load_img_02.png"),
+          remind: "请输入手机号",
+          value: ""
+        },
+        {
+          icon: require("../../assets/wjmm_img_02.png"),
+          remind: "请输入短信验证码",
+          value: "",
+          mySolt: "sendCode"
+        }
+      ]
     };
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 获取短信验证码
+    getCode() {}
+  }
 };
 </script>
 
 <style lang="scss">
 .check-phone {
-  & > :last-child {
-    margin-top: 15px;
-    padding: 15px;
-  }
 }
 </style>

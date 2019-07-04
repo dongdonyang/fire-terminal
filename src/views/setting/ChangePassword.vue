@@ -1,5 +1,37 @@
 <template>
-  <div>修改密码</div>
+  <div>
+    <base-nav title="修改密码"></base-nav>
+    <div>
+      <van-cell-group>
+        <van-field
+          v-model="form.password"
+          type="password"
+          label="密码"
+          placeholder="请输入密码"
+          required
+        ></van-field>
+        <van-field
+          v-model="form.password"
+          type="password"
+          label="密码"
+          placeholder="请输入密码"
+          required
+        ></van-field>
+        <van-field
+          v-model="form.password"
+          type="password"
+          label="密码"
+          placeholder="请输入密码"
+          required
+        ></van-field>
+      </van-cell-group>
+    </div>
+    <div>
+      <van-button class="large-but" type="primary" size="large"
+        >提交</van-button
+      >
+    </div>
+  </div>
 </template>
 
 <script>
@@ -12,7 +44,9 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      form: {}
+    };
   },
   computed: {},
   watch: {},

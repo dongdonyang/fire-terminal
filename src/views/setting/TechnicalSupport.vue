@@ -1,5 +1,12 @@
 <template>
-  <div>技术支持</div>
+  <div class="tec-sup">
+    <base-nav title="技术支持"></base-nav>
+    <img width="100%" src="../../assets/site_img_09.png" />
+    <van-cell-group>
+      <van-cell title="技术支持电话：13865699955" icon="location-o"></van-cell>
+      <van-cell title="我要提建议" icon="location-o" is-link @click="$router.push('/AddAdvice')"></van-cell>
+    </van-cell-group>
+  </div>
 </template>
 
 <script>
@@ -12,7 +19,9 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      form: {}
+    };
   },
   computed: {},
   watch: {},
@@ -22,4 +31,7 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.tec-sup {
+}
+</style>

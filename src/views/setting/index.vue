@@ -29,7 +29,7 @@ export default {
         {
           icon: "",
           label: "引导设置",
-          router: "/guide"
+          router: "/AddWorker"
         },
         {
           icon: "",

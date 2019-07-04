@@ -19,3 +19,16 @@ html, body, #app{
   border-color: #0392fe !important;
   border-radius: 5px !important;
 }
+
+// felx两端对齐 建议使用混合指令、增强课扩展性 @mixin、@include
+.flex-between{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+// flex 混合指令
+@mixin my-flex($direction:column,$way:space-between) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $way;
+}

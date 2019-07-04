@@ -1,21 +1,17 @@
 <template>
   <div class="guide">
     <!--    TODO 头部title-->
-    <van-nav-bar class="header-style" title="引导设置"></van-nav-bar>
-
-    <div class="guide-main">
-      <div>
-        <img width="90%" src="../../assets/load_img_01.png" alt="" />
-        <p v-for="(item, index) in contents" :key="index">{{ item }}</p>
+    <div>
+      <base-nav title="引导设置" :show-left="false"></base-nav>
+      <div class="guide-main">
+        <div>
+          <img width="90%" src="../../assets/load_img_01.png" alt="" />
+          <p v-for="(item, index) in contents" :key="index">{{ item }}</p>
+        </div>
       </div>
-      <van-button
-        @click="$router.push('AddWorker')"
-        class="large-but"
-        type="primary"
-        size="large"
-        >开始</van-button
-      >
     </div>
+
+    <base-button @click="$router.push('AddWorker')">开始</base-button>
   </div>
 </template>
 
@@ -47,15 +43,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../style/app";
 .guide {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  @include my-flex();
   &-main {
-    flex: 2 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     margin-top: 50px;
     padding: 10px 20px;
     text-align: center;

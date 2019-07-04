@@ -38,4 +38,6 @@ export default {
 .van-tabs__content {
   margin-top: 4px;
 }
+.fault-index {
+}
 </style>

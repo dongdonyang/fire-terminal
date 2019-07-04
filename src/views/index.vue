@@ -4,7 +4,7 @@
     <van-nav-bar @click-right="$router.push('./warning')">
       <div slot="left">
         <img src="../assets/ssgz_img_01.png" alt="" />
-        <div>22222222</div>
+        <div>{{$store.state.userInfo.name}}</div>
       </div>
       <img slot="right" src="../assets/ssgz_btn_alarm.png" alt="" />
     </van-nav-bar>
@@ -18,7 +18,6 @@
         v-for="(item, index) in tabBars"
         :key="index"
         :icon="item.icon"
-        info=""
         replace
         :to="item.router"
         >{{ item.label }}</van-tabbar-item
@@ -78,6 +77,8 @@ export default {
   & > :first-child {
     color: #fff;
     background: linear-gradient(to right, #0385fe, #039dfe);
+    position: sticky;
+    top: 0;
     img {
       width: 70%;
     }

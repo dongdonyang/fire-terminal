@@ -1,23 +1,7 @@
 <template>
   <div class="index-tem">
     <van-cell :title="title" value="23条" @click="show = true"></van-cell>
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <van-cell-group>
-        <van-cell
-          @click="getDetail(item)"
-          v-for="(item, index) in list"
-          :key="index"
-          title="张胜利 （12354698745）"
-          value="值班"
-          label="2019-6-27 11:32"
-        ></van-cell>
-      </van-cell-group>
-    </van-list>
+    <base-list>11</base-list>
 
     <!--      todo 选项-->
     <van-action-sheet
@@ -45,9 +29,8 @@ export default {
   },
   data() {
     return {
-      list: [],
-      loading: false,
-      finished: false,
+      tableList: [],
+      tableName: {},
       title: "全部来源",
       show: false,
       actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }]
@@ -58,6 +41,16 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // todo 获取list
+    getList() {
+      this.$axios
+        .get(this.$api.aa, {
+          params: this.page
+        })
+        .then(res => {
+          this.tableList = res.result;
+        });
+    },
     //    todo 选项
     onSelect(item) {
       this.show = false;
@@ -68,21 +61,6 @@ export default {
     getDetail(val) {
       console.log(val);
       this.$router.push(`./FaultDetail/${this.active}`);
-    },
-    onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
     }
   }
 };

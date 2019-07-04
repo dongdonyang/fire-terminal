@@ -16,15 +16,8 @@
 
     <!--        todo 底部按钮-->
     <div slot="button">
-      <van-button
-        type="primary"
-        size="large"
-        @click="$router.push('./FirePatrol')"
-        >下一步</van-button
-      >
-      <van-button type="primary" size="large" @click="$router.back()"
-        >上一步</van-button
-      >
+      <base-button @click="$router.back()">上一步</base-button>
+      <base-button @click="$router.push('./FirePatrol')">下一步</base-button>
     </div>
   </BaseGuide>
 </template>

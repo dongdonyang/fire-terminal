@@ -3,22 +3,12 @@
     <van-cell title="全部终端" value="内容" @click="show = true"></van-cell>
 
     <!--    todo list-->
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <van-cell-group>
-        <van-cell
-          v-for="(item, index) in list"
-          :key="index"
-          title="用户信息传输装置"
-          value="在线"
-          label="A座-1楼消防监控室"
-        ></van-cell>
-      </van-cell-group>
-    </van-list>
+    <base-list
+      @onLoad="getList"
+      @refresh="getList"
+      :table-list="tableList"
+      :table-name="tableName"
+    ></base-list>
 
     <!--    todo 选择框-->
     <van-action-sheet
@@ -40,41 +30,49 @@ export default {
   props: {},
   data() {
     return {
-      list: [],
-      loading: false,
-      finished: false,
+      tableList: [],
+      tableName: {
+        title: "name",
+        label: "stateName",
+        value: "standard"
+      },
+      page: {
+        FireUnitId: 3
+      },
       show: false,
-      actions: [
-        { name: "选项" },
-        { name: "选项" },
-        { name: "选项", subname: "描述信息" }
-      ]
+      actions: []
     };
   },
   computed: {},
   watch: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.getOptions();
+  },
   methods: {
-    onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+    // todo 获取list数据
+    getList(success) {
+      this.$axios
+        .get(this.$api.GET_FIRE_UNIT_END_DEVICE_STATE, {
+          params: this.page
+        })
+        .then(res => {
+          this.tableList = res.result;
+          // success();
+        });
     },
+    // todo 获取选项
+    getOptions() {
+      this.$axios.get(this.$api.GET_END_DEVICE_OPTIONS).then(res => {
+        this.actions = res.result;
+      });
+    },
+    // todo 选择
     onSelect(item) {
-      // 点击选项时默认不会关闭菜单，可以手动关闭
       this.show = false;
       this.$toast(item.name);
+      this.page.Option = item.value;
+      this.getList();
     }
   }
 };

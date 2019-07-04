@@ -39,6 +39,8 @@ export default {
 <style lang="scss">
 .base-nav {
   background: linear-gradient(to right, #0385fe, #039dfe);
+  position: sticky;
+  top: 0;
   & > div,
   i {
     color: #fff !important;

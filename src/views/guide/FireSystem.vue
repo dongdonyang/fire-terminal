@@ -21,12 +21,8 @@
       </van-checkbox-group>
     </div>
     <div slot="button">
-      <van-button type="primary" size="large" @click="hasFinash"
-        >完成</van-button
-      >
-      <van-button type="primary" size="large" @click="$router.back()"
-        >上一步</van-button
-      >
+      <base-button @click="$router.back()">上一步</base-button>
+      <base-button @click="hasFinash">完成</base-button>
     </div>
   </base-guide>
 </template>

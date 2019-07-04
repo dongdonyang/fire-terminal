@@ -1,25 +1,16 @@
 <template>
-  <div>
+  <div class="warn-index">
     <base-nav title="消防预警"></base-nav>
 
     <!--    todo 内容-->
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <van-cell-group>
-        <van-cell
-          @click="getDetail(item)"
-          v-for="(item, index) in list"
-          :key="index"
-          title="A座14楼楼道配电箱"
-          value="已过期"
-          label="剩余电流式探测器  320mA[标准:0-300mA]"
-        ></van-cell>
-      </van-cell-group>
-    </van-list>
+    <base-list
+      ref="BaseList"
+      @onLoad="getList"
+      @cellClick="getDetail"
+      @refresh="getList"
+      :tableList="tableList"
+      :tableName="tableName"
+    ></base-list>
   </div>
 </template>
 
@@ -34,9 +25,19 @@ export default {
   props: {},
   data() {
     return {
-      list: [],
-      loading: false,
-      finished: false
+      tableList: [],
+      tableName: {
+        title: "location",
+        value: "checkStateName",
+        label: "alarm"
+      }, // 展示的字段
+      page: {
+        FireUnitId: 3,
+        MaxResultCount: 140, // 查询当前页面的数量
+        total: 0,
+        SkipCount: 0, // 跳过的查询的数量
+        current: 1 // 当前页面
+      }
     };
   },
   computed: {},
@@ -44,27 +45,33 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    // todo 详情、核警
-    getDetail() {
-      this.$router.push(`/WarningDetail/1`);
+    // todo 获取消防预警数据
+    getList(success) {
+      this.$axios
+        .get(this.$api.GET_ALARM_CHECKS, {
+          params: this.page
+        })
+        .then(res => {
+          if (res.success) {
+            this.tableList = res.result;
+            success(this.tableList.length, res.result.total); // 回调函数
+          }
+        });
     },
-    onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+    // todo 详情、核警
+    getDetail(item) {
+      this.$router.push(
+        `/WarningDetail/${item.checkStateValue}/${item.checkId}`
+      );
     }
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.warn-index {
+  .van-cell__title {
+    flex: 2 0 auto;
+  }
+}
+</style>

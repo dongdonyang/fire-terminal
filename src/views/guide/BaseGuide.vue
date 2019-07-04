@@ -1,7 +1,8 @@
 <template>
   <div class="base-guide">
     <!--    TODO 头部title-->
-    <van-nav-bar class="header-style" title="引导设置"></van-nav-bar>
+    <base-nav title="引导设置"></base-nav>
+
     <!--      todo 步骤-->
     <van-steps :active="active" class="base-guide-step">
       <van-step v-for="(item, index) in steps" :key="index">
@@ -79,16 +80,13 @@ export default {
     }
   }
   &-main {
-    margin-top: 20px;
+    margin-top: 12px;
     flex: 2 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     & > :first-child {
       flex: 2 0 auto;
-    }
-    #guide-but {
-      padding: 10px 20px;
     }
   }
 }

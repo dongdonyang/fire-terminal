@@ -13,12 +13,43 @@ const API = {
   UpdateGuideSet: "/api/services/app/AppGuideSet/UpdateGuideSet", //更新防火单位引导设置
   GetFireUnitInfo: "/api/services/app/FireUnit/GetFireUnitInfo", //防火单位详情
 
+  //todo 设施故障
+  GetBreakDownlist: "/api/services/app/BreakDownService/GetBreakDownlist", //获取设施故障列表
+  GetBreakDownInfo: "/api/services/app/BreakDownService/GetBreakDownInfo", //获取设施故障详情
+  UpdateBreakDownInfo: "/api/services/app/BreakDownService/UpdateBreakDownInfo", //更新设施故障详情
+
   // todo 消防系统
   GetFireSystem: "/api/services/app/AppGuideSet/GetFireSystem", //获取消防系统
   GetFireUnitSystem: "/api/services/app/AppGuideSet/GetFireUnitSystem", //获取防火单位消防系统
   UpdateFireUnitSystem: "/api/services/app/AppGuideSet/UpdateFireUnitSystem", //更新防火单位消防系统
   AddFireSystem: "/api/services/app/AppGuideSet/AddFireSystem", //增加消防系统
-  GET_FIRE_UNIT_TYPE_HISTOGRAM:
-    "/api/services/app/BigScreen/GetFireUnitTypeHistogram" // 防火单位：类型柱状图
+
+  //  todo 终端设备
+  GET_END_DEVICE_OPTIONS: "/api/services/app/Device/GetEndDeviceOptions", //获取终端设备筛选选项
+  GET_FIRE_UNIT_END_DEVICE_STATE:
+    "/api/services/app/Device/GetFireUnitEndDeviceState", //获取防火单位的终端状态
+  GET_RECORD_ANALOG: "/api/services/app/Device/GetRecordAnalog", //获得防火单位终端历史记录
+
+  //  todo 消防预警
+  GET_ALARM_CHECKS: "/api/services/app/Alarm/GetAlarmChecks", //获取指定防火单位警情数据
+  GET_ALARM_CHECK_DETAIL: "/api/services/app/Alarm/GetAlarmCheckDetail", //查询给定checkId的警情详细信息
+  CheckAlarm: "/api/services/app/Alarm/CheckAlarm", //核警某一条警情[FromForm]
+
+  //  todo 值班
+  GetDutylist: "/api/services/app/DutyAndPatrolService/GetDutylist", //获取值班记录列表
+  GetDutyInfo: "/api/services/app/DutyAndPatrolService/GetDutyInfo", //获取值班记录详情
+  AddDutyInfo: "/api/services/app/DutyAndPatrolService/AddDutyInfo", //新增值班记录
+
+  //todo 巡查
+  GetPatrollist: "/api/services/app/DutyAndPatrolService/GetPatrollist", //获取巡查记录列表
+  GetPatrolTrackList:
+    "/api/services/app/DutyAndPatrolService/GetPatrolTrackList", //获取巡查记录轨迹
+  GetFireUnitlSystem:
+    "/api/services/app/DutyAndPatrolService/GetFireUnitlSystem", //获取防火单位消防系统
+  AddPatrolTrack: "/api/services/app/DutyAndPatrolService/AddPatrolTrack", //添加巡查记录
+
+  //  todo 设置
+  AddEquipmentNo: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
+  GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo" //扫码获取信息
 };
 export default API;

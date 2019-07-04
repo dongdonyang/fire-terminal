@@ -11,10 +11,10 @@ console.log("service.baseURL", service.baseURL);
 
 service.interceptors.request.use(
   function(config) {
-    let value = config.params;
-    if (value) {
-      value.UserId = store.state.userInfo.userId; // 给所有请求加上用户id
-    }
+    // let value = config.params;
+    // if (value) {
+    //   value.UserId = store.state.userInfo.userId; // 给所有请求加上用户id
+    // }
     return config;
   },
   function(error) {

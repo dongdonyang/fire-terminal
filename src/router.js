@@ -88,6 +88,12 @@ const router = new Router({
       name: "TechnicalSupport",
       component: () => import("./views/setting/TechnicalSupport.vue")
     },
+    //  提建议
+    {
+      path: "/AddAdvice",
+      name: "AddAdvice",
+      component: () => import("./views/setting/AddAdvice.vue")
+    },
     //  todo 引导
     {
       path: "/guide",
@@ -148,9 +154,13 @@ const router = new Router({
       name: "warning",
       component: () => import("./views/warning/index.vue")
     },
-    //  预警详情、查看、新增
+    /**
+     * @fileOverview 预警详情、查看、新增
+     * @param ststus {Number} 状态对应编辑还是查看
+     * @param checkId {Number} 当前预警Id
+     */
     {
-      path: "/WarningDetail/:status",
+      path: "/WarningDetail/:status/:checkId",
       name: "WarningDetail",
       component: () => import("./views/warning/WarningDetail.vue")
     },

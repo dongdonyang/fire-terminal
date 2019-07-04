@@ -1,34 +1,11 @@
 <template>
   <div class="reset-pass">
-    <base-nav title="忘记密码"></base-nav>
-    <van-cell-group>
-      <van-field v-model="form.account" placeholder="请设置新密码">
-        <img
-          width="70%"
-          slot="left-icon"
-          src="../../assets/wjmm_img_03.png"
-          alt=""
-        />
-      </van-field>
-
-      <van-field v-model="form.account" placeholder="请再次输入密码">
-        <img
-          width="70%"
-          slot="left-icon"
-          src="../../assets/wjmm_img_04.png"
-          alt=""
-        />
-      </van-field>
-    </van-cell-group>
     <div>
-      <van-button
-        class="large-but"
-        type="primary"
-        size="large"
-        @click="resetPassword"
-        >确定</van-button
-      >
+      <base-nav title="忘记密码"></base-nav>
+      <base-form :form="form" :form-list="formList"></base-form>
     </div>
+
+    <base-button @click="resetPassword">确定</base-button>
   </div>
 </template>
 
@@ -43,7 +20,19 @@ export default {
   props: {},
   data() {
     return {
-      form: {}
+      form: {},
+      formList: [
+        {
+          icon: require("../../assets/wjmm_img_03.png"),
+          remind: "请设置新密码",
+          value: "account"
+        },
+        {
+          icon: require("../../assets/wjmm_img_04.png"),
+          remind: "请再次输入密码",
+          value: "account"
+        }
+      ]
     };
   },
   computed: {},
@@ -60,10 +49,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../style/app";
 .reset-pass {
-  & > :last-child {
-    padding: 15px;
-    margin-top: 15px;
-  }
+  @include my-flex();
 }
 </style>
