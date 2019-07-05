@@ -7,18 +7,19 @@
           title="有消防维保单位"
         ></van-switch-cell>
       </van-cell-group>
-      <van-search
-        @change="getList"
-        v-show="checked"
-        placeholder="请输入维保单位名称"
-        v-model="value"
-      ></van-search>
-      <van-cell
-        @click="setUnit(item)"
-        v-for="(item, index) in unitList"
-        :key="index"
-        :title="item.safeUnitName"
-      ></van-cell>
+      <div v-show="checked">
+        <van-search
+          @change="getList"
+          placeholder="请输入维保单位名称"
+          v-model="value"
+        ></van-search>
+        <van-cell
+          @click="setUnit(item)"
+          v-for="(item, index) in unitList"
+          :key="index"
+          :title="item.safeUnitName"
+        ></van-cell>
+      </div>
     </div>
 
     <!--        todo 底部按钮-->

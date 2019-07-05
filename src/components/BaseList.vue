@@ -73,17 +73,10 @@ export default {
      */
     onRefresh() {
       let that = this;
-      this.$emit(
-        "refresh",
-        function getBefore(tables, page) {
-          tables = [];
-          page.SkipCount = 0;
-        },
-        function success() {
-          that.isLoading = false;
-          that.$toast("刷新成功");
-        }
-      );
+      this.$emit("refresh", function success() {
+        that.isLoading = false;
+        that.$toast("刷新成功");
+      });
     },
     /**
      * @fileoverview 上滑加载更多数据，使用回调函数来设置异步请求之后的操作、以下注释皆是回调函数的
@@ -92,17 +85,13 @@ export default {
      */
     onLoad() {
       let that = this;
-      this.$emit(
-        "onLoad",
-        function getBefore() {},
-        function success(size, total = 5, page = {}) {
-          page.SkipCount = size;
-          that.loading = false;
-          if (size >= total) {
-            that.finished = true;
-          }
+      this.$emit("onLoad", function success(size, total = 5, page = {}) {
+        page.SkipCount = size;
+        that.loading = false;
+        if (size >= total) {
+          that.finished = true;
         }
-      );
+      });
     },
     /**
      * @fileOverview 行点击事件

@@ -5,7 +5,7 @@
     <!--    todo 内容-->
     <base-list
       ref="BaseList"
-      @onLoad="getList"
+      @onLoad="onLoad"
       @cellClick="getDetail"
       @refresh="getList"
       :tableList="tableList"
@@ -45,9 +45,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // todo 下拉刷新
+    onLoad() {
+      this.tableList = [];
+      this.page.SkipCount = 0;
+      this.getList();
+    },
     // todo 获取消防预警数据
     getList(getBefore, success) {
-      getBefore(this.tableList, this.page); // 清除滚动设置的page、table数据
       this.$axios
         .get(this.$api.GET_ALARM_CHECKS, {
           params: this.page
