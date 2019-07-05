@@ -72,6 +72,9 @@ export default {
           message: "您是否要注销登录？"
         })
         .then(() => {
+          localStorage.removeItem("isLogin");
+          localStorage.removeItem("setUserInfo");
+          this.$router.push("login");
           // on confirm
         })
         .catch(() => {

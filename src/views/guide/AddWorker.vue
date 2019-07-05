@@ -2,26 +2,45 @@
   <base-guide :active="0" class="add-worker">
     <div>
       <base-list
-        :table-list="userList"
-        :table-name="tableName"
-        @cellClick="editUser"
         @refresh="getList"
         @onLoad="getList"
       >
-        <div slot="cellValue" slot-scope="slotProp">
-          <img
-            v-for="i in slotProp.item.rolelist"
-            :key="i"
-            :src="iconList[i]"
-            style="width: 20%;margin: 0 5px"
-          />
-        </div>
+        <van-cell-group>
+          <van-cell
+            class="add-worker-cell"
+            v-for="(item, index) in userList"
+            :key="index"
+          >
+            <div>
+              <img
+                class="add-worker-cell-typeImg"
+                v-for="i in item.rolelist"
+                :key="i"
+                :src="iconList[i]"
+              />
+            </div>
+            <div>{{ item.name }}</div>
+            <div>{{ item.account }}</div>
+            <div>
+              <img src="../../assets/guide_btn_edit.png" @click="editUser(item)" alt="" />
+              <img src="../../assets/guide_btn_del.png" alt="" />
+            </div>
+          </van-cell>
+        </van-cell-group>
+        <!--        <div slot="cellValue" slot-scope="slotProp">-->
+        <!--          <img-->
+        <!--            v-for="i in slotProp.item.rolelist"-->
+        <!--            :key="i"-->
+        <!--            :src="iconList[i]"-->
+        <!--            style="width: 20%;margin: 0 5px"-->
+        <!--          />-->
+        <!--        </div>-->
       </base-list>
 
       <!--        todo 添加人员-->
-      <base-button class="add-worker-add" @click="openPopup"
-        >添加人员</base-button
-      >
+      <div class="add-worker-add">
+        <a @click="openPopup">+添加人员</a>
+      </div>
     </div>
 
     <!--    todo 底部按钮-->
@@ -164,7 +183,35 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../style/app-variables";
 .add-worker {
+  &-cell {
+    line-height: 60px;
+    .van-cell__value {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &>:first-child{
+        width: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      & >:last-child{
+        display: flex;
+        justify-content: end;
+        img{
+          height: 30px;
+          width: 30px;
+          margin-right: 5px;
+        }
+      }
+    }
+    &-typeImg {
+      margin: 3px;
+      height: 20px;
+      width: 20px;
+    }
+  }
   &-content {
     margin-bottom: 6px;
     &-buts {
@@ -175,7 +222,8 @@ export default {
     }
   }
   &-add {
-    margin-top: 20px;
+    color: $text-button-color;
+    padding: 20px;
     text-align: center;
   }
 
@@ -198,7 +246,7 @@ export default {
       padding: 5px 10px 10px 10px;
       margin-top: 10px;
       li {
-        color: #bcbcbc;
+        color: $notice-color;
       }
       & > :last-child {
         display: flex;

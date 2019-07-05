@@ -50,6 +50,8 @@ const API = {
 
   //  todo 设置
   AddEquipmentNo: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
-  GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo" //扫码获取信息
+  GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
+  ADD_ADVICE: "/api/services/app/Version/Add",//添加建议
+  Get_Select_Safe_Units: "/api/services/app/SafeUnit/GetSelectSafeUnits",//选择查询维保单位
 };
 export default API;

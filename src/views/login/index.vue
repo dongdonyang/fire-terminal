@@ -15,9 +15,7 @@
 
       <div class="login-main-pass">
         <van-checkbox v-model="isAuto">自动登录</van-checkbox>
-        <base-button @click="$router.push('/CheckPhone')" my-size="small"
-          >忘记密码</base-button
-        >
+        <a @click="$router.push('/CheckPhone')">忘记密码</a>
       </div>
 
       <base-button @click="login">登录</base-button>
@@ -53,6 +51,7 @@ export default {
         {
           icon: require("../../assets/load_img_03.png"),
           remind: "请输入密码",
+          type: "password",
           value: "password"
         }
       ]
@@ -80,12 +79,15 @@ export default {
           }
           let role = r.rolelist.includes(1); // 角色、1-管理员
           let router = role ? "/fault" : "/patrol"; // 路由
-          // 是否自动登录
-          this.$cookies.set("isLogin", 1);
-          this.$cookies.set("userInfo", r);
+          localStorage.setItem("isLogin", 1);
+          localStorage.setItem("isAdmin", role);
+          localStorage.setItem("setUserInfo", JSON.stringify(r));
           this.$store.commit("setUserInfo", r);
+          // 是否自动登录
           // if (this.isAuto) {
+          //   plus.storage.setItem("isLogin", 1);
           // } else {
+          //   this.$store.commit("setUserInfo", r);
           // }
           //  是否跳转引导页
           if (r.guideFlage) {
@@ -102,11 +104,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../style/app-variables";
 .login {
   /*  todo 登录main*/
   &-main {
     margin-top: 40px;
-    padding: 10px 20px;
     & > :nth-child(1) {
       text-align: center;
     }
@@ -114,6 +116,9 @@ export default {
       display: flex;
       justify-content: space-between;
       padding: 20px 16px;
+      a {
+        color: #0398fe;
+      }
     }
     &-but {
       background-color: #00b7e4;

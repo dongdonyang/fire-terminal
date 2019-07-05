@@ -6,6 +6,7 @@
       v-model="form[item.value]"
       :placeholder="item.remind"
       :label="item.label"
+      :type="item.type"
     >
       <img :width="iconWidth" slot="left-icon" :src="item.icon" alt="" />
       <!--      todo 发送短信验证码-->
@@ -52,7 +53,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      barcode: Object
+    };
   },
   computed: {},
   watch: {},
@@ -69,13 +72,13 @@ export default {
      * @fileOverview 扫描一维码、二维码信息
      */
     getCode() {
-      let barcode = plus.barcode.create("barcode", [plus.barcode.QR], {
+      this.barcode = plus.barcode.create("barcode", [plus.barcode.QR], {
         width: "100%",
         height: "100%"
       });
-      barcode.onmarked = this.onmarked;
-      plus.webview.currentWebview().append(barcode);
-      barcode.start();
+      this.barcode.onmarked = this.onmarked;
+      plus.webview.currentWebview().append(this.barcode);
+      this.barcode.start();
     },
     onmarked(type, result) {
       console.log(type, result);
@@ -87,11 +90,12 @@ export default {
         case plus.barcode.EAN13:
           text = "EAN13: ";
           break;
-        case plus.barcode.EAN8:
-          text = "EAN8: ";
+        case plus.barcode.AZTEC:
+          text = "AZTEC: ";
           break;
       }
       alert(text + result);
+      this.barcode.close();
     }
   }
 };
@@ -99,6 +103,14 @@ export default {
 
 <style lang="scss">
 .base-form {
+  .van-cell,
+  .van-field {
+    height: 52px !important;
+    & > div {
+      display: flex;
+      align-items: center;
+    }
+  }
   & > div {
     line-height: 25px;
   }

@@ -4,7 +4,7 @@
       <van-list
         v-model="loading"
         :finished="finished"
-        finished-text="没有更多了"
+        finished-text=""
         @load="onLoad"
       >
         <!--          todo 建议将多次出现的设置为默认内容-->
@@ -20,7 +20,9 @@
               :value="item[tableName.value]"
               :label="item[tableName.label]"
             >
-              <slot :item="item" name="cellValue">cell-Value</slot>
+              <slot :item="item" name="cellValue">{{
+                item[tableName.value]
+              }}</slot>
             </van-cell>
           </van-cell-group>
         </slot>
@@ -66,13 +68,22 @@ export default {
   methods: {
     /**
      *@fileoverview 下拉刷新数据
+     * @param {Array} tables list中的数据
+     * @param {Object} page 分页对象
      */
     onRefresh() {
       let that = this;
-      this.$emit("refresh", function success() {
-        that.isLoading = false;
-        that.$toast("刷新成功");
-      });
+      this.$emit(
+        "refresh",
+        function getBefore(tables, page) {
+          tables = [];
+          page.SkipCount = 0;
+        },
+        function success() {
+          that.isLoading = false;
+          that.$toast("刷新成功");
+        }
+      );
     },
     /**
      * @fileoverview 上滑加载更多数据，使用回调函数来设置异步请求之后的操作、以下注释皆是回调函数的
@@ -81,12 +92,17 @@ export default {
      */
     onLoad() {
       let that = this;
-      this.$emit("onLoad", function success(size, total = 5) {
-        that.loading = false;
-        if (size >= total) {
-          that.finished = true;
+      this.$emit(
+        "onLoad",
+        function getBefore() {},
+        function success(size, total = 5, page = {}) {
+          page.SkipCount = size;
+          that.loading = false;
+          if (size >= total) {
+            that.finished = true;
+          }
         }
-      });
+      );
     },
     /**
      * @fileOverview 行点击事件

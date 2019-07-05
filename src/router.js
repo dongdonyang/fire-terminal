@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 Vue.use(Router);
-import Cookies from "js-cookie";
 
 const router = new Router({
   routes: [
@@ -183,12 +182,17 @@ const router = new Router({
     }
   ]
 });
-// todo 登录判定
+// todo 登录判定 Cookies.get("isLogin")没取到值
 router.beforeEach(function(to, from, next) {
-  if (Cookies.get("isLogin")) {
-    //表示登陆状态
-    if (to.name === "login") {
-      next("/home");
+  console.log(localStorage.getItem("isAdmin"));
+  if (localStorage.getItem("isLogin")) {
+    if (to.name === "login" || to.name === "home" || to.name === null) {
+      if (localStorage.getItem("isAdmin")) {
+        // 角色判断
+        next("/fault");
+      } else {
+        next("/patrol");
+      }
     } else {
       next();
     }

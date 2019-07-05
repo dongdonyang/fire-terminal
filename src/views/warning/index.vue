@@ -33,7 +33,7 @@ export default {
       }, // 展示的字段
       page: {
         FireUnitId: 3,
-        MaxResultCount: 140, // 查询当前页面的数量
+        MaxResultCount: 10, // 查询当前页面的数量
         total: 0,
         SkipCount: 0, // 跳过的查询的数量
         current: 1 // 当前页面
@@ -46,15 +46,16 @@ export default {
   mounted() {},
   methods: {
     // todo 获取消防预警数据
-    getList(success) {
+    getList(getBefore, success) {
+      getBefore(this.tableList, this.page); // 清除滚动设置的page、table数据
       this.$axios
         .get(this.$api.GET_ALARM_CHECKS, {
           params: this.page
         })
         .then(res => {
           if (res.success) {
-            this.tableList = res.result;
-            success(this.tableList.length, res.result.total); // 回调函数
+            this.tableList = this.tableList.concat(res.result.items);
+            success(this.tableList.length, res.result.totalCount, this.page); // 回调函数
           }
         });
     },

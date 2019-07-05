@@ -8,15 +8,24 @@
         ></van-switch-cell>
       </van-cell-group>
       <van-search
+        @change="getList"
         v-show="checked"
         placeholder="请输入维保单位名称"
         v-model="value"
       ></van-search>
+      <van-cell
+        @click="setUnit(item)"
+        v-for="(item, index) in unitList"
+        :key="index"
+        :title="item.safeUnitName"
+      ></van-cell>
     </div>
 
     <!--        todo 底部按钮-->
     <div slot="button">
-      <base-button @click="$router.back()">上一步</base-button>
+      <base-button @click="$router.back()" class="safe-unit-but"
+        >上一步</base-button
+      >
       <base-button @click="$router.push('./FirePatrol')">下一步</base-button>
     </div>
   </BaseGuide>
@@ -37,6 +46,7 @@ export default {
   data() {
     return {
       checked: true,
+      unitList: [],
       value: ""
     };
   },
@@ -44,7 +54,24 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 模糊查询维保单位
+    getList() {
+      this.$axios
+        .get(this.$api.Get_Select_Safe_Units, {
+          params: { Name: this.value }
+        })
+        .then(res => {
+          if (res.success) {
+            this.unitList = res.result;
+          }
+        });
+    },
+    //  todo 选取维保单位
+    setUnit(item) {
+      this.value = item.safeUnitName;
+    }
+  }
 };
 </script>
 

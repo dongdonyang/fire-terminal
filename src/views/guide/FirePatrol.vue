@@ -16,7 +16,7 @@
       </van-cell-group>
     </div>
     <div slot="button">
-      <base-button @click="$router.back()">上一步</base-button>
+      <base-button @click="$router.back()" class="safe-unit-but">上一步</base-button>
       <base-button @click="$router.push('./FireSystem')">下一步</base-button>
     </div>
   </BaseGuide>

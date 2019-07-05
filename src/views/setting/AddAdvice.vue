@@ -3,13 +3,13 @@
     <div>
       <base-nav title="我要提建议"></base-nav>
       <van-field
-        v-model="value"
+        v-model="suggest"
         type="textarea"
         rows="12"
         placeholder="在这请输入您的建议内容"
       ></van-field>
     </div>
-    <base-button>提交</base-button>
+    <base-button @click="submit">提交</base-button>
   </div>
 </template>
 
@@ -23,13 +23,25 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      suggest: ""
+    };
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 提交建议
+    submit() {
+      this.$axios.post(this.$api.ADD_ADVICE, this.suggest).then(res => {
+        if (res.success) {
+          this.$toast.success("提交建议成功");
+          this.$router.back();
+        }
+      });
+    }
+  }
 };
 </script>
 

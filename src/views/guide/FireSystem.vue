@@ -21,7 +21,7 @@
       </van-checkbox-group>
     </div>
     <div slot="button">
-      <base-button @click="$router.back()">上一步</base-button>
+      <base-button @click="$router.back()" class="safe-unit-but">上一步</base-button>
       <base-button @click="hasFinash">完成</base-button>
     </div>
   </base-guide>
@@ -55,6 +55,7 @@ export default {
     //  todo 完成
     hasFinash() {
       let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
+      console.log(this.$store.state.userInfo);
       let router = role ? "/fault" : "/patrol"; // 路由
       this.$router.push(router);
     }

@@ -20,6 +20,14 @@ html, body, #app{
   border-radius: 5px !important;
 }
 
+//上一步
+.safe-unit-but {
+  button{
+    background-color: #fff;
+    color: #0392fe;
+  }
+}
+
 // felx两端对齐 建议使用混合指令、增强课扩展性 @mixin、@include
 .flex-between{
   display: flex;
