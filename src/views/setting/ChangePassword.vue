@@ -24,17 +24,17 @@ export default {
         {
           icon: require("../../assets/wjmm_img_02.png"),
           remind: "请输入原密码",
-          value: ""
+          value: "oldPassword"
         },
         {
           icon: require("../../assets/wjmm_img_03.png"),
           remind: "请设置新密码",
-          value: ""
+          value: "newPassword"
         },
         {
           icon: require("../../assets/wjmm_img_04.png"),
           remind: "请再次输入密码",
-          value: ""
+          value: "sureNewPassword"
         }
       ]
     };
@@ -43,7 +43,17 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 修改密码
+    submit() {
+      this.$axios.post(this.$api.CHANGE_PASSWORD, this.form).then(res => {
+        if (res.success) {
+          this.$toast.success("修改密码成功！");
+          this.$router.back();
+        }
+      });
+    }
+  }
 };
 </script>
 

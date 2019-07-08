@@ -1,7 +1,7 @@
 const API = {
   //  todo 登录注册
   Add: "/api/services/app/FireUnitUser/Add", //添加账号
-  USER_LOGIN: "/api/services/app/FireUnitUser/UserLogin", //用户登录
+  USER_LOGIN: "/api/services/app/FireUnitUser/UserLoginForMobile", //用户登录
 
   // todo 引导页
   GET_FIRE_UNIT_PEOPLE: "/api/services/app/AppGuideSet/GetFireUnitPeople", //获取防火单位工作人员
@@ -14,7 +14,7 @@ const API = {
   GetFireUnitInfo: "/api/services/app/FireUnit/GetFireUnitInfo", //防火单位详情
 
   //todo 设施故障
-  GetBreakDownlist: "/api/services/app/BreakDownService/GetBreakDownlist", //获取设施故障列表
+  GET_BREAK_DOWNLIST: "/api/services/app/BreakDownService/GetBreakDownlist", //获取设施故障列表
   GetBreakDownInfo: "/api/services/app/BreakDownService/GetBreakDownInfo", //获取设施故障详情
   UpdateBreakDownInfo: "/api/services/app/BreakDownService/UpdateBreakDownInfo", //更新设施故障详情
 
@@ -36,12 +36,12 @@ const API = {
   CheckAlarm: "/api/services/app/Alarm/CheckAlarm", //核警某一条警情[FromForm]
 
   //  todo 值班
-  GetDutylist: "/api/services/app/DutyAndPatrolService/GetDutylist", //获取值班记录列表
+  GET_DUTY_LIST: "/api/services/app/DutyAndPatrolService/GetDutylist", //获取值班记录列表
   GetDutyInfo: "/api/services/app/DutyAndPatrolService/GetDutyInfo", //获取值班记录详情
   AddDutyInfo: "/api/services/app/DutyAndPatrolService/AddDutyInfo", //新增值班记录
 
   //todo 巡查
-  GetPatrollist: "/api/services/app/DutyAndPatrolService/GetPatrollist", //获取巡查记录列表
+  GET_PATROL_LIST: "/api/services/app/DutyAndPatrolService/GetPatrollist", //获取巡查记录列表
   GetPatrolTrackList:
     "/api/services/app/DutyAndPatrolService/GetPatrolTrackList", //获取巡查记录轨迹
   GetFireUnitlSystem:
@@ -51,7 +51,8 @@ const API = {
   //  todo 设置
   AddEquipmentNo: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
   GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
-  ADD_ADVICE: "/api/services/app/Version/Add",//添加建议
-  Get_Select_Safe_Units: "/api/services/app/SafeUnit/GetSelectSafeUnits",//选择查询维保单位
+  ADD_ADVICE: "/api/services/app/Version/Add", //添加建议
+  Get_Select_Safe_Units: "/api/services/app/SafeUnit/GetSelectSafeUnits", //选择查询维保单位
+  CHANGE_PASSWORD: "/api/services/app/FireDeptUser/ChangePassword" //修改密码
 };
 export default API;

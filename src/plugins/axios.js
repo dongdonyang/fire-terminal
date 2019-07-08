@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "../store";
 
 const service = axios.create({
-  baseURL: "http://fd.sctsjkj.com:5080",
+  baseURL: "http://fd.sctsjkj.com:5081",
   timeout: 30000
 });
 // todo 打包上线后统一加上后端地址

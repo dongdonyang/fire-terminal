@@ -5,7 +5,7 @@
     <!--    todo 内容-->
     <base-list
       ref="BaseList"
-      @onLoad="onLoad"
+      @onLoad="getList"
       @cellClick="getDetail"
       @refresh="getList"
       :tableList="tableList"
@@ -49,10 +49,10 @@ export default {
     onLoad() {
       this.tableList = [];
       this.page.SkipCount = 0;
-      this.getList();
+      // this.getList();
     },
     // todo 获取消防预警数据
-    getList(getBefore, success) {
+    getList(success) {
       this.$axios
         .get(this.$api.GET_ALARM_CHECKS, {
           params: this.page

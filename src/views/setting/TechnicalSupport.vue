@@ -63,8 +63,8 @@ export default {
     align-items: center;
   }
   &-img {
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: 24px;
     padding-right: 5px;
   }
 }

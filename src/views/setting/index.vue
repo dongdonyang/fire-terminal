@@ -5,11 +5,19 @@
         @click="toNext(item.router, index)"
         v-for="(item, index) in setList"
         :key="index"
-        icon="location-o"
         :title="item.label"
         :value="item.content"
         is-link
-      ></van-cell>
+      >
+        <img
+          slot="icon"
+          width="22px"
+          height="24px"
+          style="margin-right: 10px"
+          :src="item.icon"
+          alt=""
+        />
+      </van-cell>
     </van-cell-group>
   </div>
 </template>
@@ -27,28 +35,28 @@ export default {
     return {
       setList: [
         {
-          icon: "",
+          icon: require("../../assets/site_img_01.png"),
           label: "引导设置",
           router: "/AddWorker"
         },
         {
-          icon: "",
+          icon: require("../../assets/site_img_02.png"),
           label: "绑定设置编号",
           router: "/BingNumber"
         },
         {
-          icon: "",
+          icon: require("../../assets/site_img_03.png"),
           label: "修改密码",
           router: "/ChangePassword"
         },
         {
-          icon: "",
+          icon: require("../../assets/site_img_04.png"),
           label: "技术支持",
           content: "天树聚城市智慧消防",
           router: "/TechnicalSupport"
         },
         {
-          icon: "",
+          icon: require("../../assets/site_img_05.png"),
           label: "注销登录",
           router: ""
         }
@@ -60,7 +68,7 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    //  todo 跳转到相应的页面
+    //  todo 跳转到相应的页面、或者注销
     toNext(rou, index) {
       rou ? this.$router.push(rou) : this.logOut();
     },

@@ -4,23 +4,13 @@
       <van-button size="mini" icon="plus" type="primary">新增</van-button>
     </van-cell>
 
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <van-cell-group>
-        <van-cell
-          @click="getDetail"
-          v-for="(item, index) in list"
-          :key="index"
-          title="张全升"
-          value="正常"
-          label="2019-6-26 12:00"
-        ></van-cell>
-      </van-cell-group>
-    </van-list>
+    <!--    todo list-->
+    <base-list
+      :table-list="table"
+      :table-name="tableName"
+      @onLoad="getList"
+      @cellClick="getDetail"
+    ></base-list>
 
     <!--      todo 选项-->
     <van-action-sheet
@@ -47,33 +37,39 @@ export default {
   },
   data() {
     return {
-      list: [],
-      loading: false,
-      finished: false,
+      table: [],
+      tableName: {
+        title: "dutyUser",
+        label: "creationTime",
+        value: "dutyStatus"
+      },
       title: "全部来源",
       show: false,
-      actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }]
+      actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }],
+      page: {
+        FireUnitId: 3
+      }
     };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    console.log(this.active);
+  },
   mounted() {},
   methods: {
-    onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+    //  todo 获取list、值班记录、巡查记录
+    getList() {
+      let url = this.active ? "GET_DUTY_LIST" : "GET_PATROL_LIST";
+      this.$axios
+        .get(this.$api[url], {
+          params: this.page
+        })
+        .then(res => {
+          if (res.success) {
+            this.table = res.result;
+          }
+        });
     },
     //    todo 选项
     onSelect(item) {

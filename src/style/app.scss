@@ -1,6 +1,7 @@
 html, body, #app{
   height: 100%;
-  background: #eee;
+  //background: #eee;
+  background: #F8F8F8;
   &>:nth-child(1){
     height: 100%;
   }
@@ -18,6 +19,16 @@ html, body, #app{
   background-color: #0392fe !important;
   border-color: #0392fe !important;
   border-radius: 5px !important;
+}
+
+// cell单元格重新分配比例
+.flex-title{
+  .van-cell__title{
+    flex: 2 0 auto;
+  }
+  .van-cell__value{
+    flex: 1 0 auto;
+  }
 }
 
 //上一步

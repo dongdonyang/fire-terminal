@@ -1,7 +1,7 @@
 <template>
   <div class="index-tem">
     <van-cell :title="title" value="23条" @click="show = true"></van-cell>
-    <base-list>11</base-list>
+    <base-list @cellClick="getDetail" @onLoad="getList"></base-list>
 
     <!--      todo 选项-->
     <van-action-sheet
@@ -33,7 +33,10 @@ export default {
       tableName: {},
       title: "全部来源",
       show: false,
-      actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }]
+      actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }],
+      page: {
+        FireUnitId: 3
+      }
     };
   },
   computed: {},
@@ -44,7 +47,7 @@ export default {
     // todo 获取list
     getList() {
       this.$axios
-        .get(this.$api.aa, {
+        .get(this.$api.GET_BREAK_DOWNLIST, {
           params: this.page
         })
         .then(res => {
