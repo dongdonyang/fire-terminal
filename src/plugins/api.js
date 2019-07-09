@@ -15,11 +15,11 @@ const API = {
 
   //todo 设施故障
   GET_BREAK_DOWNLIST: "/api/services/app/BreakDownService/GetBreakDownlist", //获取设施故障列表
-  GetBreakDownInfo: "/api/services/app/BreakDownService/GetBreakDownInfo", //获取设施故障详情
+  GET_BREAK_DOWN_INFO: "/api/services/app/BreakDownService/GetBreakDownInfo", //获取设施故障详情
   UpdateBreakDownInfo: "/api/services/app/BreakDownService/UpdateBreakDownInfo", //更新设施故障详情
 
   // todo 消防系统
-  GetFireSystem: "/api/services/app/AppGuideSet/GetFireSystem", //获取消防系统
+  GET_FIRE_SYSTEM: "/api/services/app/AppGuideSet/GetFireSystem", //获取消防系统
   GetFireUnitSystem: "/api/services/app/AppGuideSet/GetFireUnitSystem", //获取防火单位消防系统
   UpdateFireUnitSystem: "/api/services/app/AppGuideSet/UpdateFireUnitSystem", //更新防火单位消防系统
   AddFireSystem: "/api/services/app/AppGuideSet/AddFireSystem", //增加消防系统

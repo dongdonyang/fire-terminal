@@ -1,27 +1,28 @@
 <template>
   <base-guide :active="3">
-    <div>
-      <div>选择拥有的消防系统</div>
-      <van-checkbox-group v-model="result">
+    <van-cell title="选择拥有的消防系统">
+      <van-checkbox-group slot="label" v-model="result">
         <van-cell-group>
           <van-cell
-            v-for="(item, index) in 4"
+            v-for="(item, index) in optionList"
             clickable
             :key="index"
-            :title="`复选框 ${item}`"
+            :title="item.systemName"
             @click="toggle(index)"
           >
             <van-checkbox
-              :name="item"
+              :name="item.id"
               ref="checkboxes"
               slot="right-icon"
             ></van-checkbox>
           </van-cell>
         </van-cell-group>
       </van-checkbox-group>
-    </div>
+    </van-cell>
     <div slot="button">
-      <base-button @click="$router.back()" class="safe-unit-but">上一步</base-button>
+      <base-button @click="$router.back()" class="safe-unit-but"
+        >上一步</base-button
+      >
       <base-button @click="hasFinash">完成</base-button>
     </div>
   </base-guide>
@@ -41,14 +42,25 @@ export default {
   props: {},
   data() {
     return {
-      result: []
+      result: [],
+      optionList: []
     };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.getList();
+  },
   mounted() {},
   methods: {
+    // todo 获取消防系统
+    getList() {
+      this.$axios.get(this.$api.GET_FIRE_SYSTEM).then(res => {
+        if (res.success) {
+          this.optionList = res.result;
+        }
+      });
+    },
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
     },

@@ -11,8 +11,8 @@
       >
         <img
           slot="icon"
-          width="22px"
-          height="24px"
+          width="18px"
+          height="20px"
           style="margin-right: 10px"
           :src="item.icon"
           alt=""

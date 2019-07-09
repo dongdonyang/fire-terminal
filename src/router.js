@@ -51,7 +51,7 @@ const router = new Router({
     //  todo 设施故障
     //  详情页面、新增-0、编辑-1、查看-2、绑定的事当前激活的选项
     {
-      path: "/FaultDetail/:status",
+      path: "/FaultDetail/:status/:breakDownId",
       name: "FaultDetail",
       component: () => import("./views/fault/FaultDetail.vue")
     },
@@ -61,6 +61,18 @@ const router = new Router({
       path: "/PatrolDetail/:status",
       name: "PatrolDetail",
       component: () => import("./views/patrol/PatrolDetail.vue")
+    },
+    //  值班记录、新增、查看
+    {
+      path: "/DutyRecord/:status/:id",
+      name: "DutyRecord",
+      component: () => import("./views/patrol/DutyRecord.vue")
+    },
+    //  巡逻记录、新增、查看
+    {
+      path: "/PatrolRecord/:status",
+      name: "PatrolRecord",
+      component: () => import("./views/patrol/PatrolRecord.vue")
     },
     //  todo 物联终端
     {

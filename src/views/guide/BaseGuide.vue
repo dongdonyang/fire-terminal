@@ -6,8 +6,8 @@
     <!--      todo 步骤-->
     <van-steps :active="active" class="base-guide-step">
       <van-step v-for="(item, index) in steps" :key="index">
-<!--        <img width="30%" :src="item.activeIcon" slot="active-icon" alt="" />-->
-<!--        <img width="30%" :src="item.inactiveIcon" slot="inactive-icon" alt="" />-->
+        <!--        <img width="30%" :src="item.activeIcon" slot="active-icon" alt="" />-->
+        <!--        <img width="30%" :src="item.inactiveIcon" slot="inactive-icon" alt="" />-->
         {{ item.name }}</van-step
       >
     </van-steps>
@@ -77,9 +77,10 @@ export default {
   &-step {
     min-height: 60px;
     z-index: 0;
+    border-bottom: 0.0625rem solid #ebedf0;
   }
   &-main {
-    margin-top: 6px;
+    margin-top: 4px;
     flex: 2 0 auto;
     display: flex;
     flex-direction: column;

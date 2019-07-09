@@ -1,22 +1,23 @@
 <template>
   <BaseGuide :active="2">
-    <div>
-      <h4>选择巡查方式</h4>
-      <van-cell-group>
+    <van-cell title="选择巡查方式">
+      <van-cell-group slot="label">
         <van-cell
           title="一般巡查"
           label="通常巡查消防设施的方式，直接填报巡查
-记录并提交巡查问题"
+      记录并提交巡查问题"
         ></van-cell>
         <van-cell
           title="扫码巡查"
           label="通过扫描消防设施上的设施码，填报巡查
-记录并提交巡查问题"
+      记录并提交巡查问题"
         ></van-cell>
       </van-cell-group>
-    </div>
+    </van-cell>
     <div slot="button">
-      <base-button @click="$router.back()" class="safe-unit-but">上一步</base-button>
+      <base-button @click="$router.back()" class="safe-unit-but"
+        >上一步</base-button
+      >
       <base-button @click="$router.push('./FireSystem')">下一步</base-button>
     </div>
   </BaseGuide>

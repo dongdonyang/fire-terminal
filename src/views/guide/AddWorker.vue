@@ -1,10 +1,7 @@
 <template>
   <base-guide :active="0" class="add-worker">
     <div>
-      <base-list
-        @refresh="getList"
-        @onLoad="getList"
-      >
+      <base-list @refresh="getList" @onLoad="getList">
         <van-cell-group>
           <van-cell
             class="add-worker-cell"
@@ -22,7 +19,11 @@
             <div>{{ item.name }}</div>
             <div>{{ item.account }}</div>
             <div>
-              <img src="../../assets/guide_btn_edit.png" @click="editUser(item)" alt="" />
+              <img
+                src="../../assets/guide_btn_edit.png"
+                @click="editUser(item)"
+                alt=""
+              />
               <img src="../../assets/guide_btn_del.png" alt="" />
             </div>
           </van-cell>
@@ -137,10 +138,14 @@ export default {
   methods: {
     // todo 打开新增人员弹窗
     openPopup() {
+      let that = this;
       this.form = {};
       this.form.fireUnitInfoID = this.$store.state.userInfo.fireUnitID;
       this.popupTitle = "新增工作人员";
       this.show = true;
+      plus.key.addEventListener("backbutton",function(){
+        that.show = false;
+      });
     },
     // todo 编辑人员
     editUser(val) {
@@ -158,7 +163,7 @@ export default {
         .then(res => {
           if (res.success) {
             this.userList = res.result;
-            success(this.userList.length);
+            success(this.userList.length, this.userList.length);
           }
         });
     },
@@ -186,20 +191,19 @@ export default {
 @import "../../style/app-variables";
 .add-worker {
   &-cell {
-    line-height: 60px;
+    line-height: 24px;
     .van-cell__value {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      &>:first-child{
+      & > :first-child {
         width: 20px;
         display: flex;
-        flex-direction: column;
       }
-      & >:last-child{
+      & > :last-child {
         display: flex;
         justify-content: end;
-        img{
+        img {
           height: 30px;
           width: 30px;
           margin-right: 5px;
@@ -207,9 +211,9 @@ export default {
       }
     }
     &-typeImg {
-      margin: 3px;
-      height: 20px;
-      width: 20px;
+      margin-right: 8px;
+      height: 18px;
+      width: 18px;
     }
   }
   &-content {
@@ -247,6 +251,7 @@ export default {
       margin-top: 10px;
       li {
         color: $notice-color;
+        font-size: 14px;
       }
       & > :last-child {
         display: flex;

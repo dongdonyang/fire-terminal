@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <van-cell :title="title" @click="show = true">
-      <van-button size="mini" icon="plus" type="primary">新增</van-button>
+  <div class="patrol-tem">
+    <van-cell :title="title">
+      <van-button size="mini" icon="plus" type="primary" @click="addList"
+        >新增</van-button
+      >
     </van-cell>
 
     <!--    todo list-->
     <base-list
-      :table-list="table"
-      :table-name="tableName"
+      :table-list="table[active].tableList"
+      :table-name="table[active].tableName"
       @onLoad="getList"
       @cellClick="getDetail"
+      @refresh="getList"
     ></base-list>
 
     <!--      todo 选项-->
@@ -30,6 +33,7 @@ export default {
   name: "PatrolTem",
   components: {},
   props: {
+    // todo 当前激活的选项
     active: {
       type: Number,
       default: 0
@@ -37,12 +41,28 @@ export default {
   },
   data() {
     return {
-      table: [],
-      tableName: {
-        title: "dutyUser",
-        label: "creationTime",
-        value: "dutyStatus"
-      },
+      table: [
+        //值班记录
+        {
+          tableName: {
+            title: "patrolUser",
+            label: "creationTime",
+            value: "patrolStatus"
+          },
+          listName: "patrolList",
+          tableList: []
+        },
+        // 巡查记录
+        {
+          tableName: {
+            title: "dutyUser",
+            label: "creationTime",
+            value: "dutyStatus"
+          },
+          listName: "dutyList",
+          tableList: []
+        }
+      ],
       title: "全部来源",
       show: false,
       actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }],
@@ -53,13 +73,12 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {
-    console.log(this.active);
-  },
+  created() {},
   mounted() {},
   methods: {
     //  todo 获取list、值班记录、巡查记录
-    getList() {
+    getList(success) {
+      let list = this.table[this.active];
       let url = this.active ? "GET_DUTY_LIST" : "GET_PATROL_LIST";
       this.$axios
         .get(this.$api[url], {
@@ -67,7 +86,8 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.table = res.result;
+            list.tableList = list.tableList.concat(res.result[list.listName]);
+            success(list.tableList.length, res.result.totalCount, this.page);
           }
         });
     },
@@ -80,9 +100,24 @@ export default {
     //    todo 获取详情、新增、编辑、查看
     getDetail() {
       this.$router.push(`./PatrolDetail/${this.active}`);
+    },
+    addList() {
+      if (this.active) {
+        this.$router.push(`./PatrolRecord/${this.active}`);
+      } else {
+        this.$router.push(`./DutyRecord/${this.active}/0`);
+      }
     }
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.patrol-tem {
+  & > :nth-child(1) {
+    &::after {
+      border-width: 0;
+    }
+  }
+}
+</style>

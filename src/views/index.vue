@@ -82,6 +82,9 @@ export default {
     img {
       width: 70%;
     }
+    &::after{
+      border-width: 0;
+    }
   }
 }
 </style>

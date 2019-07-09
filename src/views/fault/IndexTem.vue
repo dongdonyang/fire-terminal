@@ -1,7 +1,17 @@
 <template>
   <div class="index-tem">
-    <van-cell :title="title" value="23条" @click="show = true"></van-cell>
-    <base-list @cellClick="getDetail" @onLoad="getList"></base-list>
+    <van-cell
+      :title="title"
+      :value="`${page.total}条`"
+      @click="show = true"
+    ></van-cell>
+    <base-list
+      @cellClick="getDetail"
+      @onLoad="getList"
+      @refresh="getList"
+      :table-name="tableName"
+      :table-list="tableList"
+    ></base-list>
 
     <!--      todo 选项-->
     <van-action-sheet
@@ -30,12 +40,19 @@ export default {
   data() {
     return {
       tableList: [],
-      tableName: {},
+      tableName: {
+        title: "userName",
+        smallTitle: "phone",
+        label: "creationTime",
+        value: "source"
+      },
       title: "全部来源",
       show: false,
       actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }],
       page: {
-        FireUnitId: 3
+        FireUnitId: 143,
+        HandleStatus: this.active + 1,
+        total: 0
       }
     };
   },
@@ -45,13 +62,15 @@ export default {
   mounted() {},
   methods: {
     // todo 获取list
-    getList() {
+    getList(success) {
       this.$axios
         .get(this.$api.GET_BREAK_DOWNLIST, {
           params: this.page
         })
         .then(res => {
-          this.tableList = res.result;
+          this.tableList = this.tableList.concat(res.result.breakDownList);
+          this.page.total = res.result.totalCount;
+          success(this.tableList.length, res.result.totalCount, this.page);
         });
     },
     //    todo 选项
@@ -63,7 +82,7 @@ export default {
     // todo 查看详情、编辑
     getDetail(val) {
       console.log(val);
-      this.$router.push(`./FaultDetail/${this.active}`);
+      this.$router.push(`./FaultDetail/${this.active}/${val.breakDownId}`);
     }
   }
 };
@@ -72,7 +91,10 @@ export default {
 <style lang="scss">
 .index-tem {
   & > :first-child {
-    margin-bottom: 4px;
+    /*margin-bottom: 4px;*/
+    &::after{
+      border-width: 0;
+    }
   }
 }
 </style>

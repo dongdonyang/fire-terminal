@@ -10,7 +10,7 @@
           src="../../assets/site_img_07.png"
         />
         <a href="tel:18681629887">
-          <img width="90%" src="../../assets/site_btn_boda.png" />
+          <img width="24px" src="../../assets/site_btn_boda.png" />
         </a>
       </van-cell>
       <van-cell
@@ -53,6 +53,9 @@ export default {
 
 <style lang="scss">
 .tec-sup {
+  .van-cell__value{
+    height: 24px;
+  }
   .van-cell {
     display: flex;
     align-items: center;

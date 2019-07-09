@@ -32,13 +32,14 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {
-
-  }
+  methods: {}
 };
 </script>
 
 <style lang="scss">
 .patrol-index {
+  .van-tabs__wrap {
+    z-index: 0;
+  }
 }
 </style>

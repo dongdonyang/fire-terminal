@@ -45,5 +45,8 @@ export default {
   i {
     color: #fff !important;
   }
+  &::after {
+    border-width: 0;
+  }
 }
 </style>

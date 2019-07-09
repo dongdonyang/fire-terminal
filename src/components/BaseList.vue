@@ -1,6 +1,10 @@
 <template>
   <div>
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh
+      :disabled="isRefresh"
+      v-model="isLoading"
+      @refresh="onRefresh"
+    >
       <van-list
         v-model="loading"
         :finished="finished"
@@ -59,7 +63,13 @@ export default {
       finished: false
     };
   },
-  computed: {},
+  computed: {
+    // todo 能否刷新页面
+    isRefresh: function() {
+      let val = this.tableList.length < 10 ? true : false;
+      return val;
+    }
+  },
   watch: {},
   created() {},
   mounted() {},

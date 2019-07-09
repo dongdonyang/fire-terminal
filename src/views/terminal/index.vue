@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="terminal-index">
     <van-cell title="全部终端" value="内容" @click="show = true"></van-cell>
 
     <!--    todo list-->
@@ -57,8 +57,8 @@ export default {
           params: this.page
         })
         .then(res => {
-          this.tableList = res.result;
-          // success();
+          this.tableList = this.tableList.concat(res.result.items);
+          success(this.tableList.length, res.result.totalCount, this.page);
         });
     },
     // todo 获取选项
@@ -78,4 +78,12 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.terminal-index {
+  & > :nth-child(1) {
+    &::after {
+      border-width: 0;
+    }
+  }
+}
+</style>

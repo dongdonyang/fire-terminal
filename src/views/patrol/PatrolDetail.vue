@@ -1,5 +1,16 @@
 <template>
-  <div>111</div>
+  <div>
+    <base-nav title="新增巡查轨迹"></base-nav>
+    <van-cell-group>
+      <van-cell title="巡查地点" value="内容"></van-cell>
+      <van-cell title="巡查系统" value="内容"></van-cell>
+      <van-switch-cell
+        v-model="form.checked"
+        title="发现问题"
+      ></van-switch-cell>
+      <van-cell title="现场照片" value="内容"></van-cell>
+    </van-cell-group>
+  </div>
 </template>
 
 <script>
@@ -12,7 +23,9 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      form: {}
+    };
   },
   computed: {},
   watch: {},
