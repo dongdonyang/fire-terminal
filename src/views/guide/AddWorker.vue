@@ -143,9 +143,17 @@ export default {
       this.form.fireUnitInfoID = this.$store.state.userInfo.fireUnitID;
       this.popupTitle = "新增工作人员";
       this.show = true;
-      plus.key.addEventListener("backbutton",function(){
-        that.show = false;
-      });
+      // document.addEventListener("plusready", function() {
+      //   // 注册返回按键事件
+      //   plus.key.addEventListener(
+      //     "backbutton",
+      //     function() {
+      //       // 事件处理
+      //       that.show = false;
+      //     },
+      //     false
+      //   );
+      // });
     },
     // todo 编辑人员
     editUser(val) {

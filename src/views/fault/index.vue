@@ -1,6 +1,11 @@
 <template>
   <div>
-    <van-tabs color="#0385fe" class="fault-index" v-model="active">
+    <van-tabs
+      color="#0385fe"
+      class="fault-index"
+      v-model="active"
+      swipeable
+    >
       <van-tab title="待处理"><index-tem :active="active"></index-tem></van-tab>
       <van-tab title="处理中"><index-tem :active="active"></index-tem></van-tab>
       <van-tab title="已解决"><index-tem :active="active"></index-tem></van-tab>
@@ -35,9 +40,17 @@ export default {
 </script>
 
 <style lang="scss">
-.van-tabs__content {
-  margin-top: 4px;
-}
+
 .fault-index {
+  .van-tabs__wrap {
+    z-index: 0;
+  }
+  /*.van-tabs__nav--card {*/
+  /*  margin: 10px;*/
+  /*  border-radius: 0;*/
+  /*}*/
+  /*.van-tabs__content {*/
+  /*  margin-top: 4px;*/
+  /*}*/
 }
 </style>

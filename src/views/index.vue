@@ -76,7 +76,8 @@ export default {
 .index {
   & > :first-child {
     color: #fff;
-    background: linear-gradient(to right, #0385fe, #039dfe);
+    /*background: linear-gradient(to right, #0385fe, #039dfe);*/
+    background-color: #0385fe;
     position: sticky;
     top: 0;
     img {
