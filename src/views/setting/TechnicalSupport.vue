@@ -3,13 +3,13 @@
     <base-nav title="技术支持"></base-nav>
     <img width="100%" src="../../assets/site_img_09.png" />
     <van-cell-group>
-      <van-cell title="技术支持电话：18681629887" icon="location-o">
+      <van-cell title="技术支持电话：15881199975" icon="location-o">
         <img
           class="tec-sup-img"
           slot="icon"
           src="../../assets/site_img_07.png"
         />
-        <a href="tel:18681629887">
+        <a href="tel:15881199975">
           <img width="24px" src="../../assets/site_btn_boda.png" />
         </a>
       </van-cell>
