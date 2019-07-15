@@ -1,17 +1,29 @@
 <template>
   <div class="index-tem">
-    <van-cell
-      :title="title"
-      :value="`${page.total}条`"
-      @click="show = true"
-    ></van-cell>
+    <van-cell :title="title" :value="`${page.total}条`">
+      <van-dropdown-menu slot="title">
+        <van-dropdown-item
+          @change="getList"
+          v-model="page.Source"
+          :options="actions"
+        ></van-dropdown-item>
+      </van-dropdown-menu>
+    </van-cell>
+
     <base-list
       @cellClick="getDetail"
       @onLoad="getList"
       @refresh="getList"
       :table-name="tableName"
       :table-list="tableList"
-    ></base-list>
+    >
+      <span slot="cellTitle" slot-scope="scope">
+        {{ scope.item.userName }} {{ scope.item.phone }}
+      </span>
+      <span slot="cellValue" slot-scope="scope">{{
+        getSource(scope.item.source)
+      }}</span>
+    </base-list>
 
     <!--      todo 选项-->
     <van-action-sheet
@@ -48,8 +60,26 @@ export default {
       },
       title: "全部来源",
       show: false,
-      actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }],
+      actions: [
+        {
+          text: "未指定",
+          value: 0
+        },
+        {
+          text: "值班 ",
+          value: 1
+        },
+        {
+          text: "巡查 ",
+          value: 2
+        },
+        {
+          text: "物联终端 ",
+          value: 3
+        }
+      ],
       page: {
+        Source: 0,
         FireUnitId: 143,
         HandleStatus: this.active + 1,
         total: 0
@@ -61,6 +91,13 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // todo 获取来源中文名
+    getSource(val) {
+      let x = this.actions.find(item => {
+        return item.value === val;
+      });
+      return x ? x.text : "";
+    },
     // todo 获取list
     getList(success) {
       this.$axios
@@ -92,8 +129,20 @@ export default {
 .index-tem {
   & > :first-child {
     /*margin-bottom: 4px;*/
-    &::after{
+    &::after {
       border-width: 0;
+    }
+  }
+  .van-dropdown-menu {
+    height: 22px;
+    &:after {
+      border-width: 0;
+    }
+    .van-dropdown-menu__item {
+      justify-content: left;
+      & > span::after {
+        top: 8px;
+      }
     }
   }
 }

@@ -5,7 +5,7 @@
       <base-form :form="form" :form-list="formList"></base-form>
     </div>
 
-    <base-button>注册</base-button>
+    <base-button @click="logon">注册</base-button>
   </div>
 </template>
 
@@ -25,22 +25,22 @@ export default {
         {
           icon: require("../../assets/load_img_06.png"),
           remind: "请输入单位名称",
-          value: "q"
+          value: "fireUnitName"
         },
         {
           icon: require("../../assets/load_img_08.png"),
           remind: "请输入真实姓名",
-          value: "w"
+          value: "userName"
         },
         {
           icon: require("../../assets/load_img_09.png"),
           remind: "请输入手机号",
-          value: "a"
+          value: "phone"
         },
         {
           icon: require("../../assets/wjmm_img_03.png"),
           remind: "请输入登录密码",
-          value: "d"
+          value: "password"
         }
       ]
     };
@@ -49,7 +49,17 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 注册
+    logon() {
+      this.$axios.post(this.$api.USER_REGIST, this.form).then(res => {
+        if (res.success) {
+          this.$toast.success("注册成功");
+          this.$router.push("/login");
+        }
+      });
+    }
+  }
 };
 </script>
 

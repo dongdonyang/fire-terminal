@@ -6,7 +6,7 @@
       <div class="register-one-notice">{{ notice }}</div>
     </div>
 
-    <base-button @click="$router.push('/RegisterTwo')">下一步</base-button>
+    <base-button @click="checkCode">下一步</base-button>
   </div>
 </template>
 
@@ -21,28 +21,56 @@ export default {
   props: {},
   data() {
     return {
+      nameList: [],
       notice:
         "管理员拥有全部权限，只能通过邀请码进行注册，请妥善保管邀请码，勿对外泄露。",
       form: {},
       formList: [
         {
           icon: require("../../assets/load_img_06.png"),
-          remind: "请输入单位名称",
-          value: "account"
+          remind: "请输入防火单位名称",
+          value: "fireUnitName"
         },
         {
           icon: require("../../assets/load_img_07.png"),
           remind: "请输入邀请码",
-          value: "account"
+          value: "invitatCode"
         }
       ]
     };
   },
   computed: {},
-  watch: {},
+  watch: {
+    "form.fireUnitName": function() {
+      setTimeout(() => {
+        this.getName();
+      }, 1000);
+    }
+  },
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    // todo 模糊查询防火单位名称
+    getName() {
+      this.$axios
+        .post(this.$api.QUERY_FIRE_UNIT_LIKE_NAME, {
+          MatchName: this.form.fireUnitName
+        })
+        .then(res => {
+          if (res.success) {
+            this.nameList = res.result;
+          }
+        });
+    },
+    //  todo 验证邀请码
+    checkCode() {
+      this.$axios.post(this.$api.INVITAT_VERIFY, this.form).then(res => {
+        if (res.success) {
+          this.$router.push("/RegisterTwo");
+        }
+      });
+    }
+  }
 };
 </script>
 

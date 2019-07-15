@@ -1,6 +1,13 @@
 <template>
   <div class="patrol-tem">
-    <van-cell :title="title">
+    <van-cell>
+      <van-dropdown-menu slot="title">
+        <van-dropdown-item
+          @change="getList"
+          v-model="page.PatrolStatus"
+          :options="actions"
+        ></van-dropdown-item>
+      </van-dropdown-menu>
       <van-button size="mini" icon="plus" type="primary" @click="addList"
         >新增</van-button
       >
@@ -13,14 +20,14 @@
       @onLoad="getList"
       @cellClick="getDetail"
       @refresh="getList"
-    ></base-list>
-
-    <!--      todo 选项-->
-    <van-action-sheet
-      v-model="show"
-      :actions="actions"
-      @select="onSelect"
-    ></van-action-sheet>
+    >
+      <span
+        :class="getStatus(scope.item, 'className')"
+        slot="cellValue"
+        slot-scope="scope"
+        >{{ getStatus(scope.item) }}</span
+      >
+    </base-list>
   </div>
 </template>
 
@@ -63,10 +70,30 @@ export default {
           tableList: []
         }
       ],
-      title: "全部来源",
-      show: false,
-      actions: [{ name: "选项1" }, { name: "选项2" }, { name: "选项3" }],
+      actions: [
+        {
+          text: "未指定",
+          value: 0,
+          className: "normal"
+        },
+        {
+          text: "正常 ",
+          value: 1,
+          className: "normal"
+        },
+        {
+          text: "绿色故障(已现场解决)",
+          value: 2,
+          className: "normal"
+        },
+        {
+          text: "橙色故障(未现场解决)",
+          value: 3,
+          className: "notHandle"
+        }
+      ],
       page: {
+        PatrolStatus: 0,
         FireUnitId: 3
       }
     };
@@ -76,8 +103,17 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // todo 获取中文字段、获取class+
+    getStatus(val, label = "text") {
+      let x = this.actions.find(item => {
+        return item.value === val[this.table[this.active].tableName.value];
+      });
+      return x ? x[label] : "";
+    },
     //  todo 获取list、值班记录、巡查记录
     getList(success) {
+      let paras = arguments.length; // 获取参数个数
+      console.log(arguments);
       let list = this.table[this.active];
       let url = this.active ? "GET_DUTY_LIST" : "GET_PATROL_LIST";
       this.$axios
@@ -87,19 +123,20 @@ export default {
         .then(res => {
           if (res.success) {
             list.tableList = list.tableList.concat(res.result[list.listName]);
-            success(list.tableList.length, res.result.totalCount, this.page);
+            paras
+              ? success(list.tableList.length, res.result.totalCount, this.page)
+              : "";
           }
         });
     },
-    //    todo 选项
-    onSelect(item) {
-      this.show = false;
-      this.title = item.name;
-      this.$toast(item.name);
-    },
     //    todo 获取详情、新增、编辑、查看
-    getDetail() {
-      this.$router.push(`./PatrolDetail/${this.active}`);
+    getDetail(val) {
+      console.log(val);
+      if (this.active) {
+        this.$router.push(`./PatrolRecord/${this.active}`);
+      } else {
+        this.$router.push(`./DutyRecord/${this.active}/${val.patrolId}`);
+      }
     },
     addList() {
       if (this.active) {
@@ -114,10 +151,30 @@ export default {
 
 <style lang="scss">
 .patrol-tem {
+  .van-dropdown-menu {
+    height: 22px;
+    &:after {
+      border-width: 0;
+    }
+    .van-dropdown-menu__item {
+      justify-content: left;
+      & > span::after {
+        top: 8px;
+      }
+    }
+  }
   & > :nth-child(1) {
     &::after {
       border-width: 0;
     }
+  }
+  /*正常*/
+  .normal {
+    color: #67c23a;
+  }
+  /*未解决*/
+  .notHandle {
+    color: #e6a23c;
   }
 }
 </style>

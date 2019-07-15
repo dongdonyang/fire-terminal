@@ -13,8 +13,8 @@
       <van-cell title="">
         <div slot="label">有效轨迹点7个，发现2个问题，现场解决1个问题</div>
       </van-cell>
-      <van-steps direction="vertical" :active="4">
-        <van-step v-for="(item, index) in 4" :key="index">
+      <van-steps direction="vertical" :active="8">
+        <van-step v-for="(item, index) in 8" :key="index">
           <van-panel
             class="patrol-record-panel"
             title="标题"
@@ -60,7 +60,6 @@ export default {
     flex: 2 0 auto;
   }
   &-panel {
-    border: 1px solid #dcdcdc;
     .van-panel__header {
       &::after {
         border-bottom-style: dashed;

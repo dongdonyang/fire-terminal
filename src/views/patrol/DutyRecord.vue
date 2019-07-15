@@ -2,7 +2,7 @@
   <div class="duty-record">
     <base-nav title="值班记录"></base-nav>
     <van-cell-group>
-      <van-cell title="值班人员" value="张三"></van-cell>
+      <van-cell title="值班人员" :value="form.dutyUser"></van-cell>
       <van-switch-cell
         v-model="form.checked"
         title="发现问题"
@@ -34,14 +34,35 @@ export default {
   props: {},
   data() {
     return {
-      form: {}
+      form: {},
+      status: 0,
+      id: 0
     };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    console.log(this.$route);
+    let { id, status } = this.$route.params;
+    this.status = status * 1;
+    this.id = id * 1;
+    id ? this.getinfo() : ""; // 查看状态才进行查询
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    //  todo 获取详情
+    getinfo() {
+      this.$axios
+        .get(this.$api.GET_DUTY_INFO, {
+          params: { DutyId: this.id }
+        })
+        .then(res => {
+          if (res.success) {
+            this.form = res.result;
+          }
+        });
+    }
+  }
 };
 </script>
 

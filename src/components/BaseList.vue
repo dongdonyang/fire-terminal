@@ -22,9 +22,12 @@
               :value="item[tableName.value]"
               :label="item[tableName.label]"
             >
-              <slot :item="item" name="cellValue">{{
-                item[tableName.value]
-              }}</slot>
+              <!--              todo 插入头部-->
+              <slot slot="title" :item="item" name="cellTitle"> </slot>
+              <!--              todo 插入内容-->
+              <slot :item="item" name="cellValue"> </slot>
+              <!--              todo 插入label-->
+              <slot slot="label" :item="item" name="cellLabel"> </slot>
             </van-cell>
           </van-cell-group>
         </slot>

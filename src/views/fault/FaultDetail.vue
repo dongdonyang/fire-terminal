@@ -13,7 +13,7 @@
       <van-cell title="问题描述">
         <div slot="label">
           <span>{{ info.remakeText }}</span>
-          <div>
+          <div class="fault-detail-remake">
             <van-image
               v-for="(item, index) in info.patrolPhotosPath"
               :key="index"
@@ -29,21 +29,21 @@
       <van-cell title="问题处理">
         <div slot="label" class="fault-detail-label">
           <van-switch-cell
-            v-model="form.checked"
+            v-model="form.handleStatus"
             title="是否已解决"
           ></van-switch-cell>
           <van-cell title="问题处理途径">
-            <div slot="label">
-              <van-radio-group v-model="form.radio">
-                <van-radio name="1">单选框 1</van-radio>
-                <van-radio name="2">单选框 2</van-radio>
+            <div slot="label" class="fault-detail-label-radio">
+              <van-radio-group v-model="form.solutionWay">
+                <van-radio name="1">自行处理</van-radio>
+                <van-radio name="2">维保叫修</van-radio>
               </van-radio-group>
             </div>
           </van-cell>
           <van-cell title="备注">
             <van-field
               slot="label"
-              v-model="form.suggest"
+              v-model="form.remark"
               type="textarea"
               rows="6"
               placeholder="在这请输入您的备注信息"
@@ -53,7 +53,7 @@
       </van-cell>
     </van-cell-group>
 
-    <base-button>提交</base-button>
+    <base-button @click="submit">提交</base-button>
   </div>
 </template>
 
@@ -81,10 +81,24 @@ export default {
   created() {
     this.active = this.$route.params.status * 1;
     this.breakDownId = this.$route.params.breakDownId * 1;
+    this.form.breakDownId = this.breakDownId;
     this.getDetail();
   },
   mounted() {},
   methods: {
+    // todo 更新设施故障
+    submit() {
+      this.$axios.put(this.$api.UPDATE_BREAK_DOWN_INFO, this.form).then(res => {
+        if (res.success) {
+          if (res.result.success) {
+            this.$toast.success("保存成功");
+            this.$router.back();
+          } else {
+            this.$toast(res.result.failCause);
+          }
+        }
+      });
+    },
     //  todo 获取设施故障详情
     getDetail() {
       this.$axios
@@ -109,9 +123,18 @@ export default {
   & > :nth-child(2) {
     flex: 2 0 auto;
   }
+  &-remake {
+    margin-top: 8px;
+  }
   &-label {
     & > div {
-      background-color: #f0f0f0;
+      /*background-color: #f0f0f0;*/
+    }
+    &-radio {
+      padding: 8px;
+      .van-radio {
+        height: 28px;
+      }
     }
   }
 }

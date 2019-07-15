@@ -4,14 +4,14 @@
       <base-nav title="绑定设施编号"></base-nav>
       <base-form :form="form" :form-list="formList"></base-form>
 
-      <van-cell>
-        <van-checkbox-group v-model="form.result">
+      <van-cell title="设施所属消防系统">
+        <van-checkbox-group v-model="form.result" slot="label">
           <van-cell-group>
             <van-cell
-              v-for="(item, index) in 6"
+              v-for="(item, index) in unitList"
               clickable
               :key="item"
-              :title="`复选框 ${item}`"
+              :title="item.systemName"
               @click="toggle(index)"
             >
               <van-checkbox :name="item" ref="checkboxes" slot="right-icon" />
@@ -49,16 +49,27 @@ export default {
           remind: "请输入具体位置",
           value: "address"
         }
-      ]
+      ],
+      unitList: []
     };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.getUnit();
+  },
   mounted() {},
   methods: {
     toggle(index) {
       this.$refs.checkboxes[index].toggle();
+    },
+    //  todo 获取消防系统
+    getUnit() {
+      this.$axios.get(this.$api.GET_FIRE_SYSTEM).then(res => {
+        if (res.success) {
+          this.unitList = res.result;
+        }
+      });
     }
   }
 };

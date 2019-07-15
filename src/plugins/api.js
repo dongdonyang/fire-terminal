@@ -2,6 +2,9 @@ const API = {
   //  todo 登录注册
   Add: "/api/services/app/FireUnitUser/Add", //添加账号
   USER_LOGIN: "/api/services/app/FireUnitUser/UserLoginForMobile", //用户登录
+  QUERY_FIRE_UNIT_LIKE_NAME: "/api/services/app/FireUnit/QueryFireUnitLikeName", //查询防火单位名称(模糊查询)
+  INVITAT_VERIFY: "/api/services/app/FireUnit/InvitatVerify", //邀请码验证
+  USER_REGISTUSER_REGIST: "/api/services/app/FireUnitUser/UserRegist", //用户注册
 
   // todo 引导页
   GET_FIRE_UNIT_PEOPLE: "/api/services/app/AppGuideSet/GetFireUnitPeople", //获取防火单位工作人员
@@ -16,7 +19,8 @@ const API = {
   //todo 设施故障
   GET_BREAK_DOWNLIST: "/api/services/app/BreakDownService/GetBreakDownlist", //获取设施故障列表
   GET_BREAK_DOWN_INFO: "/api/services/app/BreakDownService/GetBreakDownInfo", //获取设施故障详情
-  UpdateBreakDownInfo: "/api/services/app/BreakDownService/UpdateBreakDownInfo", //更新设施故障详情
+  UPDATE_BREAK_DOWN_INFO:
+    "/api/services/app/BreakDownService/UpdateBreakDownInfo", //更新设施故障详情
 
   // todo 消防系统
   GET_FIRE_SYSTEM: "/api/services/app/AppGuideSet/GetFireSystem", //获取消防系统
@@ -37,7 +41,7 @@ const API = {
 
   //  todo 值班
   GET_DUTY_LIST: "/api/services/app/DutyAndPatrolService/GetDutylist", //获取值班记录列表
-  GetDutyInfo: "/api/services/app/DutyAndPatrolService/GetDutyInfo", //获取值班记录详情
+  GET_DUTY_INFO: "/api/services/app/DutyAndPatrolService/GetDutyInfo", //获取值班记录详情
   AddDutyInfo: "/api/services/app/DutyAndPatrolService/AddDutyInfo", //新增值班记录
 
   //todo 巡查

@@ -8,7 +8,14 @@
       :label="item.label"
       :type="item.type"
     >
-      <img :width="iconWidth" :height="iconHeight" slot="left-icon" :src="item.icon" alt="" />
+      <img
+        v-if="item.icon"
+        :width="iconWidth"
+        :height="iconHeight"
+        slot="left-icon"
+        :src="item.icon"
+        alt=""
+      />
       <!--      todo 发送短信验证码-->
       <van-button
         v-if="item.mySolt === 'sendCode'"

@@ -1,6 +1,12 @@
 <template>
   <div class="terminal-index">
-    <van-cell title="全部终端" value="内容" @click="show = true"></van-cell>
+    <van-dropdown-menu>
+      <van-dropdown-item
+        @change="getList"
+        v-model="page.Option"
+        :options="actions"
+      ></van-dropdown-item>
+    </van-dropdown-menu>
 
     <!--    todo list-->
     <base-list
@@ -10,12 +16,6 @@
       :table-name="tableName"
     ></base-list>
 
-    <!--    todo 选择框-->
-    <van-action-sheet
-      v-model="show"
-      :actions="actions"
-      @select="onSelect"
-    ></van-action-sheet>
   </div>
 </template>
 
@@ -33,13 +33,13 @@ export default {
       tableList: [],
       tableName: {
         title: "name",
-        label: "stateName",
-        value: "standard"
+        label: "standard",
+        value: "stateName"
       },
       page: {
-        FireUnitId: 3
+        FireUnitId: 3,
+        Option: 0
       },
-      show: false,
       actions: []
     };
   },
@@ -64,15 +64,10 @@ export default {
     // todo 获取选项
     getOptions() {
       this.$axios.get(this.$api.GET_END_DEVICE_OPTIONS).then(res => {
-        this.actions = res.result;
+        this.actions = JSON.parse(
+          JSON.stringify(res.result).replace(/name/g, "text")
+        );
       });
-    },
-    // todo 选择
-    onSelect(item) {
-      this.show = false;
-      this.$toast(item.name);
-      this.page.Option = item.value;
-      this.getList();
     }
   }
 };
@@ -80,6 +75,19 @@ export default {
 
 <style lang="scss">
 .terminal-index {
+  .van-dropdown-menu {
+    padding: 10px 15px;
+    height: 22px;
+    &:after {
+      border-width: 0;
+    }
+    .van-dropdown-menu__item {
+      justify-content: left;
+      & > span::after {
+        top: 8px;
+      }
+    }
+  }
   & > :nth-child(1) {
     &::after {
       border-width: 0;
