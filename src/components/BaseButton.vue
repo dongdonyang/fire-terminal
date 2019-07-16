@@ -49,6 +49,7 @@ export default {
 
 <style lang="scss">
 .base-button {
+  background-color: #fff;
   padding: 10px 15px;
   &-def {
     background-color: #0392fe;

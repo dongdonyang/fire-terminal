@@ -1,5 +1,12 @@
 <template>
-  <van-button plain type="primary" @click="playVoice">语音播放</van-button>
+  <div class="base-play-sound">
+    <van-button type="primary" size="small" @click="playVoice">
+      <img class="base-play-sound-img" alt="" src="../assets/zbxc_img_04.png" />
+      <span>{{ playTime }}"</span>
+    </van-button>
+
+    <van-icon name="clear" @click="voice = ''"></van-icon>
+  </div>
 </template>
 
 <script>
@@ -10,15 +17,26 @@
 export default {
   name: "BasePlaySound",
   components: {},
+  model: {
+    prop: "voice",
+    event: "change"
+  },
   props: {
     voice: String
   },
   data() {
-    return {};
+    return {
+      player: Object,
+      playTime: Number
+    };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.player = plus.audio.createPlayer(this.voice); // 创建播放对象
+    this.playTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
+    console.log("shijian",this.playTime);
+  },
   mounted() {},
   methods: {
     /**
@@ -26,7 +44,7 @@ export default {
      */
     playVoice() {
       console.log("语音地址：" + this.voice);
-      let p = plus.audio.createPlayer(this.voice);
+      let p = this.player;
       p.play(
         function() {
           alert("Audio play success!");
@@ -40,4 +58,19 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.base-play-sound {
+  & > :nth-child(2) {
+    margin-left: 4px;
+    font-size: 18px;
+    color: #f56c6c;
+  }
+  .van-button__text {
+    display: flex;
+  }
+  &-img {
+    height: 16px;
+    margin: auto 5px;
+  }
+}
+</style>

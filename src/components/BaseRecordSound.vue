@@ -1,7 +1,6 @@
 <template>
   <van-button
-    plain
-    type="primary"
+    type="default"
     @touchstart.native="startRecord"
     @touchmove.native="recording"
     @touchend.native="endRecord"
@@ -14,6 +13,9 @@
  *  作者：0          时间：2019/7/8 17:44
  *  1,常量从js文件引入，不要定义魔术变量
  */
+import { Toast } from "vant";
+import Vue from "vue";
+Vue.use(Toast);
 export default {
   name: "BaseRecordSound",
   components: {},
@@ -40,7 +42,6 @@ export default {
      */
     startRecord() {
       let that = this;
-      console.log("开始录音");
       this.timeOutEvent = setTimeout(that.longPress, 500);
     },
     /**
@@ -55,6 +56,10 @@ export default {
     longPress() {
       let that = this;
       console.log("录音中。。。。。");
+      Toast({
+        duration: 0,
+        message: "录音中。。。。。"
+      });
       let r = plus.audio.getRecorder(); // 获取当前设备的录音对象
       this.record = r;
       if (r === null) {
@@ -64,6 +69,7 @@ export default {
       r.record(
         { filename: "_doc/audio/" },
         function(recordFile) {
+          Toast.clear();
           that.$emit("change", recordFile);
           console.log("语音地址：" + that.voice);
           alert("Audio record success!" + recordFile);

@@ -42,7 +42,7 @@ const API = {
   //  todo 值班
   GET_DUTY_LIST: "/api/services/app/DutyAndPatrolService/GetDutylist", //获取值班记录列表
   GET_DUTY_INFO: "/api/services/app/DutyAndPatrolService/GetDutyInfo", //获取值班记录详情
-  AddDutyInfo: "/api/services/app/DutyAndPatrolService/AddDutyInfo", //新增值班记录
+  ADD_DUTY_INFO: "/api/services/app/DutyAndPatrolService/AddDutyInfo", //新增值班记录
 
   //todo 巡查
   GET_PATROL_LIST: "/api/services/app/DutyAndPatrolService/GetPatrollist", //获取巡查记录列表

@@ -49,8 +49,19 @@ export default {
       console.log("Resolution: " + res + ", Format: " + fmt);
       cmr.captureImage(
         function(path) {
-          that.list.push(path);
-          alert("Capture image success: " + `./${path}`);
+          // todo 获取拍照后的真实地址
+          plus.io.resolveLocalFileSystemURL(
+            path,
+            function(entry) {
+              that.getBase64(entry.fullPath, function(base64Img) {
+                that.list.push(base64Img);
+                alert("Capture image success: " + `base64Img`);
+              });
+            },
+            function(e) {
+              alert(e.message);
+            }
+          );
         },
         function(error) {
           alert("Capture image failed: " + error.message);
@@ -64,15 +75,36 @@ export default {
       let that = this;
       plus.gallery.pick(
         function(path) {
-          that.list.push(path);
-          alert(path);
+          // base64转码
           console.log(path);
+          that.getBase64(path, function(base64Img) {
+            that.list.push(base64Img);
+            alert(base64Img);
+            console.log(base64Img);
+          });
         },
         function(e) {
           console.log("取消选择图片");
         },
         { filter: "image" }
       );
+    },
+
+    //  todo 将照片转码成base64
+    getBase64(url, callback, outputFormat) {
+      let canvas = document.createElement("CANVAS"),
+        ctx = canvas.getContext("2d"),
+        img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.onload = function() {
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0);
+        let dataURL = canvas.toDataURL(outputFormat || "image/png");
+        callback.call(this, dataURL);
+        canvas = null;
+      };
+      img.src = url;
     }
   }
 };
