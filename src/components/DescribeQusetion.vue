@@ -2,7 +2,7 @@
   <van-cell class="describe-qusetion">
     <van-row slot="title" type="flex" justify="space-between">
       <van-col>问题描述</van-col>
-      <van-col>
+      <van-col v-if="!disabled">
         <img
           width="24px"
           height="24px"
@@ -14,21 +14,19 @@
         />
       </van-col>
     </van-row>
-    <div slot="label">
+    <div slot="label" v-if="!disabled">
       <van-field
-        v-if="!form.playUrl"
+        v-show="!form.voice"
         type="textarea"
         rows="6"
         :maxlength="200"
-        v-model="form.value"
+        v-model="form.content"
         placeholder="情况简要描述、200字以内"
       >
       </van-field>
-      <div v-else style="height: 164px">
-        <base-play-sound
-          :key="form.playUrl"
-          v-model="form.playUrl"
-        ></base-play-sound>
+      <div v-show="form.voice" style="height: 164px">
+        <!--        todo 播放声音-->
+        <base-play-sound v-model="form.voice" ref="playSound"></base-play-sound>
       </div>
 
       <van-row
@@ -37,8 +35,16 @@
         type="flex"
         justify="center"
       >
-        <base-record-sound v-model="form.playUrl"></base-record-sound>
+        <!--        todo 收集声音-->
+        <base-record-sound
+          v-model="form.voice"
+          @createVoice="voice => $refs.playSound.createVoice(voice)"
+        ></base-record-sound>
       </van-row>
+    </div>
+    <div slot="label" v-else>
+      <div>{{form.content}}</div>
+      <div>若存在语音则显示语音播放对象</div>
     </div>
   </van-cell>
 </template>
@@ -51,11 +57,16 @@
 export default {
   name: "DescribeQusetion",
   components: {},
-  props: {},
+  props: {
+    form: {},
+    disabled: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
-      isSpeak: false,
-      form: {}
+      isSpeak: false
     };
   },
   computed: {},

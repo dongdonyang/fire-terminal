@@ -10,7 +10,19 @@
       @refresh="getList"
       :tableList="tableList"
       :tableName="tableName"
-    ></base-list>
+    >
+      <span
+        slot="cellValue"
+        slot-scope="scope"
+        :style="{ color: scope.item.checkStateValue ? '' : '#0385fe' }"
+      >
+        {{ scope.item.checkStateName }}
+      </span>
+      <span slot="cellLabel" slot-scope="scope">
+        <div>{{ scope.item.alarm }}</div>
+        <div>{{ scope.item.time }}</div>
+      </span>
+    </base-list>
   </div>
 </template>
 
@@ -32,7 +44,6 @@ export default {
         label: "alarm"
       }, // 展示的字段
       page: {
-        FireUnitId: 3,
         MaxResultCount: 10, // 查询当前页面的数量
         total: 0,
         SkipCount: 0, // 跳过的查询的数量
@@ -42,7 +53,9 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.page.FireUnitId = this.$store.state.userInfo.fireUnitID;
+  },
   mounted() {},
   methods: {
     // todo 下拉刷新

@@ -5,7 +5,7 @@
       <span>{{ playTime }}"</span>
     </van-button>
 
-    <van-icon name="clear" @click="voice = ''"></van-icon>
+    <van-icon name="clear" @click="deleteVoice"></van-icon>
   </div>
 </template>
 
@@ -32,13 +32,16 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {
-    this.player = plus.audio.createPlayer(this.voice); // 创建播放对象
-    this.playTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
-    console.log("shijian",this.playTime);
-  },
+  created() {},
   mounted() {},
   methods: {
+    createVoice(voice) {
+      this.player = plus.audio.createPlayer(voice); // 创建播放对象
+      // todo 创建对象存在延迟、容易获取不到时长、单位为秒（s），返回值可能是小数，若长度未知则返回-1。 如果还未获取到音频流信息则返回NaN，此时需要延迟获取。
+      setTimeout(() => {
+        this.playTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
+      }, 500);
+    },
     /**
      * @fileOverview 播放语音、显示语音秒数、和实时进度
      */
@@ -53,6 +56,13 @@ export default {
           alert("Audio play error: " + e.message);
         }
       );
+    },
+    /**
+     * @fileOverview 删除当前声音对象
+     */
+    deleteVoice() {
+      this.player.close();
+      this.$emit("change", "");
     }
   }
 };

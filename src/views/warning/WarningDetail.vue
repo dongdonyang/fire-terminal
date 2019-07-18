@@ -4,22 +4,34 @@
       <base-nav title="消防警情处置"></base-nav>
 
       <van-cell-group>
+        <!--        todo 预警单位信息-->
         <van-cell
           class="flex-title"
-          :title="form.location ? form.location : '******'"
+          :title="form.location"
           :value="form.checkTime"
           :label="form.alarm"
         ></van-cell>
 
-        <van-cell>
-          <van-radio-group class="warn-detail-radio" v-model="radio">
+        <!--        todo 查看用户信息-->
+        <van-cell
+          v-if="status"
+          class="flex-title"
+          :title="form.userName"
+          :value="form.time"
+          :label="form.userPhone"
+        ></van-cell>
+
+        <van-cell v-if="!status">
+          <van-radio-group
+            class="warn-detail-radio"
+            v-model="form.checkStateValue"
+          >
             <van-radio :name="1">误报</van-radio>
             <van-radio :name="2">测试</van-radio>
-            <van-radio :name="0">真实火警</van-radio>
+            <van-radio :name="3">真实火警</van-radio>
           </van-radio-group>
-
           <!--        todo 真实火警-->
-          <van-cell v-show="!radio">
+          <van-cell v-show="form.checkStateValue === 3 && !status">
             <van-checkbox-group v-model="result">
               <van-cell-group>
                 <van-cell
@@ -39,77 +51,50 @@
             </van-checkbox-group>
           </van-cell>
         </van-cell>
+        <van-cell
+          v-else
+          title="核警情况"
+          :value="form.checkStateName"
+        ></van-cell>
 
         <!--      todo 情况说明-->
-        <van-cell>
-          <van-row slot="title" type="flex" justify="space-between">
-            <van-col span="6">情况说明</van-col>
-            <van-col span="2">
-              <img
-                @click="isSpeak = !isSpeak"
-                width="90%"
-                src="../../assets/zbxc_btn_yuyin.png"
-              />
-            </van-col>
-          </van-row>
-          <div slot="label">
-            <van-field
-              type="textarea"
-              rows="6"
-              :maxlength="200"
-              v-model="form.value"
-              placeholder="情况简要描述、200字以内"
-            >
-              <base-play-sound slot="button" :voice="playUrl"></base-play-sound>
-            </van-field>
-            <div class="warn-detail-speck" v-show="isSpeak">
-              <base-record-sound v-model="playUrl"></base-record-sound>
-            </div>
-          </div>
-        </van-cell>
+        <describe-qusetion :form="form" :disabled="status"></describe-qusetion>
 
         <!--      todo 现场照片-->
-        <van-cell title="现场照片">
-          <div slot="label" class="warn-detail-photolist">
-            <img
-              v-show="photoList.length < 3"
-              @click="$refs.BasePhoto.show = true"
-              src="../../assets/zbxc_btn_paizhao.png"
-            />
-            <div v-for="(item, index) in photoList" :key="index">
-              <img :src="item" />
-              <van-icon
-                name="cross"
-                @click="photoList.splice(index, 1)"
-              ></van-icon>
-            </div>
-          </div>
+        <van-cell title="现场照片" v-if="photoList.length || !status">
+          <shot-photo
+            slot="label"
+            v-model="photoList"
+            :disabled="status"
+          ></shot-photo>
         </van-cell>
       </van-cell-group>
     </div>
 
-    <!--    todo 图片上传方式-->
-    <base-photo ref="BasePhoto" v-model="photoList"></base-photo>
-
-    <base-button>提交</base-button>
+    <base-button @click="submit" v-if="!status">提交</base-button>
   </div>
 </template>
 
 <script>
-import BasePhoto from "../../components/BasePhoto";
+import ShotPhoto from "../../components/ShotPhoto";
+import DescribeQusetion from "../../components/DescribeQusetion";
 /**
  *  作者：0          时间：2019/7/2 14:34
  *  1,常量从js文件引入，不要定义魔术变量
  */
+import { Toast } from "vant";
+import Vue from "vue";
+Vue.use(Toast);
 export default {
   name: "WarningDetail",
-  components: { BasePhoto },
+  components: {
+    ShotPhoto,
+    DescribeQusetion
+  },
   props: {},
   data() {
     return {
-      playUrl: "",
       photoList: [],
-      isSpeak: false,
       noticeList: [
         {
           value: 1,
@@ -125,18 +110,18 @@ export default {
         }
       ],
       form: {
-        photoList: []
+        checkStateValue: 1
       },
       status: 0, // 状态
       checkId: 0,
-      result: [],
-      radio: 1
+      result: []
     };
   },
   computed: {},
   watch: {},
   created() {
-    ({ status: this.status, checkId: this.checkId } = this.$route.params);
+    this.status = +this.$route.params.status;
+    this.checkId = +this.$route.params.checkId;
     this.getInfo();
   },
   mounted() {},
@@ -153,10 +138,57 @@ export default {
         })
         .then(res => {
           this.form = res.result;
+          // 照片转数组
+          if (this.status) {
+            for (let x in 3) {
+              let p = res.result[`pictureUrl_${x}`];
+              if (p) {
+                this.photoList.push(`http://fd.sctsjkj.com:5081${p}`);
+              }
+            }
+          }
         });
     },
-    //  todo 上传照片
-    uploadPhone() {}
+    // todo 提交
+    submit() {
+      console.log(this.form);
+      console.log("语音地址：", this.form.voice);
+      console.log("照片地址：", this.photoList);
+      let that = this;
+      let task = plus.uploader.createUpload(
+        `http://fd.sctsjkj.com:5081${this.$api.CHECK_ALARM}`,
+        {
+          method: "POST"
+        },
+        function(t, status) {
+          console.log("请求成功后的返回数据：", t, status);
+          // 上传完成
+          if (status === 200) {
+            Toast.clear();
+            that.$toast.success("提交成功");
+            that.$router.back();
+          } else {
+            that.$toast.fail("提交失败");
+          }
+        }
+      );
+      task.addFile(this.form.voice, { key: "Voice" });
+      task.addData("UserId", this.$store.state.userInfo.userId);
+      task.addData("CheckId", this.checkId);
+      task.addData("CheckState", this.form.checkStateValue);
+      task.addData("Content", this.form.content);
+      if (this.photoList.length) {
+        for (let i in this.photoList) {
+          task.addFile(this.photoList[i], { key: `Picture${Number(i) + 1}` });
+        }
+      }
+      task.start();
+      Toast.loading({
+        duration: 0,
+        mask: true,
+        message: "提交中"
+      });
+    }
   }
 };
 </script>

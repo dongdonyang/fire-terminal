@@ -1,7 +1,7 @@
 <template>
   <div class="shot-photo">
     <img
-      v-show="photoList.length < 3"
+      v-show="photoList.length < 3 && !disabled"
       width="100px"
       height="60px"
       @click="$refs.BasePhoto.show = true"
@@ -9,7 +9,11 @@
     />
     <div v-for="(item, index) in photoList" :key="index">
       <img @click="previewPic(index)" :src="item" />
-      <van-icon name="cross" @click="photoList.splice(index, 1)"></van-icon>
+      <van-icon
+        v-if="!disabled"
+        name="cross"
+        @click="photoList.splice(index, 1)"
+      ></van-icon>
     </div>
     <!--    todo 图片上传方式-->
     <base-photo ref="BasePhoto" v-model="photoList"></base-photo>
@@ -33,7 +37,12 @@ export default {
     event: "change"
   },
   props: {
-    photoList: Array
+    photoList: Array,
+    // 是否是只读
+    disabled: {
+      type: Number,
+      default: 0
+    }
   },
   data() {
     return {};

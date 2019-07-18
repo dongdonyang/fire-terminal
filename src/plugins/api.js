@@ -37,7 +37,7 @@ const API = {
   //  todo 消防预警
   GET_ALARM_CHECKS: "/api/services/app/Alarm/GetAlarmChecks", //获取指定防火单位警情数据
   GET_ALARM_CHECK_DETAIL: "/api/services/app/Alarm/GetAlarmCheckDetail", //查询给定checkId的警情详细信息
-  CheckAlarm: "/api/services/app/Alarm/CheckAlarm", //核警某一条警情[FromForm]
+  CHECK_ALARM: "/api/services/app/Alarm/CheckAlarm", //核警某一条警情[FromForm]
 
   //  todo 值班
   GET_DUTY_LIST: "/api/services/app/DutyAndPatrolService/GetDutylist", //获取值班记录列表

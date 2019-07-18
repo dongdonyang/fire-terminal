@@ -53,18 +53,27 @@ export default {
           plus.io.resolveLocalFileSystemURL(
             path,
             function(entry) {
-              that.getBase64(entry.fullPath, function(base64Img) {
-                that.list.push(base64Img);
-                alert("Capture image success: " + `base64Img`);
-              });
+              that.list.push(entry.fullPath);
+              // 读取file内容
+              // entry.file(function(file) {
+              //   let reader = new plus.io.FileReader();
+              //   reader.onloadend = function(e) {
+              //     let f = new File([e.target.result], file.name, {
+              //       type: file.type
+              //     });
+              //     that.list.push(f);
+              //     console.log(e.target.result);
+              //   };
+              //   reader.readAsDataURL(file);
+              // });
             },
             function(e) {
-              alert(e.message);
+              console.log(e.message);
             }
           );
         },
         function(error) {
-          alert("Capture image failed: " + error.message);
+          console.log("Capture image failed: " + error.message);
         },
         { resolution: res, format: fmt }
       );
@@ -75,13 +84,13 @@ export default {
       let that = this;
       plus.gallery.pick(
         function(path) {
-          // base64转码
-          console.log(path);
-          that.getBase64(path, function(base64Img) {
-            that.list.push(base64Img);
-            alert(base64Img);
-            console.log(base64Img);
-          });
+          that.list.push(path);
+          // todo base64转码
+          // that.getBase64(path, function(base64Img) {
+          //   that.list.push(base64Img);
+          //   alert(base64Img);
+          //   console.log(base64Img);
+          // });
         },
         function(e) {
           console.log("取消选择图片");

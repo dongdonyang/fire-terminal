@@ -24,7 +24,7 @@ export default {
     event: "change"
   },
   props: {
-    voice: String
+    voice: File
   },
   data() {
     return {
@@ -69,10 +69,11 @@ export default {
       r.record(
         { filename: "_doc/audio/" },
         function(recordFile) {
-          Toast.clear();
-          that.$emit("change", recordFile);
-          console.log("语音地址：" + that.voice);
           alert("Audio record success!" + recordFile);
+          Toast.clear();
+          // todo 向外抛出一个创建语音对象的触发
+          that.$emit("createVoice", recordFile); // 触发新建播放对象
+          that.$emit("change", recordFile);
         },
         function(e) {
           alert("Audio record failed: " + e);
@@ -84,7 +85,7 @@ export default {
      */
     endRecord() {
       this.record.stop();
-      console.log(this.timeOutEvent);
+      console.log("定时器：", this.timeOutEvent);
       clearTimeout(this.timeOutEvent); //清除定时器
     }
   }

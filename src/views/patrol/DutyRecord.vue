@@ -19,7 +19,7 @@
       ></van-switch-cell>
 
       <div v-show="form.checked">
-        <describe-qusetion></describe-qusetion>
+        <describe-qusetion :form="form"></describe-qusetion>
 
         <van-switch-cell
           v-model="form.checked1"
@@ -43,6 +43,9 @@
  */
 import ShotPhoto from "../../components/ShotPhoto";
 import DescribeQusetion from "../../components/DescribeQusetion";
+import { Toast } from "vant";
+import Vue from "vue";
+Vue.use(Toast);
 export default {
   name: "DutyRecord",
   components: {
@@ -85,6 +88,57 @@ export default {
     },
     //  todo 新增值班记录
     submit() {
+      console.log(this.form);
+      console.log("语音地址：", this.form.voice);
+      console.log("照片地址：", this.photoList1);
+      console.log("照片地址：", this.photoList2);
+      let that = this;
+      let task = plus.uploader.createUpload(
+        `http://fd.sctsjkj.com:5081${this.$api.ADD_DUTY_INFO}`,
+        {
+          method: "POST"
+        },
+        function(t, status) {
+          console.log("请求成功后的返回数据：", t, status);
+          // 上传完成
+          if (status === 200) {
+            Toast.clear();
+            that.$toast.success("提交成功");
+            that.$router.back();
+          } else {
+            that.$toast.fail("提交失败");
+          }
+        }
+      );
+      task.addFile(this.form.voice, { key: "RemarkVioce" });
+      task.addData("FireUnitUserId", this.$store.state.userInfo.userId);
+      task.addData("FireUnitId", this.$store.state.userInfo.fireUnitID);
+      task.addData("CheckId", this.checkId);
+      task.addData("CheckState", this.form.radio);
+      task.addData("DutyRemark", this.form.content);
+      // 值班记录图片
+      if (this.photoList1.length) {
+        for (let i in this.photoList1) {
+          task.addFile(this.photoList1[i], {
+            key: `DutyPicture${Number(i) + 1}`
+          });
+        }
+      }
+      //现场问题图片
+      if (this.photoList2.length) {
+        for (let i in this.photoList2) {
+          task.addFile(this.photoList2[i], {
+            key: `ProblemPicture${Number(i) + 1}`
+          });
+        }
+      }
+      task.start();
+      Toast.loading({
+        duration: 0,
+        mask: true,
+        message: "提交中"
+      });
+
       let f = this.form;
       let one = this.photoList1.length;
       let two = this.photoList2.length;
