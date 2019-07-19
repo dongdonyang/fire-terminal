@@ -106,6 +106,7 @@ export default {
 <style lang="scss">
 @import "../../style/app-variables";
 .login {
+  background-color: #fff;
   /*  todo 登录main*/
   &-main {
     margin-top: 40px;

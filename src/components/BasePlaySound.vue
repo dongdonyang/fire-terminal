@@ -5,7 +5,7 @@
       <span>{{ playTime }}"</span>
     </van-button>
 
-    <van-icon name="clear" @click="deleteVoice"></van-icon>
+    <van-icon v-if="!status" name="clear" @click="deleteVoice"></van-icon>
   </div>
 </template>
 
@@ -22,7 +22,8 @@ export default {
     event: "change"
   },
   props: {
-    voice: String
+    voice: String,
+    status: Number
   },
   data() {
     return {

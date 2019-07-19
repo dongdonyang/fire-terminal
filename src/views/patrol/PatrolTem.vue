@@ -49,17 +49,7 @@ export default {
   data() {
     return {
       table: [
-        //值班记录
-        {
-          tableName: {
-            title: "patrolUser",
-            label: "creationTime",
-            value: "patrolStatus"
-          },
-          listName: "patrolList",
-          tableList: []
-        },
-        // 巡查记录
+        // 值班记录
         {
           tableName: {
             title: "dutyUser",
@@ -68,13 +58,22 @@ export default {
           },
           listName: "dutyList",
           tableList: []
+        },
+        //巡查记录
+        {
+          tableName: {
+            title: "patrolUser",
+            label: "creationTime",
+            value: "patrolStatus"
+          },
+          listName: "patrolList",
+          tableList: []
         }
       ],
       actions: [
         {
           text: "未指定",
-          value: 0,
-          className: "normal"
+          value: 0
         },
         {
           text: "正常 ",
@@ -82,25 +81,26 @@ export default {
           className: "normal"
         },
         {
-          text: "绿色故障(已现场解决)",
+          text: "绿色故障",
           value: 2,
-          className: "normal"
+          className: "handle"
         },
         {
-          text: "橙色故障(未现场解决)",
+          text: "橙色故障",
           value: 3,
           className: "notHandle"
         }
       ],
       page: {
-        PatrolStatus: 0,
-        FireUnitId: 3
+        PatrolStatus: 0
       }
     };
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.page.FireUnitId = this.$store.state.userInfo.fireUnitID;
+  },
   mounted() {},
   methods: {
     // todo 获取中文字段、获取class+
@@ -115,7 +115,7 @@ export default {
       let paras = arguments.length; // 获取参数个数
       console.log(arguments);
       let list = this.table[this.active];
-      let url = this.active ? "GET_DUTY_LIST" : "GET_PATROL_LIST";
+      let url = this.active ? "GET_PATROL_LIST" : "GET_DUTY_LIST";
       this.$axios
         .get(this.$api[url], {
           params: this.page
@@ -129,21 +129,15 @@ export default {
           }
         });
     },
-    //    todo 获取详情、新增、编辑、查看
+    //    todo 获取详情、编辑、查看
     getDetail(val) {
-      console.log(val);
-      if (this.active) {
-        this.$router.push(`./PatrolRecord/${this.active}`);
-      } else {
-        this.$router.push(`./DutyRecord/${this.active}/${val.patrolId}`);
-      }
+      let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/${this.active ? val.patrolId : val.dutyId}`;
+      this.$router.push(u);
     },
+    // todo 新增
     addList() {
-      if (this.active) {
-        this.$router.push(`./PatrolRecord/${this.active}`);
-      } else {
-        this.$router.push(`./DutyRecord/${this.active}/0`);
-      }
+      let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/0`;
+      this.$router.push(u);
     }
   }
 };
@@ -170,6 +164,10 @@ export default {
   }
   /*正常*/
   .normal {
+    color: #67c23a;
+  }
+  /*已解决正常*/
+  .handle {
     color: #67c23a;
   }
   /*未解决*/

@@ -58,7 +58,11 @@
         ></van-cell>
 
         <!--      todo 情况说明-->
-        <describe-qusetion :form="form" :disabled="status"></describe-qusetion>
+        <describe-qusetion
+          ref="describeQusetion"
+          :form="form"
+          :disabled="status"
+        ></describe-qusetion>
 
         <!--      todo 现场照片-->
         <van-cell title="现场照片" v-if="photoList.length || !status">
@@ -110,6 +114,9 @@ export default {
         }
       ],
       form: {
+        location: "",
+        checkTime: "",
+        alarm: "",
         checkStateValue: 1
       },
       status: 0, // 状态
@@ -121,7 +128,7 @@ export default {
   watch: {},
   created() {
     this.status = +this.$route.params.status;
-    this.checkId = +this.$route.params.checkId;
+    this.checkId = this.$route.params.checkId;
     this.getInfo();
   },
   mounted() {},
@@ -137,11 +144,25 @@ export default {
           params: { checkId: this.checkId }
         })
         .then(res => {
-          this.form = res.result;
+          let r = res.result;
+          if (!this.status) {
+            let { location, checkTime, alarm } = r;
+            this.form.location = location;
+            this.form.checkTime = checkTime;
+            this.form.alarm = alarm;
+          } else {
+            this.form = r;
+          }
+          // 声音
+          if (r.vioceUrl) {
+            this.$refs.describeQusetion.createPlayer(
+              `http://fd.sctsjkj.com:5081${r.vioceUrl}`
+            );
+          }
           // 照片转数组
           if (this.status) {
-            for (let x in 3) {
-              let p = res.result[`pictureUrl_${x}`];
+            for (let x = 0; x < 4; x++) {
+              let p = r[`pictureUrl_${x}`];
               if (p) {
                 this.photoList.push(`http://fd.sctsjkj.com:5081${p}`);
               }
@@ -172,11 +193,11 @@ export default {
           }
         }
       );
-      task.addFile(this.form.voice, { key: "Voice" });
       task.addData("UserId", this.$store.state.userInfo.userId);
-      task.addData("CheckId", this.checkId);
+      task.addData("CheckId", this.checkId); // todo 只能使用字符串！！！！！
       task.addData("CheckState", this.form.checkStateValue);
       task.addData("Content", this.form.content);
+      task.addFile(this.form.voice, { key: "Voice" });
       if (this.photoList.length) {
         for (let i in this.photoList) {
           task.addFile(this.photoList[i], { key: `Picture${Number(i) + 1}` });

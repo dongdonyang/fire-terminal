@@ -54,6 +54,7 @@ export default {
      * @fileOverview 录音进行中、弹出一个正在录音的界面、以及声音gif图标
      */
     longPress() {
+      plus.device.vibrate(100);
       let that = this;
       console.log("录音中。。。。。");
       Toast({

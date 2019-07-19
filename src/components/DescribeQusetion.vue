@@ -26,7 +26,11 @@
       </van-field>
       <div v-show="form.voice" style="height: 164px">
         <!--        todo 播放声音-->
-        <base-play-sound v-model="form.voice" ref="playSound"></base-play-sound>
+        <base-play-sound
+          :status="disabled"
+          v-model="form.voice"
+          ref="playSound"
+        ></base-play-sound>
       </div>
 
       <van-row
@@ -43,8 +47,12 @@
       </van-row>
     </div>
     <div slot="label" v-else>
-      <div>{{form.content}}</div>
-      <div>若存在语音则显示语音播放对象</div>
+      <div>{{ form.content }}</div>
+      <base-play-sound
+        v-show="disabled"
+        ref="playSound2"
+        :status="disabled"
+      ></base-play-sound>
     </div>
   </van-cell>
 </template>
@@ -66,14 +74,20 @@ export default {
   },
   data() {
     return {
-      isSpeak: false
+      isSpeak: false,
+      hasVoice: false
     };
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    //  查看的时候创建语音对象
+    createPlayer(val) {
+      this.$refs.playSound2.createVoice(val);
+    }
+  }
 };
 </script>
 <style lang="scss">

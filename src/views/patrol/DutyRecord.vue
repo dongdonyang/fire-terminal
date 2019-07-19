@@ -6,23 +6,42 @@
       <van-cell>
         <van-row slot="title" type="flex" justify="space-between">
           <van-col>值班记录</van-col>
-          <van-col style="color: #969799"
+          <van-col v-if="!id" style="color: #969799"
             >请填写纸质值班记录、并拍照存档</van-col
           >
         </van-row>
-        <shot-photo slot="label" v-model="photoList1"></shot-photo>
+        <shot-photo
+          :disabled="id"
+          slot="label"
+          v-model="photoList1"
+        ></shot-photo>
       </van-cell>
 
       <van-switch-cell
-        v-model="form.checked"
+        v-if="!id"
+        v-model="form.hasMatter"
         title="发现问题"
       ></van-switch-cell>
+      <div v-else>
+        <van-cell
+          title="问题类型"
+          :value="getStatus[form.dutyStatus]"
+        ></van-cell>
+        <describe-qusetion :disabled="id" :form="form"></describe-qusetion>
+        <van-cell title="附件现场问题图片">
+          <shot-photo
+            slot="label"
+            :disabled="id"
+            v-model="photoList2"
+          ></shot-photo>
+        </van-cell>
+      </div>
 
-      <div v-show="form.checked">
+      <div v-show="form.hasMatter">
         <describe-qusetion :form="form"></describe-qusetion>
 
         <van-switch-cell
-          v-model="form.checked1"
+          v-model="form.isSolve"
           title="是否已解决"
         ></van-switch-cell>
 
@@ -32,7 +51,7 @@
       </div>
     </van-cell-group>
 
-    <base-button @click="submit">提交</base-button>
+    <base-button @click="submit" v-if="!id">提交</base-button>
   </div>
 </template>
 
@@ -55,6 +74,12 @@ export default {
   props: {},
   data() {
     return {
+      getStatus: {
+        0: "指定 ",
+        1: "正常 ",
+        2: "绿色故障",
+        3: "橙色故障"
+      },
       photoList1: [],
       photoList2: [],
       form: {},
@@ -83,6 +108,23 @@ export default {
         .then(res => {
           if (res.success) {
             this.form = res.result;
+            this.form.content = res.result.problemRemark;
+            //  值班记录照片
+            if (this.form.dutyPhtosPath.length) {
+              for (let i in this.form.dutyPhtosPath) {
+                this.photoList1.push(
+                  `${this.$url}${this.form.dutyPhtosPath[i]}`
+                );
+              }
+            }
+            //   问题照片
+            if (this.form.problemPhtosPath.length) {
+              for (let i in this.form.problemPhtosPath) {
+                this.photoList2.push(
+                  `${this.$url}${this.form.problemPhtosPath[i]}`
+                );
+              }
+            }
           }
         });
     },
@@ -114,7 +156,10 @@ export default {
       task.addData("FireUnitUserId", this.$store.state.userInfo.userId);
       task.addData("FireUnitId", this.$store.state.userInfo.fireUnitID);
       task.addData("CheckId", this.checkId);
-      task.addData("CheckState", this.form.radio);
+      task.addData(
+        "CheckState",
+        this.form.hasMatter ? (this.form.isSolve ? 2 : 3) : 1
+      );
       task.addData("DutyRemark", this.form.content);
       // 值班记录图片
       if (this.photoList1.length) {
@@ -137,27 +182,6 @@ export default {
         duration: 0,
         mask: true,
         message: "提交中"
-      });
-
-      let f = this.form;
-      let one = this.photoList1.length;
-      let two = this.photoList2.length;
-      f.FireUnitId = this.id;
-      f.FireUnitUserId = this.$store.state.userInfo.userId;
-      if (one) {
-        for (let i in this.photoList1) {
-          f[`DutyPicture${i + 1}`] = this.photoList1[i];
-        }
-      }
-      if (two) {
-        for (let i in this.photoList2) {
-          f[`ProblemPicture${i + 1}`] = this.photoList2[i];
-        }
-      }
-      this.$axios.post(this.$api.ADD_DUTY_INFO, f).then(res => {
-        if (res.success) {
-          this.$toast.success("保存成功");
-        }
       });
     }
   }

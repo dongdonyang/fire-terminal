@@ -26,7 +26,16 @@
         </div>
       </van-cell>
 
-      <van-cell title="问题处理">
+      <div v-if="active === 2">
+        <van-cell title="解决时间" :value="info.solutionTime"></van-cell>
+        <van-cell
+          title="处理途径"
+          :value="info.solutionWay === 1 ? '自行处理' : '维保叫修'"
+        ></van-cell>
+        <van-cell title="备注信息" :label="info.remark"></van-cell>
+      </div>
+
+      <van-cell v-else title="问题处理">
         <div slot="label" class="fault-detail-label">
           <van-switch-cell
             v-model="form.handleStatus"
@@ -53,7 +62,7 @@
       </van-cell>
     </van-cell-group>
 
-    <base-button @click="submit">提交</base-button>
+    <base-button @click="submit" v-if="active !== 2">提交</base-button>
   </div>
 </template>
 

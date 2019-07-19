@@ -64,13 +64,13 @@ const router = new Router({
     },
     //  值班记录、新增、查看
     {
-      path: "/DutyRecord/:status/:id",
+      path: "/DutyRecord/:id",
       name: "DutyRecord",
       component: () => import("./views/patrol/DutyRecord.vue")
     },
     //  巡逻记录、新增、查看
     {
-      path: "/PatrolRecord/:status",
+      path: "/PatrolRecord/:id",
       name: "PatrolRecord",
       component: () => import("./views/patrol/PatrolRecord.vue")
     },

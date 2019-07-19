@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.prototype.$cookies = Cookies;
+Vue.prototype.$url = "http://fd.sctsjkj.com:5081"; // 服务器地址
 Vue.config.productionTip = false;
 
 // todo 设置状态栏颜色

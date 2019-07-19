@@ -1,7 +1,7 @@
 <template>
   <div class="shot-photo">
     <img
-      v-show="photoList.length < 3 && !disabled"
+      v-if="photoList.length < 3 && !disabled"
       width="100px"
       height="60px"
       @click="$refs.BasePhoto.show = true"
@@ -70,8 +70,7 @@ export default {
   justify-content: start;
   height: 100px;
   & > :first-child {
-    margin: auto 0;
-    margin-right: 8px;
+    margin: auto 8px auto 0;
   }
   & > div {
     margin: 0 6px;
