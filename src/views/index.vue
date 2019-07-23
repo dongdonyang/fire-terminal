@@ -4,7 +4,7 @@
     <van-nav-bar @click-right="$router.push('./warning')">
       <div slot="left">
         <img src="../assets/ssgz_img_01.png" alt="" />
-        <div>{{$store.state.userInfo.name}}</div>
+        <span style="margin-left: 5px">{{ $store.state.userInfo.name }}</span>
       </div>
       <img slot="right" src="../assets/ssgz_btn_alarm.png" alt="" />
     </van-nav-bar>
@@ -17,11 +17,16 @@
       <van-tabbar-item
         v-for="(item, index) in tabBars"
         :key="index"
-        :icon="item.icon"
         replace
         :to="item.router"
-        >{{ item.label }}</van-tabbar-item
       >
+        <span>{{ item.label }}</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? item.active : item.normal"
+        />
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -41,22 +46,26 @@ export default {
       tabBars: [
         {
           label: "设置故障",
-          icon: "home-o",
+          active: require("../assets/ssgz_btn_blue01.png"),
+          normal: require("../assets/ssgz_btn_gray01.png"),
           router: "fault"
         },
         {
           label: "值班巡查",
-          icon: "search",
+          active: require("../assets/ssgz_btn_blue02.png"),
+          normal: require("../assets/ssgz_btn_gray02.png"),
           router: "patrol"
         },
         {
           label: "物联终端",
-          icon: "friends-o",
+          active: require("../assets/ssgz_btn_blue03.png"),
+          normal: require("../assets/ssgz_btn_gray03.png"),
           router: "terminal"
         },
         {
           label: "我的设置",
-          icon: "setting-o",
+          active: require("../assets/ssgz_btn_blue04.png"),
+          normal: require("../assets/ssgz_btn_gray04.png"),
           router: "setting"
         }
       ]
@@ -74,16 +83,19 @@ export default {
 
 <style lang="scss">
 .index {
+  .van-nav-bar{
+    line-height: 32px;
+  }
   & > :first-child {
     color: #fff;
     /*background: linear-gradient(to right, #0385fe, #039dfe);*/
     background-color: #0385fe;
     position: sticky;
     top: 0;
-    img {
-      width: 70%;
+    img{
+      width: 20px;
     }
-    &::after{
+    &::after {
       border-width: 0;
     }
   }

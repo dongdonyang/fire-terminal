@@ -58,7 +58,7 @@ const router = new Router({
     //  todo 值班巡逻
     //  详情页面、新增、编辑、删除
     {
-      path: "/PatrolDetail/:status",
+      path: "/PatrolDetail/:type/:id",
       name: "PatrolDetail",
       component: () => import("./views/patrol/PatrolDetail.vue")
     },

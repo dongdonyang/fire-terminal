@@ -1,8 +1,9 @@
 <template>
   <div class="index-tem">
-    <van-cell :title="title" :value="`${page.total}条`">
+    <van-cell :value="`${page.total}条`">
       <van-dropdown-menu slot="title">
         <van-dropdown-item
+          title="问题来源"
           @change="getList"
           v-model="page.Source"
           :options="actions"
@@ -100,14 +101,20 @@ export default {
     },
     // todo 获取list
     getList(success) {
+      let x = arguments[0] instanceof Object;
+      let p = this.page;
+      if (!x) {
+        p.SkipCount = 0;
+        this.tableList = [];
+      }
       this.$axios
         .get(this.$api.GET_BREAK_DOWNLIST, {
-          params: this.page
+          params: p
         })
         .then(res => {
           this.tableList = this.tableList.concat(res.result.breakDownList);
-          this.page.total = res.result.totalCount;
-          success(this.tableList.length, res.result.totalCount, this.page);
+          p.total = res.result.totalCount;
+          success(this.tableList.length, res.result.totalCount, p);
         });
     },
     //    todo 选项

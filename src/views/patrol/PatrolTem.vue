@@ -3,8 +3,9 @@
     <van-cell>
       <van-dropdown-menu slot="title">
         <van-dropdown-item
+          title="故障来源"
           @change="getList"
-          v-model="page.PatrolStatus"
+          v-model="page[table[active].pageName]"
           :options="actions"
         ></van-dropdown-item>
       </van-dropdown-menu>
@@ -57,6 +58,7 @@ export default {
             value: "dutyStatus"
           },
           listName: "dutyList",
+          pageName: "DutyStatus",
           tableList: []
         },
         //巡查记录
@@ -67,6 +69,7 @@ export default {
             value: "patrolStatus"
           },
           listName: "patrolList",
+          pageName: "PatrolStatus",
           tableList: []
         }
       ],
@@ -91,9 +94,7 @@ export default {
           className: "notHandle"
         }
       ],
-      page: {
-        PatrolStatus: 0
-      }
+      page: {}
     };
   },
   computed: {},
@@ -112,26 +113,30 @@ export default {
     },
     //  todo 获取list、值班记录、巡查记录
     getList(success) {
-      let paras = arguments.length; // 获取参数个数
-      console.log(arguments);
+      let x = arguments[0] instanceof Object;
+      let p = this.page;
       let list = this.table[this.active];
+      if (!x) {
+        p.SkipCount = 0;
+        list.tableList = [];
+      }
       let url = this.active ? "GET_PATROL_LIST" : "GET_DUTY_LIST";
       this.$axios
         .get(this.$api[url], {
-          params: this.page
+          params: p
         })
         .then(res => {
           if (res.success) {
             list.tableList = list.tableList.concat(res.result[list.listName]);
-            paras
-              ? success(list.tableList.length, res.result.totalCount, this.page)
-              : "";
+            x ? success(list.tableList.length, res.result.totalCount, p) : "";
           }
         });
     },
     //    todo 获取详情、编辑、查看
     getDetail(val) {
-      let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/${this.active ? val.patrolId : val.dutyId}`;
+      let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/${
+        this.active ? val.patrolId : val.dutyId
+      }`;
       this.$router.push(u);
     },
     // todo 新增

@@ -26,6 +26,17 @@ if (val) {
   store.commit("setUserInfo", info, tok);
 }
 
+document.addEventListener("plusready", function() {
+  // 注册返回按键事件
+  plus.key.addEventListener(
+    "backbutton",
+    function() {
+      window.history.back();
+    },
+    false
+  );
+});
+
 new Vue({
   router,
   store,

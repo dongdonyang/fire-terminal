@@ -2,7 +2,16 @@
   <div class="register-one flex-between">
     <div>
       <base-nav title="消防管理员注册"></base-nav>
-      <base-form :form="form" :form-list="formList"></base-form>
+      <base-form :form="form" :form-list="formList"> </base-form>
+      <div v-show="isShowName" class="register-one-unit">
+        <van-cell
+          @click="setName(x)"
+          title="111"
+          v-for="(x, y) in nameList"
+          :key="y"
+          :title="x.fireUnitName"
+        ></van-cell>
+      </div>
       <div class="register-one-notice">{{ notice }}</div>
     </div>
 
@@ -21,6 +30,7 @@ export default {
   props: {},
   data() {
     return {
+      isShowName: false,
       nameList: [],
       notice:
         "管理员拥有全部权限，只能通过邀请码进行注册，请妥善保管邀请码，勿对外泄露。",
@@ -50,6 +60,11 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // todo 选择单位名称
+    setName(item) {
+      this.form.fireUnitName = item.fireUnitName;
+      this.isShowName = false;
+    },
     // todo 模糊查询防火单位名称
     getName() {
       this.$axios
@@ -59,6 +74,7 @@ export default {
         .then(res => {
           if (res.success) {
             this.nameList = res.result;
+            this.isShowName = true;
           }
         });
     },
@@ -66,7 +82,11 @@ export default {
     checkCode() {
       this.$axios.post(this.$api.INVITAT_VERIFY, this.form).then(res => {
         if (res.success) {
-          this.$router.push("/RegisterTwo");
+          if (res.result.success) {
+            this.$router.push("/RegisterTwo");
+          } else {
+            this.$toast.fail(res.result.failCause);
+          }
         }
       });
     }
@@ -77,6 +97,11 @@ export default {
 <style lang="scss">
 @import "../../style/app-variables";
 .register-one {
+  &-unit{
+    position: absolute;
+    top: 98px;
+    width: 100vw;
+  }
   &-notice {
     padding: 15px;
     font-size: $notice-size;

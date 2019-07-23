@@ -5,23 +5,36 @@
       <base-form :form="form" :form-list="formList"></base-form>
 
       <van-cell title="设施所属消防系统">
-        <van-checkbox-group v-model="form.result" slot="label">
+        <van-radio-group slot="label" v-model="form.fireSystemId">
           <van-cell-group>
             <van-cell
+              @click="toggle(item)"
               v-for="(item, index) in unitList"
-              clickable
-              :key="item"
+              :key="index"
               :title="item.systemName"
-              @click="toggle(index)"
+              clickable
             >
-              <van-checkbox :name="item" ref="checkboxes" slot="right-icon" />
+              <van-radio slot="right-icon" :name="item.id"></van-radio>
             </van-cell>
           </van-cell-group>
-        </van-checkbox-group>
+        </van-radio-group>
+        <!--        <van-checkbox-group v-model="form.fireSystemId" slot="label">-->
+        <!--          <van-cell-group>-->
+        <!--            <van-cell-->
+        <!--              v-for="(item, index) in unitList"-->
+        <!--              clickable-->
+        <!--              :key="item"-->
+        <!--              :title="item.systemName"-->
+        <!--              @click="toggle(index)"-->
+        <!--            >-->
+        <!--              <van-checkbox :name="item" ref="checkboxes" slot="right-icon" />-->
+        <!--            </van-cell>-->
+        <!--          </van-cell-group>-->
+        <!--        </van-checkbox-group>-->
       </van-cell>
     </div>
 
-    <base-button>提交</base-button>
+    <base-button @click="submit">提交</base-button>
   </div>
 </template>
 
@@ -60,14 +73,27 @@ export default {
   },
   mounted() {},
   methods: {
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
+    toggle(item) {
+      this.$set(this.form, "fireSystemId", item.id);
     },
     //  todo 获取消防系统
     getUnit() {
       this.$axios.get(this.$api.GET_FIRE_SYSTEM).then(res => {
         if (res.success) {
           this.unitList = res.result;
+        }
+      });
+    },
+    //  todo 提交
+    submit() {
+      this.$axios.post(this.$api.ADD_EQUIPMENT_NO, this.form).then(res => {
+        if (res.success) {
+          if (res.result.success) {
+            this.$toast.success("绑定成功！");
+            this.$router.back();
+          } else {
+            this.$toast.fail(res.result.failCause);
+          }
         }
       });
     }
@@ -78,6 +104,7 @@ export default {
 <style lang="scss">
 @import "../../style/app";
 .bing-number {
+  background-color: #fff;
   @include my-flex();
 }
 </style>

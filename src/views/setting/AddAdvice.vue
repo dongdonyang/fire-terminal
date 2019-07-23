@@ -34,12 +34,14 @@ export default {
   methods: {
     //  todo 提交建议
     submit() {
-      this.$axios.post(this.$api.ADD_ADVICE, this.suggest).then(res => {
-        if (res.success) {
-          this.$toast.success("提交建议成功");
-          this.$router.back();
-        }
-      });
+      this.$axios
+        .post(this.$api.ADD_ADVICE, { suggest: this.suggest })
+        .then(res => {
+          if (res.success) {
+            this.$toast.success("提交建议成功");
+            this.$router.back();
+          }
+        });
     }
   }
 };

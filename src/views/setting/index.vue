@@ -74,6 +74,7 @@ export default {
     },
     //  todo 注销
     logOut() {
+      let that = this;
       this.$dialog
         .confirm({
           title: "注销登录",
@@ -88,6 +89,9 @@ export default {
         .catch(() => {
           // on cancel
         });
+      plus.key.addEventListener("backbutton", function() {
+        that.$dialog.close();
+      });
     }
   }
 };

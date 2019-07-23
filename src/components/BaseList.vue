@@ -8,7 +8,7 @@
       <van-list
         v-model="loading"
         :finished="finished"
-        finished-text=""
+        finished-text="没有更多数据啦"
         @load="onLoad"
       >
         <!--          todo 建议将多次出现的设置为默认内容-->

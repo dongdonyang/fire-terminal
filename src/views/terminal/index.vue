@@ -2,6 +2,7 @@
   <div class="terminal-index">
     <van-dropdown-menu>
       <van-dropdown-item
+        title="终端状态"
         @change="getList"
         v-model="page.Option"
         :options="actions"
@@ -14,8 +15,13 @@
       @refresh="getList"
       :table-list="tableList"
       :table-name="tableName"
-    ></base-list>
-
+    >
+      <div slot-scope="scope" slot="cellValue" class="terminal-index-analog">
+        <div>{{ scope.item.stateName }}</div>
+        <span>{{ scope.item.analog }}</span>
+        <span>[标准{{ scope.item.standard }}]</span>
+      </div>
+    </base-list>
   </div>
 </template>
 
@@ -33,11 +39,10 @@ export default {
       tableList: [],
       tableName: {
         title: "name",
-        label: "standard",
+        label: "location",
         value: "stateName"
       },
       page: {
-        FireUnitId: 3,
         Option: 0
       },
       actions: []
@@ -45,20 +50,29 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.page.FireUnitId = this.$store.state.userInfo.fireUnitID;
+  },
   mounted() {
     this.getOptions();
   },
   methods: {
     // todo 获取list数据
     getList(success) {
+      let x = arguments[0] instanceof Object;
+      let p = this.page;
+      if (!x) {
+        p.SkipCount = 0;
+        this.tableList = [];
+      }
       this.$axios
         .get(this.$api.GET_FIRE_UNIT_END_DEVICE_STATE, {
-          params: this.page
+          params: p
         })
         .then(res => {
-          this.tableList = this.tableList.concat(res.result.items);
-          success(this.tableList.length, res.result.totalCount, this.page);
+          let r = res.result;
+          this.tableList = this.tableList.concat(r.items);
+          x ? success(this.tableList.length, r.totalCount, p) : "";
         });
     },
     // todo 获取选项
@@ -91,6 +105,15 @@ export default {
   & > :nth-child(1) {
     &::after {
       border-width: 0;
+    }
+  }
+  &-analog {
+    & > div {
+      color: #10dd01;
+    }
+    & > :nth-child(2) {
+      color: #10dd01;
+      margin: 0 10px;
     }
   }
 }

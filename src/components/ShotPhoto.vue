@@ -8,7 +8,8 @@
       src="../assets/zbxc_btn_paizhao.png"
     />
     <div v-for="(item, index) in photoList" :key="index">
-      <img @click="previewPic(index)" :src="item" />
+      <img v-if="!disabled" @click="previewPic(index)" :src="item" />
+      <img v-else @click="previewPic(index)" :src="`http://fd.sctsjkj.com:5081${item}`" />
       <van-icon
         v-if="!disabled"
         name="cross"
@@ -68,10 +69,10 @@ export default {
 .shot-photo {
   display: flex;
   justify-content: start;
-  height: 100px;
-  & > :first-child {
-    margin: auto 8px auto 0;
-  }
+  /*height: 100px;*/
+  /*& > :first-child {*/
+  /*  margin: auto 8px auto 0;*/
+  /*}*/
   & > div {
     margin: 0 6px;
     width: 100px;

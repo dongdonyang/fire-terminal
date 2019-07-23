@@ -46,14 +46,15 @@ const API = {
 
   //todo 巡查
   GET_PATROL_LIST: "/api/services/app/DutyAndPatrolService/GetPatrollist", //获取巡查记录列表
-  GetPatrolTrackList:
+  GET_PATROL_TRACK_LIST:
     "/api/services/app/DutyAndPatrolService/GetPatrolTrackList", //获取巡查记录轨迹
   GetFireUnitlSystem:
     "/api/services/app/DutyAndPatrolService/GetFireUnitlSystem", //获取防火单位消防系统
   AddPatrolTrack: "/api/services/app/DutyAndPatrolService/AddPatrolTrack", //添加巡查记录
+  GET_PATROL_TYPE: "/api/services/app/DutyAndPatrolService/GetPatrolType", //新增时获取巡查记录类别
 
   //  todo 设置
-  AddEquipmentNo: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
+  ADD_EQUIPMENT_NO: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
   GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
   ADD_ADVICE: "/api/services/app/Version/Add", //添加建议
   Get_Select_Safe_Units: "/api/services/app/SafeUnit/GetSelectSafeUnits", //选择查询维保单位

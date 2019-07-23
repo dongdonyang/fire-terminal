@@ -35,6 +35,7 @@
         @click="getCode"
       />
     </van-field>
+    <slot></slot>
   </van-cell-group>
 </template>
 
@@ -83,9 +84,13 @@ export default {
      * @fileOverview 扫描一维码、二维码信息
      */
     getCode() {
+      let that = this;
       this.barcode = plus.barcode.create("barcode", [plus.barcode.QR], {
         width: "100%",
         height: "100%"
+      });
+      plus.key.addEventListener("backbutton", function() {
+        that.barcode.close();
       });
       this.barcode.onmarked = this.onmarked;
       plus.webview.currentWebview().append(this.barcode);
@@ -124,6 +129,9 @@ export default {
   }
   & > div {
     line-height: 25px;
+  }
+  .van-field__body {
+    width: 100%;
   }
 }
 </style>

@@ -4,7 +4,7 @@
       <base-nav title="修改密码"></base-nav>
       <base-form :form="form" :form-list="formList"></base-form>
     </div>
-    <base-button>提交</base-button>
+    <base-button @click="submit">提交</base-button>
   </div>
 </template>
 
@@ -24,17 +24,20 @@ export default {
         {
           icon: require("../../assets/wjmm_img_02.png"),
           remind: "请输入原密码",
-          value: "oldPassword"
+          value: "oldPassword",
+          type: "password"
         },
         {
           icon: require("../../assets/wjmm_img_03.png"),
           remind: "请设置新密码",
-          value: "newPassword"
+          value: "newPassword",
+          type: "password"
         },
         {
           icon: require("../../assets/wjmm_img_04.png"),
           remind: "请再次输入密码",
-          value: "sureNewPassword"
+          value: "sureNewPassword",
+          type: "password"
         }
       ]
     };
@@ -46,10 +49,20 @@ export default {
   methods: {
     //  todo 修改密码
     submit() {
+      if (this.form.newPassword !== this.form.sureNewPassword) {
+        this.$toast.fail("两次密码不一致！");
+        return;
+      }
+      this.form.account = 123456789;
+      // this.form.account = this.$store.state.userInfo.account;
       this.$axios.post(this.$api.CHANGE_PASSWORD, this.form).then(res => {
         if (res.success) {
-          this.$toast.success("修改密码成功！");
-          this.$router.back();
+          if (res.result.success) {
+            this.$toast.success("修改密码成功！");
+            this.$router.back();
+          } else {
+            this.$toast.fail(res.result.failCause);
+          }
         }
       });
     }
