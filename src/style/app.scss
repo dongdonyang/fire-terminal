@@ -1,9 +1,9 @@
 html, body, #app{
-  height: 100%;
+  min-height: 100vh;
   //background: #eee;
   background: #F8F8F8;
   &>:nth-child(1){
-    height: 100%;
+    min-height: 100vh;
   }
 }
 

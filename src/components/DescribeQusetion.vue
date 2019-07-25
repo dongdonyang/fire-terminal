@@ -29,6 +29,7 @@
         <base-play-sound
           :status="disabled"
           v-model="form.voice"
+          :form="form"
           ref="playSound"
         ></base-play-sound>
       </div>

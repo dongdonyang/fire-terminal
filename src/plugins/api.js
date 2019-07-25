@@ -50,8 +50,10 @@ const API = {
     "/api/services/app/DutyAndPatrolService/GetPatrolTrackList", //获取巡查记录轨迹
   GetFireUnitlSystem:
     "/api/services/app/DutyAndPatrolService/GetFireUnitlSystem", //获取防火单位消防系统
-  AddPatrolTrack: "/api/services/app/DutyAndPatrolService/AddPatrolTrack", //添加巡查记录
+  ADD_PATROL_TRACK: "/api/services/app/DutyAndPatrolService/AddPatrolTrack", //添加巡查记录
   GET_PATROL_TYPE: "/api/services/app/DutyAndPatrolService/GetPatrolType", //新增时获取巡查记录类别
+  ADD_PATROL_TRACK_DETAIL:
+    "/api/services/app/DutyAndPatrolService/AddPatrolTrackDetail", //添加巡查记录轨迹
 
   //  todo 设置
   ADD_EQUIPMENT_NO: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码

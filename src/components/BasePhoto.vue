@@ -54,18 +54,6 @@ export default {
             path,
             function(entry) {
               that.list.push(entry.fullPath);
-              // 读取file内容
-              // entry.file(function(file) {
-              //   let reader = new plus.io.FileReader();
-              //   reader.onloadend = function(e) {
-              //     let f = new File([e.target.result], file.name, {
-              //       type: file.type
-              //     });
-              //     that.list.push(f);
-              //     console.log(e.target.result);
-              //   };
-              //   reader.readAsDataURL(file);
-              // });
             },
             function(e) {
               console.log(e.message);

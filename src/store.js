@@ -5,6 +5,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // todo 巡查结果字段替换
+    getStatus: {
+      0: "未指定",
+      1: "正常",
+      2: "绿色异常",
+      3: "橙色异常"
+    },
+    getAction: {
+      0: "未指定",
+      1: "值班",
+      2: "巡查",
+      3: "物联终端"
+    },
     userInfo: {}, // 用户登录信息、1-管理员、2-值班员、3-巡查员
     token: 0 // 保存的登录token信息
   },

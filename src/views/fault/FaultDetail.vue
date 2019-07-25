@@ -5,34 +5,26 @@
     <van-cell-group>
       <van-cell
         class="flex-title"
-        :title="info.userName"
-        :value="info.source"
-        :label="info.creationTime"
+        :title="form.userName"
+        :value="$store.state.getAction[form.source]"
+        :label="form.creationTime"
       ></van-cell>
 
+      <!--      todo 建议抽离图片展示-->
       <van-cell title="问题描述">
         <div slot="label">
-          <span>{{ info.remakeText }}</span>
-          <div class="fault-detail-remake">
-            <van-image
-              v-for="(item, index) in info.patrolPhotosPath"
-              :key="index"
-              width="100"
-              height="90"
-              fit="cover"
-              :src="`http://fd.sctsjkj.com:5081` + item"
-            ></van-image>
-          </div>
+          <span>{{ form.remakeText }}</span>
+          <shot-photo :photoList="form.photoList" :disabled="1"></shot-photo>
         </div>
       </van-cell>
 
-      <div v-if="active === 2">
-        <van-cell title="解决时间" :value="info.solutionTime"></van-cell>
+      <div v-if="active === '2'">
+        <van-cell title="解决时间" :value="form.solutionTime"></van-cell>
         <van-cell
           title="处理途径"
-          :value="info.solutionWay === 1 ? '自行处理' : '维保叫修'"
+          :value="form.solutionWay === 1 ? '自行处理' : '维保叫修'"
         ></van-cell>
-        <van-cell title="备注信息" :label="info.remark"></van-cell>
+        <van-cell title="备注信息" :label="form.remark"></van-cell>
       </div>
 
       <van-cell v-else title="问题处理">
@@ -44,8 +36,8 @@
           <van-cell title="问题处理途径">
             <div slot="label" class="fault-detail-label-radio">
               <van-radio-group v-model="form.solutionWay">
-                <van-radio name="1">自行处理</van-radio>
-                <van-radio name="2">维保叫修</van-radio>
+                <van-radio :name="1">自行处理</van-radio>
+                <van-radio :name="2">维保叫修</van-radio>
               </van-radio-group>
             </div>
           </van-cell>
@@ -62,7 +54,7 @@
       </van-cell>
     </van-cell-group>
 
-    <base-button @click="submit" v-if="active !== 2">提交</base-button>
+    <base-button @click="submit" v-if="active !== '2'">提交</base-button>
   </div>
 </template>
 
@@ -72,14 +64,16 @@
  *  1,常量从js文件引入，不要定义魔术变量
  *  待处理-新增、处理中-编辑、已处理-查看
  */
+import ShotPhoto from "../../components/ShotPhoto";
 export default {
   name: "FaultDetail",
-  components: {},
+  components: {
+    ShotPhoto
+  },
   props: {},
   data() {
     return {
       title: ["设施故障待处理", "设施故障处理中", "设置故障已解决"],
-      info: {},
       active: 0,
       breakDownId: 0,
       form: {}
@@ -88,16 +82,20 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.active = this.$route.params.status * 1;
-    this.breakDownId = this.$route.params.breakDownId * 1;
-    this.form.breakDownId = this.breakDownId;
+    ({
+      status: this.active,
+      breakDownId: this.breakDownId
+    } = this.$route.params);
     this.getDetail();
   },
   mounted() {},
   methods: {
     // todo 更新设施故障
     submit() {
-      this.$axios.put(this.$api.UPDATE_BREAK_DOWN_INFO, this.form).then(res => {
+      let f = this.form;
+      f.breakDownId = this.breakDownId;
+      f.handleStatus = f.handleStatus ? 3 : 2;
+      this.$axios.put(this.$api.UPDATE_BREAK_DOWN_INFO, f).then(res => {
         if (res.success) {
           if (res.result.success) {
             this.$toast.success("保存成功");
@@ -116,7 +114,12 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.info = res.result;
+            this.form = res.result;
+            //  遍历照片
+            this.form.photoList = [];
+            for (let i of res.result.patrolPhotosPath) {
+              this.form.photoList.push(`${this.$url}${i}`);
+            }
           }
         });
     }

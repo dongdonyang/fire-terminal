@@ -4,14 +4,12 @@
       <base-nav title="新增巡查轨迹"></base-nav>
       <van-cell-group>
         <!--        扫码巡查-->
-        <base-form
-          v-if="type === 2"
-          :form="form"
-          :form-list="formList"
-        ></base-form>
+        <div v-if="type === 2 && !id">
+          <base-form :form="form" :form-list="formList"></base-form>
+        </div>
 
         <!--        一般巡查-->
-        <div v-else>
+        <div v-else-if="type !== 2 && !id">
           <base-form :form="form" :form-list="formList1"></base-form>
           <van-cell title="巡查系统">
             <van-checkbox-group slot="label" v-model="form.systemId">
@@ -34,11 +32,29 @@
           </van-cell>
         </div>
 
+        <!--        查看-->
+        <div v-else>
+          <van-cell title="巡查时间">{{ form.creationTime }}</van-cell>
+          <van-cell title="巡查地点">{{ form.patrolAddress }}</van-cell>
+          <van-cell title="巡查系统">{{ form.fireSystemName }}</van-cell>
+          <van-cell title="巡查结果">{{
+            $store.state.getStatus[form.patrolStatus]
+          }}</van-cell>
+          <!--      todo 情况说明-->
+          <describe-qusetion
+            ref="describeQusetion"
+            :form="form"
+            :disabled="id"
+          ></describe-qusetion>
+        </div>
+
         <van-switch-cell
+          v-if="!id"
           v-model="form.hasMatter"
           title="发现问题"
         ></van-switch-cell>
-        <div v-show="form.hasMatter">
+
+        <div v-show="form.hasMatter && !id">
           <describe-qusetion :form="form"></describe-qusetion>
           <van-switch-cell
             v-model="form.isSolve"
@@ -46,12 +62,18 @@
           ></van-switch-cell>
         </div>
         <van-cell title="现场照片">
-          <shot-photo slot="label" v-model="photoList"></shot-photo>
+          <shot-photo v-if="!id" slot="label" v-model="photoList"></shot-photo>
+          <shot-photo
+            v-else
+            slot="label"
+            :disabled="id"
+            v-model="form.photoList"
+          ></shot-photo>
         </van-cell>
       </van-cell-group>
     </div>
 
-    <div class="patrol-detail-but">
+    <div class="patrol-detail-but" v-if="!id">
       <base-button @click="submit">保存并返回</base-button>
       <base-button @click="submit">保存并继续添加</base-button>
     </div>
@@ -79,6 +101,7 @@ export default {
       id: 0,
       photoList: [],
       form: {
+        systemId: [],
         photoList: [],
         systemList: []
       },
@@ -106,6 +129,9 @@ export default {
     let { id, type } = this.$route.params;
     this.id = +id;
     this.type = +type;
+    if (this.id) {
+      this.getLocalDetail();
+    }
   },
   mounted() {},
   methods: {
@@ -120,15 +146,38 @@ export default {
         }
       });
     },
+    // todo 查看
+    getLocalDetail() {
+      let val = localStorage.getItem("patrolArrayDetail");
+      if (val) {
+        this.form = JSON.parse(val);
+        console.log(this.form);
+        // 声音
+        if (this.form.problemRemakeType === 2 && this.form.remakeText) {
+          this.$nextTick(() => {
+            this.$refs.describeQusetion.createPlayer(
+              `${this.$url}${this.form.remakeText}`
+            );
+          });
+        }
+      }
+    },
     //  todo 本地保存
     submit() {
       let f = this.form;
-      f.problemStatus = f.hasMatter ? (f.isSolve ? 2 : 3) : 1;
+      f.patrolStatus = f.hasMatter ? (f.isSolve ? 2 : 3) : 1;
       f.problemStatusName = f.hasMatter
         ? f.isSolve
           ? "绿色故障"
           : "橙色故障"
         : "正常";
+      //系统
+      let arr = [];
+      for (let x of this.form.systemId) {
+        arr.push(x.id);
+      }
+      this.form.SystemIdList = arr.join(",");
+      console.log(this.form.SystemIdList);
       // 照片
       if (this.photoList.length) {
         for (let i in this.photoList) {
@@ -147,7 +196,7 @@ export default {
         f.problemRemarkType = 1;
       }
       //当前时间
-      f.localTime = new Date().toLocaleString();
+      f.creationTime = new Date().toLocaleString();
       console.log(this.form);
 
       let val = localStorage.getItem("patrolArray");
@@ -156,9 +205,10 @@ export default {
       } else {
         val = JSON.parse(val);
       }
-      val.push(f);
+      val.unshift(f);
       console.log(val);
       localStorage.setItem("patrolArray", JSON.stringify(val));
+      this.$toast.success("本地保存成功,请尽快提交");
       this.$router.back();
     }
   }
@@ -175,7 +225,13 @@ export default {
     display: flex;
     justify-content: space-between;
     & > div {
-      width: 45%;
+      width: 50%;
+    }
+    & > :nth-child(1) {
+      button {
+        background-color: #00b7e4;
+        border-color: #00b7e4;
+      }
     }
   }
 }

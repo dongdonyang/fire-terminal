@@ -38,6 +38,7 @@ export default {
 
 <style lang="scss">
 .base-nav {
+  z-index: 999 !important;
   background-color: #0385fe;
   /*background: linear-gradient(to right, #0385fe, #039dfe);*/
   position: sticky;

@@ -23,7 +23,8 @@ export default {
   },
   props: {
     voice: String,
-    status: Number
+    status: Number,
+    form: Object
   },
   data() {
     return {
@@ -41,6 +42,7 @@ export default {
       // todo 创建对象存在延迟、容易获取不到时长、单位为秒（s），返回值可能是小数，若长度未知则返回-1。 如果还未获取到音频流信息则返回NaN，此时需要延迟获取。
       setTimeout(() => {
         this.playTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
+        this.form.playVoiceTime = this.playTime;
       }, 500);
     },
     /**

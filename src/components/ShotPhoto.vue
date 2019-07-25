@@ -1,18 +1,23 @@
 <template>
   <div class="shot-photo">
     <img
-      v-if="photoList.length < 3 && !disabled"
+      v-if="!disabled && photoList.length < 3"
       width="100px"
       height="60px"
       @click="$refs.BasePhoto.show = true"
       src="../assets/zbxc_btn_paizhao.png"
     />
     <div v-for="(item, index) in photoList" :key="index">
-      <img v-if="!disabled" @click="previewPic(index)" :src="item" />
-      <img v-else @click="previewPic(index)" :src="`http://fd.sctsjkj.com:5081${item}`" />
+      <van-image
+        width="100px"
+        height="90px"
+        @click="previewPic(index)"
+        :src="item"
+        fit="cover"
+      ></van-image>
       <van-icon
-        v-if="!disabled"
-        name="cross"
+        v-if="disabled"
+        name="clear"
         @click="photoList.splice(index, 1)"
       ></van-icon>
     </div>
@@ -67,26 +72,22 @@ export default {
 
 <style lang="scss">
 .shot-photo {
+  margin: 5px 0;
   display: flex;
   justify-content: start;
   /*height: 100px;*/
   /*& > :first-child {*/
   /*  margin: auto 8px auto 0;*/
   /*}*/
+
   & > div {
-    margin: 0 6px;
-    width: 100px;
-    height: 90px;
-    img {
-      object-fit: cover;
-      width: 100px;
-      height: 90px;
-    }
-    i {
+    /*删除*/
+    & > :nth-child(2) {
       font-size: 20px;
-      left: 80px;
-      top: -94px;
+      left: -12px;
+      top: -78px;
       position: relative;
+      color: #f56c6c;
     }
   }
 }

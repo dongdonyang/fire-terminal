@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="fault-index">
     <van-tabs
       color="#0385fe"
-      class="fault-index"
+      class="fault-index-tabs"
       v-model="active"
       swipeable
     >
@@ -40,17 +40,11 @@ export default {
 </script>
 
 <style lang="scss">
-
 .fault-index {
-  .van-tabs__wrap {
-    z-index: 0;
+  &-tabs {
+    .van-tabs__wrap {
+      z-index: 0;
+    }
   }
-  /*.van-tabs__nav--card {*/
-  /*  margin: 10px;*/
-  /*  border-radius: 0;*/
-  /*}*/
-  /*.van-tabs__content {*/
-  /*  margin-top: 4px;*/
-  /*}*/
 }
 </style>

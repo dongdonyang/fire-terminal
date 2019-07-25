@@ -19,10 +19,11 @@
       :table-list="tableList"
     >
       <span slot="cellTitle" slot-scope="scope">
-        {{ scope.item.userName }} {{ scope.item.phone }}
+        {{ scope.item.userName }} ({{ scope.item.phone }})
       </span>
       <span slot="cellValue" slot-scope="scope">{{
-        getSource(scope.item.source)
+        // getSource(scope.item.source)
+        $store.state.getAction[scope.item.source]
       }}</span>
     </base-list>
 
@@ -67,15 +68,15 @@ export default {
           value: 0
         },
         {
-          text: "值班 ",
+          text: "值班",
           value: 1
         },
         {
-          text: "巡查 ",
+          text: "巡查",
           value: 2
         },
         {
-          text: "物联终端 ",
+          text: "物联终端",
           value: 3
         }
       ],
@@ -150,6 +151,9 @@ export default {
       & > span::after {
         top: 8px;
       }
+    }
+    .van-dropdown-item--down{
+      top: 135px !important;
     }
   }
 }
