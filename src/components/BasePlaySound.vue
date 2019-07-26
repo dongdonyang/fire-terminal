@@ -1,11 +1,13 @@
 <template>
-  <div class="base-play-sound">
+  <div class="base-play-sound" v-if="voiceTime">
+    <!--    播放button-->
     <van-button type="primary" size="small" @click="playVoice">
       <img class="base-play-sound-img" alt="" src="../assets/zbxc_img_04.png" />
-      <span>{{ playTime }}"</span>
+      <span>{{ voiceTime }}"</span>
     </van-button>
 
-    <van-icon v-if="!status" name="clear" @click="deleteVoice"></van-icon>
+    <!--    删除按钮-->
+    <van-icon v-if="!isEdit" name="clear" @click="deleteVoice"></van-icon>
   </div>
 </template>
 
@@ -17,32 +19,35 @@
 export default {
   name: "BasePlaySound",
   components: {},
-  model: {
-    prop: "voice",
-    event: "change"
-  },
   props: {
-    voice: String,
-    status: Number,
-    form: Object
+    isEdit: Number, // 播放的状态
+    voice: String, // 声音
+    voiceTime: {
+      type: Number,
+      default: 0
+    } // 时间
   },
   data() {
     return {
-      player: Object,
-      playTime: Number
+      player: Object
     };
   },
   computed: {},
-  watch: {},
+  watch: {
+    voice: function(val) {
+      console.log("语音地址", val);
+      val && this.createVoice();
+    }
+  },
   created() {},
   mounted() {},
   methods: {
-    createVoice(voice) {
-      this.player = plus.audio.createPlayer(voice); // 创建播放对象
+    createVoice() {
+      this.player = plus.audio.createPlayer(this.voice); // 创建播放对象
       // todo 创建对象存在延迟、容易获取不到时长、单位为秒（s），返回值可能是小数，若长度未知则返回-1。 如果还未获取到音频流信息则返回NaN，此时需要延迟获取。
       setTimeout(() => {
-        this.playTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
-        this.form.playVoiceTime = this.playTime;
+        this.voiceTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
+        console.log("语音时长", this.voiceTime);
       }, 500);
     },
     /**
@@ -65,7 +70,8 @@ export default {
      */
     deleteVoice() {
       this.player.close();
-      this.$emit("change", "");
+      this.voiceTime = 0;
+      this.voice = "";
     }
   }
 };

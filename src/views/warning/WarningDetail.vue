@@ -51,6 +51,7 @@
             </van-checkbox-group>
           </van-cell>
         </van-cell>
+
         <van-cell
           v-else
           title="核警情况"
@@ -59,9 +60,10 @@
 
         <!--      todo 情况说明-->
         <describe-qusetion
-          ref="describeQusetion"
-          :form="form"
-          :disabled="status"
+                v-model="question"
+          :voice="form.vioceUrl"
+          :content="form.content"
+          :isEdit="status"
         ></describe-qusetion>
 
         <!--      todo 现场照片-->
@@ -98,6 +100,7 @@ export default {
   props: {},
   data() {
     return {
+      question: {},
       photoList: [],
       noticeList: [
         {
@@ -114,6 +117,7 @@ export default {
         }
       ],
       form: {
+        // 为了同步更新才定义的
         location: "",
         checkTime: "",
         alarm: "",
@@ -127,8 +131,9 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.status = +this.$route.params.status;
-    this.checkId = this.$route.params.checkId;
+    let p = this.$route.params;
+    this.status = +p.status;
+    this.checkId = p.checkId;
     this.getInfo();
   },
   mounted() {},
@@ -152,20 +157,10 @@ export default {
             this.form.alarm = alarm;
           } else {
             this.form = r;
-          }
-          // 声音
-          if (r.vioceUrl) {
-            this.$refs.describeQusetion.createPlayer(
-              `http://fd.sctsjkj.com:5081${r.vioceUrl}`
-            );
-          }
-          // 照片转数组
-          if (this.status) {
+            // 照片转数组
             for (let x = 0; x < 4; x++) {
               let p = r[`pictureUrl_${x}`];
-              if (p) {
-                this.photoList.push(`http://fd.sctsjkj.com:5081${p}`);
-              }
+              !p || this.photoList.push(`${this.$url}${p}`); // 取代if判断
             }
           }
         });
@@ -177,7 +172,7 @@ export default {
       console.log("照片地址：", this.photoList);
       let that = this;
       let task = plus.uploader.createUpload(
-        `http://fd.sctsjkj.com:5081${this.$api.CHECK_ALARM}`,
+        `${this.$url}${this.$api.CHECK_ALARM}`,
         {
           method: "POST"
         },
@@ -196,8 +191,8 @@ export default {
       task.addData("UserId", this.$store.state.userInfo.userId);
       task.addData("CheckId", this.checkId); // todo 只能使用字符串！！！！！
       task.addData("CheckState", this.form.checkStateValue);
-      task.addData("Content", this.form.content);
-      task.addFile(this.form.voice, { key: "Voice" });
+      task.addData("Content", this.question.content);
+      task.addFile(this.question.voice, { key: "Voice" });
       if (this.photoList.length) {
         for (let i in this.photoList) {
           task.addFile(this.photoList[i], { key: `Picture${Number(i) + 1}` });

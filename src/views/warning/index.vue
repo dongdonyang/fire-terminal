@@ -43,12 +43,7 @@ export default {
         value: "checkStateName",
         label: "alarm"
       }, // 展示的字段
-      page: {
-        MaxResultCount: 10, // 查询当前页面的数量
-        total: 0,
-        SkipCount: 0, // 跳过的查询的数量
-        current: 1 // 当前页面
-      }
+      page: {}
     };
   },
   computed: {},

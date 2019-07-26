@@ -14,7 +14,7 @@
       <van-cell title="问题描述">
         <div slot="label">
           <span>{{ form.remakeText }}</span>
-          <shot-photo :photoList="form.photoList" :disabled="1"></shot-photo>
+          <shot-photo v-model="form.photoList" :disabled="1"></shot-photo>
         </div>
       </van-cell>
 

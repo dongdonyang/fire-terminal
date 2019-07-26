@@ -1,25 +1,27 @@
 <template>
-  <div class="shot-photo">
-    <img
-      v-if="!disabled && photoList.length < 3"
-      width="100px"
-      height="60px"
-      @click="$refs.BasePhoto.show = true"
-      src="../assets/zbxc_btn_paizhao.png"
-    />
-    <div v-for="(item, index) in photoList" :key="index">
-      <van-image
-        width="100px"
-        height="90px"
-        @click="previewPic(index)"
-        :src="item"
-        fit="cover"
-      ></van-image>
-      <van-icon
-        v-if="disabled"
-        name="clear"
-        @click="photoList.splice(index, 1)"
-      ></van-icon>
+  <div>
+    <div class="shot-photo">
+      <div class="shot-photo-img" v-if="!disabled && photoList.length < 3">
+        <img
+          @click="$refs.BasePhoto.show = true"
+          src="../assets/zbxc_btn_paizhao.png"
+        />
+      </div>
+
+      <div v-for="(item, index) in photoList" :key="index">
+        <van-image
+          width="100px"
+          height="90px"
+          @click="previewPic(index)"
+          :src="item"
+          fit="cover"
+        ></van-image>
+        <van-icon
+          v-if="!disabled"
+          name="clear"
+          @click="photoList.splice(index, 1)"
+        ></van-icon>
+      </div>
     </div>
     <!--    todo 图片上传方式-->
     <base-photo ref="BasePhoto" v-model="photoList"></base-photo>
@@ -72,20 +74,25 @@ export default {
 
 <style lang="scss">
 .shot-photo {
-  margin: 5px 0;
-  display: flex;
-  justify-content: start;
-  /*height: 100px;*/
-  /*& > :first-child {*/
-  /*  margin: auto 8px auto 0;*/
-  /*}*/
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  &-img {
+    height: 100px;
+    img {
+      width: 100px;
+      height: 60px;
+      margin: auto;
+    }
+  }
 
   & > div {
+    display: flex;
+    justify-content: center;
     /*删除*/
     & > :nth-child(2) {
-      font-size: 20px;
-      left: -12px;
-      top: -78px;
+      left: -10px;
+      top: -8px;
+      font-size: 18px;
       position: relative;
       color: #f56c6c;
     }

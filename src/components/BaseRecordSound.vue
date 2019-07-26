@@ -24,7 +24,7 @@ export default {
     event: "change"
   },
   props: {
-    voice: File
+    voice: String
   },
   data() {
     return {
@@ -73,7 +73,6 @@ export default {
           alert("Audio record success!" + recordFile);
           Toast.clear();
           // todo 向外抛出一个创建语音对象的触发
-          that.$emit("createVoice", recordFile); // 触发新建播放对象
           that.$emit("change", recordFile);
         },
         function(e) {

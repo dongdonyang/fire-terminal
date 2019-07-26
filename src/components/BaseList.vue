@@ -18,7 +18,7 @@
               @click="cellClick(item, $event)"
               v-for="(item, index) in tableList"
               :key="index"
-              :title="item[tableName.title] ? item[tableName.title] : '******'"
+              :title="item[tableName.title] || '暂无信息'"
               :value="item[tableName.value]"
               :label="item[tableName.label]"
             >

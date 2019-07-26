@@ -38,7 +38,11 @@
       </div>
 
       <div v-show="form.hasMatter">
-        <describe-qusetion :form="form"></describe-qusetion>
+        <describe-qusetion
+                v-model="question"
+          :voice.sync="form.voice"
+          content.sync="form.content"
+        ></describe-qusetion>
 
         <van-switch-cell
           v-model="form.isSolve"
@@ -74,6 +78,7 @@ export default {
   props: {},
   data() {
     return {
+      question:{},
       getStatus: {
         0: "指定 ",
         1: "正常 ",
@@ -130,8 +135,8 @@ export default {
     },
     //  todo 新增值班记录
     submit() {
-      console.log(this.form);
-      console.log("语音地址：", this.form.voice);
+      console.log(this.question);
+      console.log("语音地址：", this.form);
       console.log("照片地址：", this.photoList1);
       console.log("照片地址：", this.photoList2);
       let that = this;
@@ -152,7 +157,7 @@ export default {
           }
         }
       );
-      task.addFile(this.form.voice, { key: "RemarkVioce" });
+      task.addFile(this.question.voice, { key: "RemarkVioce" });
       task.addData("FireUnitUserId", this.$store.state.userInfo.userId);
       task.addData("FireUnitId", this.$store.state.userInfo.fireUnitID);
       task.addData("CheckId", this.checkId);
@@ -160,7 +165,7 @@ export default {
         "CheckState",
         this.form.hasMatter ? (this.form.isSolve ? 2 : 3) : 1
       );
-      task.addData("DutyRemark", this.form.content);
+      task.addData("DutyRemark", this.question.content);
       // 值班记录图片
       if (this.photoList1.length) {
         for (let i in this.photoList1) {

@@ -2,7 +2,7 @@
   <van-cell class="describe-qusetion">
     <van-row slot="title" type="flex" justify="space-between">
       <van-col>问题描述</van-col>
-      <van-col v-if="!disabled">
+      <van-col v-if="!isEdit">
         <img
           width="24px"
           height="24px"
@@ -14,23 +14,22 @@
         />
       </van-col>
     </van-row>
-    <div slot="label" v-if="!disabled">
+
+    <div slot="label" v-if="!isEdit">
       <van-field
-        v-show="!form.voice"
+        v-if="!question.voice"
         type="textarea"
         rows="6"
         :maxlength="200"
-        v-model="form.content"
+        v-model="question.content"
         placeholder="情况简要描述、200字以内"
       >
       </van-field>
-      <div v-show="form.voice" style="height: 164px">
+      <div v-show="question.voice" style="height: 164px">
         <!--        todo 播放声音-->
         <base-play-sound
-          :status="disabled"
-          v-model="form.voice"
-          :form="form"
-          ref="playSound"
+          :isEdit="isEdit"
+          :voice.sync="question.voice"
         ></base-play-sound>
       </div>
 
@@ -41,18 +40,16 @@
         justify="center"
       >
         <!--        todo 收集声音-->
-        <base-record-sound
-          v-model="form.voice"
-          @createVoice="voice => $refs.playSound.createVoice(voice)"
-        ></base-record-sound>
+        <base-record-sound v-model="question.voice"></base-record-sound>
       </van-row>
     </div>
+
     <div slot="label" v-else>
-      <div>{{ form.content }}</div>
+      <div>{{ content }}</div>
       <base-play-sound
-        v-show="disabled"
-        ref="playSound2"
-        :status="disabled"
+        :isEdit="isEdit"
+        :voice="voice"
+        :voiceTime="voiceTime"
       ></base-play-sound>
     </div>
   </van-cell>
@@ -66,29 +63,30 @@
 export default {
   name: "DescribeQusetion",
   components: {},
+  model: {
+    prop: "question",
+    event: "change"
+  },
   props: {
-    form: {},
-    disabled: {
+    question: Object, //用来向父组件穿着
+    voice: String, // 声音
+    content: String, //文本
+    voiceTime: Number, //声音时长
+    isEdit: {
       type: Number,
       default: 0
-    }
+    } //是否可以编辑
   },
   data() {
     return {
-      isSpeak: false,
-      hasVoice: false
+      isSpeak: false //显示录音文本框
     };
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {
-    //  查看的时候创建语音对象
-    createPlayer(val) {
-      this.$refs.playSound2.createVoice(val);
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">
