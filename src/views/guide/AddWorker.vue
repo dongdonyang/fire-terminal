@@ -24,18 +24,14 @@
                 @click="editUser(item)"
                 alt=""
               />
-              <img src="../../assets/guide_btn_del.png" alt="" />
+              <img
+                src="../../assets/guide_btn_del.png"
+                @click="deleteUser(item)"
+                alt=""
+              />
             </div>
           </van-cell>
         </van-cell-group>
-        <!--        <div slot="cellValue" slot-scope="slotProp">-->
-        <!--          <img-->
-        <!--            v-for="i in slotProp.item.rolelist"-->
-        <!--            :key="i"-->
-        <!--            :src="iconList[i]"-->
-        <!--            style="width: 20%;margin: 0 5px"-->
-        <!--          />-->
-        <!--        </div>-->
       </base-list>
 
       <!--        todo 添加人员-->
@@ -69,8 +65,8 @@
               <li v-for="(item, index) in setInfo" :key="index">{{ item }}</li>
             </ul>
             <van-checkbox-group v-model="form.rolelist">
-              <van-checkbox name="FireUnitDuty ">值班员</van-checkbox>
-              <van-checkbox name="FireUnitPatrol ">巡查员</van-checkbox>
+              <van-checkbox :name="2">值班员</van-checkbox>
+              <van-checkbox :name="3">巡查员</van-checkbox>
             </van-checkbox-group>
           </div>
         </div>
@@ -87,6 +83,10 @@
  */
 import BaseGuide from "./BaseGuide";
 import { beforeDel } from "../../plugins/public";
+import Vue from "vue";
+import { Toast } from "vant";
+
+Vue.use(Toast);
 
 export default {
   name: "AddWorker",
@@ -121,7 +121,8 @@ export default {
       userList: [],
       show: false,
       form: {
-        fireUnitInfoID: this.$store.state.userInfo.fireUnitID
+        fireUnitInfoID: this.$store.state.userInfo.fireUnitID,
+        rolelist: [2, 3]
       },
       setInfo: [
         "使用手机号登录系统，初始密码是666666",
@@ -139,8 +140,8 @@ export default {
     // todo 打开新增人员弹窗
     openPopup() {
       let that = this;
-      this.form = {};
-      this.form.fireUnitInfoID = this.$store.state.userInfo.fireUnitID;
+      this.form.name = "";
+      this.form.account = "";
       this.popupTitle = "新增工作人员";
       this.show = true;
       plus.key.addEventListener("backbutton", function() {
@@ -151,11 +152,12 @@ export default {
     editUser(val) {
       console.log(val);
       this.popupTitle = "编辑工作人员";
-      this.form = val;
+      this.form = Object.assign({}, val);
       this.show = true;
     },
     // todo 查询人员列表
     getList(success) {
+      let x = arguments[0] instanceof Object;
       this.$axios
         .get(this.$api.GET_FIRE_UNIT_PEOPLE, {
           params: { AccountID: this.$store.state.userInfo.userId }
@@ -163,22 +165,49 @@ export default {
         .then(res => {
           if (res.success) {
             this.userList = res.result;
-            success(this.userList.length, this.userList.length);
+            x ? success(this.userList.length, this.userList.length) : "";
           }
         });
     },
     // todo 删除人员
     deleteUser(val) {
       beforeDel(val.name)
-        .then(() => {})
+        .then(() => {
+          this.$axios
+            .delete(this.$api.DELETE_USER, {
+              params: { UserId: val.id }
+            })
+            .then(res => {
+              if (res.success) {
+                Toast.success("删除成功");
+                this.getList();
+              }
+            });
+        })
         .catch(() => {});
     },
-    //  todo 新增、编辑人员
+    //  todo 新增、编辑人员、电话号的校验
     setUser() {
-      this.$axios.post(this.$api.ADD_USER, this.form).then(res => {
+      let f = this.form;
+      if (!f.name || !f.account) {
+        Toast("请输入姓名和手机号");
+        return;
+      }
+      if (f.rolelist && !f.rolelist.length) {
+        Toast("请选择一个角色");
+        return;
+      }
+      if (!/^1[34578]\d{9}$/.test(f.account)) {
+        Toast("请输入正确的手机号");
+        return;
+      }
+      let p = f.id
+        ? this.$axios.put(this.$api.UPDATE_USER_INFO, f)
+        : this.$axios.post(this.$api.ADD_USER, f);
+      p.then(res => {
         if (res.success) {
           this.getList();
-          this.$toast.success(`新增人员成功！`);
+          this.$toast.success(`${f.id ? "编辑" : "新增"}人员成功！`);
           this.show = false;
         }
       });

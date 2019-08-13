@@ -13,6 +13,7 @@
  *  作者：0          时间：2019/7/8 17:44
  *  1,常量从js文件引入，不要定义魔术变量
  */
+import myIcon from "../assets/zbxc_img_05.png"
 import { Toast } from "vant";
 import Vue from "vue";
 Vue.use(Toast);
@@ -59,7 +60,7 @@ export default {
       console.log("录音中。。。。。");
       Toast({
         duration: 0,
-        message: "录音中。。。。。"
+        icon: myIcon
       });
       let r = plus.audio.getRecorder(); // 获取当前设备的录音对象
       this.record = r;

@@ -13,7 +13,7 @@
       <!--      todo 建议抽离图片展示-->
       <van-cell title="问题描述">
         <div slot="label">
-          <span>{{ form.remakeText }}</span>
+          <div class="fault-detail-text">{{ form.remakeText }}</div>
           <shot-photo v-model="form.photoList" :disabled="1"></shot-photo>
         </div>
       </van-cell>
@@ -90,7 +90,7 @@ export default {
   },
   mounted() {},
   methods: {
-    // todo 更新设施故障
+    // todo 更新设施故障、表单验证
     submit() {
       let f = this.form;
       f.breakDownId = this.breakDownId;
@@ -134,6 +134,10 @@ export default {
   flex-direction: column;
   & > :nth-child(2) {
     flex: 2 0 auto;
+  }
+  /*问题描述文字*/
+  &-text {
+    margin: 0 0 5px 4px;
   }
   &-remake {
     margin-top: 8px;

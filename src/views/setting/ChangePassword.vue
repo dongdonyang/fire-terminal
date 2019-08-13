@@ -49,13 +49,17 @@ export default {
   methods: {
     //  todo 修改密码
     submit() {
-      if (this.form.newPassword !== this.form.sureNewPassword) {
+      let f = this.form;
+      if (!f.oldPassword && !f.newPassword) {
+        this.$toast.fail("密码不能为空！");
+        return;
+      }
+      if (f.newPassword !== f.sureNewPassword) {
         this.$toast.fail("两次密码不一致！");
         return;
       }
-      this.form.account = 123456789;
-      // this.form.account = this.$store.state.userInfo.account;
-      this.$axios.post(this.$api.CHANGE_PASSWORD, this.form).then(res => {
+      f.account = this.$store.state.userInfo.account;
+      this.$axios.post(this.$api.CHANGE_PASSWORD, f).then(res => {
         if (res.success) {
           if (res.result.success) {
             this.$toast.success("修改密码成功！");

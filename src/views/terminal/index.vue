@@ -100,6 +100,9 @@ export default {
       & > span::after {
         top: 8px;
       }
+      .van-dropdown-item--down {
+        top: 135px !important;
+      }
     }
   }
   & > :nth-child(1) {

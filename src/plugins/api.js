@@ -9,11 +9,12 @@ const API = {
   // todo 引导页
   GET_FIRE_UNIT_PEOPLE: "/api/services/app/AppGuideSet/GetFireUnitPeople", //获取防火单位工作人员
   GetUserInfo: "/api/services/app/AppGuideSet/GetUserInfo", //获取工作人员详情
-  UpdateUserInfo: "/api/services/app/AppGuideSet/UpdateUserInfo", //编辑工作人员信息
+  UPDATE_USER_INFO: "/api/services/app/AppGuideSet/UpdateUserInfo", //编辑工作人员信息
   ADD_USER: "/api/services/app/AppGuideSet/AddUser", //新增工作人员
+  DELETE_USER: "api/services/app/AppGuideSet/DeleteUser", // 删除工作人员
 
   // todo 维保单位和消防巡查
-  UpdateGuideSet: "/api/services/app/AppGuideSet/UpdateGuideSet", //更新防火单位引导设置
+  UPDATE_GUIDESET: "/api/services/app/AppGuideSet/UpdateGuideSet", //更新防火单位引导设置
   GetFireUnitInfo: "/api/services/app/FireUnit/GetFireUnitInfo", //防火单位详情
 
   //todo 设施故障
@@ -60,6 +61,7 @@ const API = {
   GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
   ADD_ADVICE: "/api/services/app/Version/Add", //添加建议
   Get_Select_Safe_Units: "/api/services/app/SafeUnit/GetSelectSafeUnits", //选择查询维保单位
-  CHANGE_PASSWORD: "/api/services/app/FireDeptUser/ChangePassword" //修改密码
+  CHANGE_PASSWORD: "/api/services/app/FireUnitUser/ChangePassword", //修改密码
+  USER_LOGOUT: "/api/services/app/FireUnitUser/UserLogout" //注销用户
 };
 export default API;

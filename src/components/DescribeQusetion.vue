@@ -15,6 +15,7 @@
       </van-col>
     </van-row>
 
+    <!--    编辑-->
     <div slot="label" v-if="!isEdit">
       <van-field
         v-if="!question.voice"
@@ -30,6 +31,7 @@
         <base-play-sound
           :isEdit="isEdit"
           :voice.sync="question.voice"
+          :voiceTime.sync="voiceTime"
         ></base-play-sound>
       </div>
 
@@ -44,13 +46,10 @@
       </van-row>
     </div>
 
+    <!--    查看-->
     <div slot="label" v-else>
       <div>{{ content }}</div>
-      <base-play-sound
-        :isEdit="isEdit"
-        :voice="voice"
-        :voiceTime="voiceTime"
-      ></base-play-sound>
+      <base-play-sound :isEdit="isEdit" :voice="voice"></base-play-sound>
     </div>
   </van-cell>
 </template>
@@ -69,7 +68,10 @@ export default {
   },
   props: {
     question: Object, //用来向父组件穿着
-    voice: String, // 声音
+    voice: {
+      type: String,
+      default: ""
+    }, // 声音
     content: String, //文本
     voiceTime: Number, //声音时长
     isEdit: {

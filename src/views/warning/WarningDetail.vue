@@ -60,7 +60,7 @@
 
         <!--      todo 情况说明-->
         <describe-qusetion
-                v-model="question"
+          v-model="question"
           :voice="form.vioceUrl"
           :content="form.content"
           :isEdit="status"
@@ -162,13 +162,17 @@ export default {
               let p = r[`pictureUrl_${x}`];
               !p || this.photoList.push(`${this.$url}${p}`); // 取代if判断
             }
+            //  语音
+            if (this.form.vioceUrl) {
+              this.form.vioceUrl = `${this.$url}${this.form.vioceUrl}`;
+            }
           }
         });
     },
     // todo 提交
     submit() {
       console.log(this.form);
-      console.log("语音地址：", this.form.voice);
+      console.log("语音地址：", this.question.voice);
       console.log("照片地址：", this.photoList);
       let that = this;
       let task = plus.uploader.createUpload(
@@ -190,7 +194,7 @@ export default {
       );
       task.addData("UserId", this.$store.state.userInfo.userId);
       task.addData("CheckId", this.checkId); // todo 只能使用字符串！！！！！
-      task.addData("CheckState", this.form.checkStateValue);
+      task.addData("CheckState", this.form.checkStateValue + "");
       task.addData("Content", this.question.content);
       task.addFile(this.question.voice, { key: "Voice" });
       if (this.photoList.length) {

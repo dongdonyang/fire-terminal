@@ -42,25 +42,32 @@
           }}</van-cell>
           <!--      todo 情况说明-->
           <describe-qusetion
-            ref="describeQusetion"
-            :form="form"
-            :disabled="id"
+            :isEdit="id"
+            :voice="form.remarkVioce"
+            :content="form.content"
           ></describe-qusetion>
         </div>
 
+        <!--        添加、语音、文字-->
         <van-switch-cell
           v-if="!id"
           v-model="form.hasMatter"
           title="发现问题"
         ></van-switch-cell>
-
         <div v-show="form.hasMatter && !id">
-          <describe-qusetion :form="form"></describe-qusetion>
+          <describe-qusetion
+            v-model="question"
+            :voice.sync="form.voice"
+            :content.sync="form.content"
+            :voiceTime="form.voiceTime"
+          ></describe-qusetion>
+
           <van-switch-cell
             v-model="form.isSolve"
             title="是否已解决"
           ></van-switch-cell>
         </div>
+
         <van-cell title="现场照片">
           <shot-photo v-if="!id" slot="label" v-model="photoList"></shot-photo>
           <shot-photo
@@ -100,6 +107,7 @@ export default {
       type: 0,
       id: 0,
       photoList: [],
+      question: {},
       form: {
         systemId: [],
         photoList: [],
@@ -152,14 +160,6 @@ export default {
       if (val) {
         this.form = JSON.parse(val);
         console.log(this.form);
-        // 声音
-        if (this.form.problemRemakeType === 2 && this.form.remakeText) {
-          this.$nextTick(() => {
-            this.$refs.describeQusetion.createPlayer(
-              `${this.$url}${this.form.remakeText}`
-            );
-          });
-        }
       }
     },
     //  todo 本地保存
@@ -186,13 +186,13 @@ export default {
         }
       }
       //语音
-      if (f.voice) {
+      if (this.question.voice) {
         f.problemRemark = "";
-        f.remarkVioce = f.voice;
+        f.remarkVioce = this.question.voice;
         f.problemRemarkType = 2;
       } else {
         f.remarkVioce = "";
-        f.problemRemark = f.content;
+        f.problemRemark = this.question.voice;
         f.problemRemarkType = 1;
       }
       //当前时间

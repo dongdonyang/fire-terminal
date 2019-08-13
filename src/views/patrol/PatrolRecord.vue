@@ -2,21 +2,14 @@
   <div class="patrol-record">
     <base-nav title="巡查记录"></base-nav>
     <van-cell-group>
-      <van-cell :title="type[patrolType]">
-        <!--        todo 可以优化合并-->
+      <van-cell>
+        <div slot="title">巡查方式：{{ type[patrolType] }}</div>
         <van-button
-          v-if="!patrolType"
+          v-if="patrolType"
           size="mini"
           type="primary"
           @click="$router.push(`/PatrolDetail/${patrolType}/0`)"
           >+新增巡查轨迹</van-button
-        >
-        <van-button-
-          v-else
-          size="mini"
-          type="primary"
-          @click="$router.push('/FirePatrol')"
-          >设置</van-button-
         >
       </van-cell>
 
@@ -128,7 +121,7 @@ export default {
         3: "橙色故障"
       },
       list: [],
-      patrolType: 0,
+      patrolType: "",
       type: {
         0: "未设置巡查方式",
         1: "普通巡查",

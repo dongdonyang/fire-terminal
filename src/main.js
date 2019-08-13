@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/vant";
+import "./plugins/element";
 import "./plugins/BaseComponents"; // 基础公共组件
 import api from "./plugins/api.js";
 import axios from "./plugins/axios.js";

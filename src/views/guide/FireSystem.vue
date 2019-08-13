@@ -23,7 +23,7 @@
       <base-button @click="$router.back()" class="safe-unit-but"
         >上一步</base-button
       >
-      <base-button @click="hasFinash">完成</base-button>
+      <base-button @click="hasFinish">完成</base-button>
     </div>
   </base-guide>
 </template>
@@ -65,11 +65,17 @@ export default {
       this.$refs.checkboxes[index].toggle();
     },
     //  todo 完成
-    hasFinash() {
-      let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
-      console.log(this.$store.state.userInfo);
-      let router = role ? "/fault" : "/patrol"; // 路由
-      this.$router.push(router);
+    hasFinish() {
+      let f = JSON.parse(localStorage.getItem("guideForm"));
+      f.fireUnitId = this.$store.state.userInfo.fireUnitID;
+      this.$axios.put(this.$api.UPDATE_GUIDESET, f).then(res => {
+        if (res.success) {
+          let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
+          console.log(this.$store.state.userInfo);
+          let router = role ? "/fault" : "/patrol"; // 路由
+          this.$router.push(router);
+        }
+      });
     }
   }
 };

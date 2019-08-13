@@ -80,6 +80,7 @@ export default {
     border-bottom: 0.0625rem solid #ebedf0;
   }
   &-main {
+    background-color: #fff;
     margin-top: 4px;
     flex: 2 0 auto;
     display: flex;

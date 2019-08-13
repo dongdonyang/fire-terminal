@@ -81,14 +81,15 @@ export default {
           message: "您是否要注销登录？"
         })
         .then(() => {
-          localStorage.removeItem("isLogin");
-          localStorage.removeItem("setUserInfo");
-          this.$router.push("login");
-          // on confirm
+          this.$axios.post(this.$api.USER_LOGOUT).then(res => {
+            if (res.success) {
+              localStorage.removeItem("isLogin");
+              localStorage.removeItem("setUserInfo");
+              this.$router.push("login");
+            }
+          });
         })
-        .catch(() => {
-          // on cancel
-        });
+        .catch(() => {});
       plus.key.addEventListener("backbutton", function() {
         that.$dialog.close();
       });

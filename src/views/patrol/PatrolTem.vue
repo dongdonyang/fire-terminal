@@ -150,6 +150,7 @@ export default {
 
 <style lang="scss">
 .patrol-tem {
+  /*下拉框*/
   .van-dropdown-menu {
     height: 22px;
     &:after {
@@ -160,6 +161,9 @@ export default {
       & > span::after {
         top: 8px;
       }
+    }
+    .van-dropdown-item--down {
+      top: 135px !important;
     }
   }
   & > :nth-child(1) {

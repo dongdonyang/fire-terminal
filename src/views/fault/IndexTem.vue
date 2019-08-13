@@ -115,7 +115,7 @@ export default {
         .then(res => {
           this.tableList = this.tableList.concat(res.result.breakDownList);
           p.total = res.result.totalCount;
-          success(this.tableList.length, res.result.totalCount, p);
+          x ? success(this.tableList.length, res.result.totalCount, p) : "";
         });
     },
     //    todo 选项
@@ -141,6 +141,7 @@ export default {
       border-width: 0;
     }
   }
+  /*下拉框*/
   .van-dropdown-menu {
     height: 22px;
     &:after {
@@ -152,7 +153,7 @@ export default {
         top: 8px;
       }
     }
-    .van-dropdown-item--down{
+    .van-dropdown-item--down {
       top: 135px !important;
     }
   }

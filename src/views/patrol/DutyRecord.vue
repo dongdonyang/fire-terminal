@@ -1,6 +1,7 @@
 <template>
   <div class="duty-record">
     <base-nav title="值班记录"></base-nav>
+
     <van-cell-group>
       <van-cell title="值班人员" :value="form.dutyUser"></van-cell>
       <van-cell>
@@ -22,12 +23,13 @@
         v-model="form.hasMatter"
         title="发现问题"
       ></van-switch-cell>
+      <!--      查看-->
       <div v-else>
         <van-cell
           title="问题类型"
           :value="getStatus[form.dutyStatus]"
         ></van-cell>
-        <describe-qusetion :disabled="id" :form="form"></describe-qusetion>
+        <describe-qusetion :isEdit="id" :voice="form.voice"></describe-qusetion>
         <van-cell title="附件现场问题图片">
           <shot-photo
             slot="label"
@@ -37,9 +39,10 @@
         </van-cell>
       </div>
 
+      <!--      添加、语音、备注-->
       <div v-show="form.hasMatter">
         <describe-qusetion
-                v-model="question"
+          v-model="question"
           :voice.sync="form.voice"
           content.sync="form.content"
         ></describe-qusetion>
@@ -78,9 +81,9 @@ export default {
   props: {},
   data() {
     return {
-      question:{},
+      question: {},
       getStatus: {
-        0: "指定 ",
+        0: "未指定 ",
         1: "正常 ",
         2: "绿色故障",
         3: "橙色故障"
@@ -130,6 +133,12 @@ export default {
                 );
               }
             }
+            //  文字还是语音
+            if (this.form.problemRemarkType === 2) {
+              this.form.voice = `${this.$url}${this.form.problemRemark}`;
+            } else {
+              this.form.content = this.form.problemRemark;
+            }
           }
         });
     },
@@ -158,14 +167,16 @@ export default {
         }
       );
       task.addFile(this.question.voice, { key: "RemarkVioce" });
-      task.addData("FireUnitUserId", this.$store.state.userInfo.userId);
-      task.addData("FireUnitId", this.$store.state.userInfo.fireUnitID);
-      task.addData("CheckId", this.checkId);
+      task.addData("FireUnitUserId", String(this.$store.state.userInfo.userId));
+      task.addData("FireUnitId", String(this.$store.state.userInfo.fireUnitID));
+      task.addData("CheckId", String(this.checkId));
       task.addData(
-        "CheckState",
-        this.form.hasMatter ? (this.form.isSolve ? 2 : 3) : 1
+        "DutyStatus",
+        this.form.hasMatter ? (this.form.isSolve ? "2" : "3") : "1"
       );
       task.addData("DutyRemark", this.question.content);
+      // 类型 语音、文字
+      task.addData("ProblemRemarkType", this.question.voice ? "2" : "1");
       // 值班记录图片
       if (this.photoList1.length) {
         for (let i in this.photoList1) {
