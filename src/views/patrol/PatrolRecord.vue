@@ -50,7 +50,7 @@
                   个系统
                 </div>
                 <!--                语音/备注-->
-                <div>{{ item.problemRemark }}</div>
+                <div>{{ item.remakeText }}</div>
                 <van-button
                   v-if="item.playVoiceTime"
                   type="primary"
@@ -65,13 +65,14 @@
                 </van-button>
                 <!--                照片-->
                 <div>
-                  <img
+                  <van-image
                     v-for="(y, i) in item.photoList"
                     :key="i"
+                    fit="cover"
                     width="75px"
-                    height="65px"
+                    height="60px"
                     :src="y"
-                  />
+                  ></van-image>
                 </div>
               </div>
             </van-panel>
@@ -176,7 +177,7 @@ export default {
       let val = localStorage.getItem("patrolArray");
       if (val) {
         this.list = JSON.parse(val);
-        console.log(this.list);
+        console.log("本地数据", this.list);
       }
     },
     // 删除某一项
@@ -232,12 +233,12 @@ export default {
               }
             }
           );
-          task.addData("PatrolId", that.patrolId + ""); // todo 必须是字符串！！！！！！！
+          task.addData("PatrolId", String(that.patrolId)); // todo 必须是字符串！！！！！！！
           task.addData("PatrolAddress", i.patrolAddress);
           task.addData("SystemIdList", i.SystemIdList);
-          task.addData("ProblemStatus", i.patrolStatus);
-          task.addData("ProblemRemarkType", i.problemRemarkType);
-          task.addData("ProblemRemark", i.problemRemark);
+          task.addData("ProblemStatus", String(i.patrolStatus));
+          task.addData("ProblemRemarkType", String(i.problemRemarkType));
+          task.addData("ProblemRemark", i.remakeText);
           //照片
           for (let y in i.photoList) {
             task.addFile(i.photoList[y], {
@@ -307,7 +308,7 @@ export default {
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-      img {
+      .van-image {
         margin: 5px 8px 0 8px;
       }
     }

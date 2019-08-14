@@ -2,6 +2,7 @@
   <div class="flex-between">
     <div>
       <base-nav title="消防管理员注册"></base-nav>
+      <van-cell title="单位名称">{{ form.fireUnitName }}</van-cell>
       <base-form :form="form" :form-list="formList"></base-form>
     </div>
 
@@ -22,11 +23,11 @@ export default {
     return {
       form: {},
       formList: [
-        {
-          icon: require("../../assets/load_img_06.png"),
-          remind: "请输入单位名称",
-          value: "fireUnitName"
-        },
+        // {
+        //   icon: require("../../assets/load_img_06.png"),
+        //   remind: "请输入单位名称",
+        //   value: "fireUnitName"
+        // },
         {
           icon: require("../../assets/load_img_08.png"),
           remind: "请输入真实姓名",
@@ -40,6 +41,7 @@ export default {
         {
           icon: require("../../assets/wjmm_img_03.png"),
           remind: "请输入登录密码",
+          type: "password",
           value: "password"
         }
       ]
@@ -47,17 +49,22 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.form.fireUnitName = localStorage.getItem("unitName");
+    this.form.invitatCode = localStorage.getItem("invitatCode");
+  },
   mounted() {},
   methods: {
     //  todo 注册
     logon() {
-      this.$axios.post(this.$api.USER_REGIST, this.form).then(res => {
-        if (res.success) {
-          this.$toast.success("注册成功");
-          this.$router.push("/login");
-        }
-      });
+      this.$axios
+        .post(this.$api.USER_REGISTUSER_REGIST, this.form)
+        .then(res => {
+          if (res.success) {
+            this.$toast.success("注册成功");
+            this.$router.push("/login");
+          }
+        });
     }
   }
 };

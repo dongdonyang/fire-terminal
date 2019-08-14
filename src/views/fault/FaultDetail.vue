@@ -30,7 +30,7 @@
       <van-cell v-else title="问题处理">
         <div slot="label" class="fault-detail-label">
           <van-switch-cell
-            v-model="form.handleStatus"
+            v-model="handleStatus"
             title="是否已解决"
           ></van-switch-cell>
           <van-cell title="问题处理途径">
@@ -73,6 +73,7 @@ export default {
   props: {},
   data() {
     return {
+      handleStatus: false,
       title: ["设施故障待处理", "设施故障处理中", "设置故障已解决"],
       active: 0,
       breakDownId: 0,
@@ -94,7 +95,7 @@ export default {
     submit() {
       let f = this.form;
       f.breakDownId = this.breakDownId;
-      f.handleStatus = f.handleStatus ? 3 : 2;
+      f.handleStatus = this.handleStatus ? 3 : 2;
       this.$axios.put(this.$api.UPDATE_BREAK_DOWN_INFO, f).then(res => {
         if (res.success) {
           if (res.result.success) {

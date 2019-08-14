@@ -31,7 +31,7 @@
         <base-play-sound
           :isEdit="isEdit"
           :voice.sync="question.voice"
-          :voiceTime.sync="voiceTime"
+          v-model="question"
         ></base-play-sound>
       </div>
 
@@ -49,7 +49,7 @@
     <!--    查看-->
     <div slot="label" v-else>
       <div>{{ content }}</div>
-      <base-play-sound :isEdit="isEdit" :voice="voice"></base-play-sound>
+      <base-play-sound :isEdit="isEdit" :voice.sync="voice"></base-play-sound>
     </div>
   </van-cell>
 </template>
@@ -67,7 +67,7 @@ export default {
     event: "change"
   },
   props: {
-    question: Object, //用来向父组件穿着
+    question: Object, //用来向父组件传值
     voice: {
       type: String,
       default: ""
@@ -86,8 +86,10 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
-  mounted() {},
+  created() {
+  },
+  mounted() {
+  },
   methods: {}
 };
 </script>

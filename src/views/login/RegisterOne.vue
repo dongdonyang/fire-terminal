@@ -83,6 +83,8 @@ export default {
       this.$axios.post(this.$api.INVITAT_VERIFY, this.form).then(res => {
         if (res.success) {
           if (res.result.success) {
+            localStorage.setItem("unitName", this.form.fireUnitName);
+            localStorage.setItem("invitatCode", this.form.invitatCode);
             this.$router.push("/RegisterTwo");
           } else {
             this.$toast.fail(res.result.failCause);
@@ -97,7 +99,7 @@ export default {
 <style lang="scss">
 @import "../../style/app-variables";
 .register-one {
-  &-unit{
+  &-unit {
     position: absolute;
     top: 98px;
     width: 100vw;

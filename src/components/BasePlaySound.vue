@@ -19,7 +19,12 @@
 export default {
   name: "BasePlaySound",
   components: {},
+  model: {
+    prop: "question",
+    event: "change"
+  },
   props: {
+    question: Object, //用来向父组件传值、主要用来传递语音时间
     isEdit: Number, // 播放的状态
     voice: String, // 声音
     voiceTime: {
@@ -47,6 +52,7 @@ export default {
       // todo 创建对象存在延迟、容易获取不到时长、单位为秒（s），返回值可能是小数，若长度未知则返回-1。 如果还未获取到音频流信息则返回NaN，此时需要延迟获取。
       setTimeout(() => {
         this.voiceTime = this.player.getDuration(); // 获取音频的总长度 单位秒s
+        this.question.voiceTime = this.voiceTime;
         console.log("语音时长", this.voiceTime);
       }, 500);
     },

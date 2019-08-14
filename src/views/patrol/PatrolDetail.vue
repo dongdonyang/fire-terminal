@@ -44,7 +44,7 @@
           <describe-qusetion
             :isEdit="id"
             :voice="form.remarkVioce"
-            :content="form.content"
+            :content="form.problemRemark"
           ></describe-qusetion>
         </div>
 
@@ -55,12 +55,7 @@
           title="发现问题"
         ></van-switch-cell>
         <div v-show="form.hasMatter && !id">
-          <describe-qusetion
-            v-model="question"
-            :voice.sync="form.voice"
-            :content.sync="form.content"
-            :voiceTime="form.voiceTime"
-          ></describe-qusetion>
+          <describe-qusetion v-model="question"></describe-qusetion>
 
           <van-switch-cell
             v-model="form.isSolve"
@@ -159,7 +154,7 @@ export default {
       let val = localStorage.getItem("patrolArrayDetail");
       if (val) {
         this.form = JSON.parse(val);
-        console.log(this.form);
+        console.log("查看详情", this.form);
       }
     },
     //  todo 本地保存
@@ -187,12 +182,13 @@ export default {
       }
       //语音
       if (this.question.voice) {
-        f.problemRemark = "";
+        f.remakeText = "";
         f.remarkVioce = this.question.voice;
+        f.playVoiceTime = this.question.voiceTime;
         f.problemRemarkType = 2;
       } else {
         f.remarkVioce = "";
-        f.problemRemark = this.question.voice;
+        f.remakeText = this.question.content;
         f.problemRemarkType = 1;
       }
       //当前时间
