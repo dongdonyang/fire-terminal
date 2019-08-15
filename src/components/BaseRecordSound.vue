@@ -71,7 +71,6 @@ export default {
       r.record(
         { filename: "_doc/audio/" },
         function(recordFile) {
-          alert("Audio record success!" + recordFile);
           Toast.clear();
           // todo 向外抛出一个创建语音对象的触发
           that.$emit("change", recordFile);

@@ -55,10 +55,11 @@ const API = {
   GET_PATROL_TYPE: "/api/services/app/DutyAndPatrolService/GetPatrolType", //新增时获取巡查记录类别
   ADD_PATROL_TRACK_DETAIL:
     "/api/services/app/DutyAndPatrolService/AddPatrolTrackDetail", //添加巡查记录轨迹
+  GET_ADD_ALLOW: "/api/services/app/DutyAndPatrolService/GetAddAllow", //新增时查询今日是否已添加
 
   //  todo 设置
   ADD_EQUIPMENT_NO: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
-  GetEquipmentNoInfo: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
+  GET_EQUIPMENTNO_INFO: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
   ADD_ADVICE: "/api/services/app/Version/Add", //添加建议
   Get_Select_Safe_Units: "/api/services/app/SafeUnit/GetSelectSafeUnits", //选择查询维保单位
   CHANGE_PASSWORD: "/api/services/app/FireUnitUser/ChangePassword", //修改密码

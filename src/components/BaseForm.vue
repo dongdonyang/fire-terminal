@@ -97,6 +97,7 @@ export default {
       this.barcode.start();
     },
     onmarked(type, result) {
+      let that = this;
       console.log(type, result);
       let text = "未知: ";
       switch (type) {
@@ -111,6 +112,7 @@ export default {
           break;
       }
       alert(text + result);
+      that.$emit("codeInfo", result);
       this.barcode.close();
     }
   }

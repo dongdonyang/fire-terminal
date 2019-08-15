@@ -60,14 +60,15 @@ export default {
      * @fileOverview 播放语音、显示语音秒数、和实时进度
      */
     playVoice() {
+      let that = this;
       console.log("语音地址：" + this.voice);
       let p = this.player;
       p.play(
         function() {
-          alert("Audio play success!");
+          that.$toast("播放完毕");
         },
         function(e) {
-          alert("Audio play error: " + e.message);
+          that.$toast(e.message);
         }
       );
     },

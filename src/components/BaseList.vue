@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="base-list">
     <van-pull-refresh
       :disabled="isRefresh"
       v-model="isLoading"
@@ -116,4 +116,11 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.base-list {
+  /*设置最小宽度*/
+  .van-cell__value {
+    min-width: 70px;
+  }
+}
+</style>

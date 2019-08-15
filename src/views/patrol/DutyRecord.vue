@@ -25,11 +25,16 @@
       ></van-switch-cell>
       <!--      查看-->
       <div v-else>
-        <van-cell
-          title="问题类型"
-          :value="getStatus[form.dutyStatus]"
-        ></van-cell>
-        <describe-qusetion :isEdit="id" :voice="form.voice"></describe-qusetion>
+        <van-cell title="问题类型">
+          <div :style="{ color: $store.state.getStatusColor[form.dutyStatus] }">
+            {{ $store.state.getStatus[form.dutyStatus] }}
+          </div>
+        </van-cell>
+        <describe-qusetion
+          :isEdit="id"
+          :voice="form.voice"
+          :content.sync="form.content"
+        ></describe-qusetion>
         <van-cell title="附件现场问题图片">
           <shot-photo
             slot="label"
@@ -44,7 +49,7 @@
         <describe-qusetion
           v-model="question"
           :voice.sync="form.voice"
-          content.sync="form.content"
+          :content.sync="form.content"
         ></describe-qusetion>
 
         <van-switch-cell
@@ -82,12 +87,6 @@ export default {
   data() {
     return {
       question: {},
-      getStatus: {
-        0: "未指定 ",
-        1: "正常 ",
-        2: "绿色故障",
-        3: "橙色故障"
-      },
       photoList1: [],
       photoList2: [],
       form: {},
@@ -137,8 +136,9 @@ export default {
             if (this.form.problemRemarkType === 2) {
               this.form.voice = `${this.$url}${this.form.problemRemark}`;
             } else {
-              this.form.content = this.form.problemRemark;
+              this.form.content = res.result.dutyRemark;
             }
+            console.log(this.form);
           }
         });
     },
@@ -175,6 +175,7 @@ export default {
         this.form.hasMatter ? (this.form.isSolve ? "2" : "3") : "1"
       );
       task.addData("DutyRemark", this.question.content);
+      task.addData("ProblemRemark", this.question.content);
       // 类型 语音、文字
       task.addData("ProblemRemarkType", this.question.voice ? "2" : "1");
       // 值班记录图片

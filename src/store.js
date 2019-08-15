@@ -12,6 +12,13 @@ export default new Vuex.Store({
       2: "绿色异常",
       3: "橙色异常"
     },
+    // 巡查结果字段颜色
+    getStatusColor: {
+      0: "",
+      1: "#67c23a",
+      2: "#67c23a",
+      3: "#e6a23c"
+    },
     getAction: {
       0: "未指定",
       1: "值班",

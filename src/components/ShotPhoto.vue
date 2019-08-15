@@ -94,7 +94,7 @@ export default {
       top: -8px;
       font-size: 18px;
       position: relative;
-      color: #f56c6c;
+      color: #909399;
     }
   }
 }

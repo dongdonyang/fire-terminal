@@ -48,7 +48,14 @@
 
     <!--    查看-->
     <div slot="label" v-else>
-      <div>{{ content }}</div>
+      <div
+        v-if="!voice"
+        style="word-wrap: break-word;
+              word-break: normal;
+              width: 95vw"
+      >
+        {{ content }}
+      </div>
       <base-play-sound :isEdit="isEdit" :voice.sync="voice"></base-play-sound>
     </div>
   </van-cell>
@@ -86,10 +93,8 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {
-  },
-  mounted() {
-  },
+  created() {},
+  mounted() {},
   methods: {}
 };
 </script>

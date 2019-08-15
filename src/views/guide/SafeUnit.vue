@@ -66,8 +66,7 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {
-  },
+  created() {},
   mounted() {},
   methods: {
     // todo 维保单位模糊查询
@@ -93,7 +92,11 @@ export default {
     //  todo 下一步
     nextStep() {
       let f = {};
-      this.checked ? (f.safeUnitId = this.safeUnitId) : "";
+      if (this.checked && !this.safeUnitId) {
+        this.$toast("请选择维保单位");
+        return;
+      }
+      this.safeUnitId ? (f.safeUnitId = this.safeUnitId) : "";
       localStorage.setItem("guideForm", JSON.stringify(f));
       this.$router.push("./FirePatrol");
     }

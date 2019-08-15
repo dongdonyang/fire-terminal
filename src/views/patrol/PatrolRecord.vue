@@ -5,7 +5,7 @@
       <van-cell>
         <div slot="title">巡查方式：{{ type[patrolType] }}</div>
         <van-button
-          v-if="patrolType"
+          v-if="patrolType && !id"
           size="mini"
           type="primary"
           @click="$router.push(`/PatrolDetail/${patrolType}/0`)"
@@ -39,7 +39,7 @@
             >
               <div class="patrol-record-steps-info">
                 <!--                选择的系统-->
-                <div v-if="!id">
+                <div v-if="!id && item.systemId.length">
                   {{ item.systemId[0].systemName }}等共{{
                     item.systemId.length
                   }}
@@ -50,9 +50,9 @@
                   个系统
                 </div>
                 <!--                语音/备注-->
-                <div>{{ item.remakeText }}</div>
                 <van-button
-                  v-if="item.playVoiceTime"
+                  class="patrol-record-steps-info-but"
+                  v-if="item.problemRemakeType === 2"
                   type="primary"
                   size="small"
                 >
@@ -61,8 +61,9 @@
                     alt=""
                     src="../../assets/zbxc_img_04.png"
                   />
-                  <span>{{ item.playVoiceTime }}"</span>
+                  <span>语音</span>
                 </van-button>
+                <div v-else>{{ item.remakeText }}</div>
                 <!--                照片-->
                 <div>
                   <van-image
@@ -237,7 +238,7 @@ export default {
           task.addData("PatrolAddress", i.patrolAddress);
           task.addData("SystemIdList", i.SystemIdList);
           task.addData("ProblemStatus", String(i.patrolStatus));
-          task.addData("ProblemRemarkType", String(i.problemRemarkType));
+          task.addData("ProblemRemarkType", String(i.problemRemakeType));
           task.addData("ProblemRemark", i.remakeText);
           //照片
           for (let y in i.photoList) {
@@ -308,8 +309,15 @@ export default {
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+      /*照片*/
       .van-image {
         margin: 5px 8px 0 8px;
+      }
+      /*语音按钮*/
+      &-but {
+        .van-button__text {
+          display: flex;
+        }
       }
     }
   }

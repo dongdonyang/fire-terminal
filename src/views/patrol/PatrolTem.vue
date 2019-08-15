@@ -142,7 +142,17 @@ export default {
     // todo 新增
     addList() {
       let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/0`;
-      this.$router.push(u);
+      if (this.active) {
+        this.$axios.get(this.$api.GET_ADD_ALLOW).then(res => {
+          if (!res.result.success) {
+            this.$router.push(u);
+          } else {
+            this.$toast(res.result.failCause);
+          }
+        });
+      } else {
+        this.$router.push(u);
+      }
     }
   }
 };
