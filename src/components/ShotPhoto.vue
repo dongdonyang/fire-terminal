@@ -2,10 +2,7 @@
   <div>
     <div class="shot-photo">
       <div class="shot-photo-img" v-if="!disabled && photoList.length < 3">
-        <img
-          @click="$refs.BasePhoto.show = true"
-          src="../assets/zbxc_btn_paizhao.png"
-        />
+        <img @click="openPhoto" src="../assets/zbxc_btn_paizhao.png" />
       </div>
 
       <div v-for="(item, index) in photoList" :key="index">
@@ -60,12 +57,23 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // todo 打开图片选取
+    openPhoto() {
+      let that = this;
+      this.setBackButton(function() {
+        that.$refs.BasePhoto.show = false;
+      });
+      this.$refs.BasePhoto.show = true;
+    },
     //    todo 图片预览
     previewPic(index) {
-      ImagePreview({
+      let instance = ImagePreview({
         images: this.photoList,
         startPosition: index,
         closeOnPopstate: true
+      });
+      this.setBackButton(function() {
+        instance.close();
       });
     }
   }

@@ -89,7 +89,7 @@ export default {
         width: "100%",
         height: "100%"
       });
-      plus.key.addEventListener("backbutton", function() {
+      this.setBackButton(function() {
         that.barcode.close();
       });
       this.barcode.onmarked = this.onmarked;

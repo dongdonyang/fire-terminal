@@ -144,16 +144,20 @@ export default {
       this.form.account = "";
       this.popupTitle = "新增工作人员";
       this.show = true;
-      plus.key.addEventListener("backbutton", function() {
+      this.setBackButton(function() {
         that.show = false;
       });
     },
     // todo 编辑人员
     editUser(val) {
       console.log(val);
+      let that = this;
       this.popupTitle = "编辑工作人员";
       this.form = Object.assign({}, val);
       this.show = true;
+      this.setBackButton(function() {
+        that.show = false;
+      });
     },
     // todo 查询人员列表
     getList(success) {

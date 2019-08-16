@@ -14,6 +14,18 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$cookies = Cookies;
 Vue.prototype.$url = "http://fd.sctsjkj.com:5081"; // 服务器地址
 Vue.config.productionTip = false;
+// 修改物理返回键
+Vue.prototype.setBackButton = function(fun) {
+  plus.key.removeEventListener("backbutton", function() {});
+  plus.key.addEventListener("backbutton", function() {
+    fun();
+    plus.key.removeEventListener("backbutton", function() {});
+    plus.key.addEventListener("backbutton", function() {
+      window.history.back();
+      // plus.key.removeEventListener("backbutton", function() {});
+    });
+  });
+};
 
 // todo 设置状态栏颜色
 
@@ -29,13 +41,12 @@ if (val) {
 
 document.addEventListener("plusready", function() {
   // 注册返回按键事件
-  plus.key.addEventListener(
-    "backbutton",
-    function() {
-      window.history.back();
-    },
-    false
-  );
+  plus.key.addEventListener("backbutton", function() {
+    window.history.back();
+    // let t = setTimeout(()=>{
+    //
+    // },200)
+  });
 });
 
 new Vue({

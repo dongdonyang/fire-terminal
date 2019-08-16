@@ -5,6 +5,7 @@ export function beforeDel(val) {
   let dia = Dialog.confirm({
     message
   });
+  // Dialog.close
   dia.catch(() => {
     // on cancel
   });

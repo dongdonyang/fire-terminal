@@ -15,7 +15,8 @@ const router = new Router({
           path: "fault",
           name: "fault",
           meta: {
-            active: 0
+            active: 0,
+            keepAlive: true //该字段表示该页面需要缓存
           },
           component: () => import("./views/fault/index.vue")
         },
@@ -24,7 +25,8 @@ const router = new Router({
           path: "patrol",
           name: "patrol",
           meta: {
-            active: 1
+            active: 1,
+            keepAlive: true //该字段表示该页面需要缓存
           },
           component: () => import("./views/patrol/index.vue")
         },
@@ -163,6 +165,9 @@ const router = new Router({
     {
       path: "/warning",
       name: "warning",
+      meta: {
+        keepAlive: true //该字段表示该页面需要缓存
+      },
       component: () => import("./views/warning/index.vue")
     },
     /**

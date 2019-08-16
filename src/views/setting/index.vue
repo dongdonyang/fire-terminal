@@ -90,7 +90,7 @@ export default {
           });
         })
         .catch(() => {});
-      plus.key.addEventListener("backbutton", function() {
+      this.setBackButton(function() {
         that.$dialog.close();
       });
     }
