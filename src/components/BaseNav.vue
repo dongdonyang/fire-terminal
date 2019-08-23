@@ -3,8 +3,12 @@
     class="base-nav"
     :title="title"
     :left-arrow="showLeft"
+    :right-text="rightText"
     @click-left="$router.back()"
-  ></van-nav-bar>
+    @click-right="$emit('onClickRight')"
+  >
+    <slot name="rightText" slot="right"></slot>
+  </van-nav-bar>
 </template>
 
 <script>
@@ -19,6 +23,10 @@ export default {
     title: {
       type: String,
       default: "标题"
+    },
+    rightText: {
+      type: String,
+      default: ""
     },
     showLeft: {
       type: Boolean,
@@ -49,6 +57,10 @@ export default {
   }
   &::after {
     border-width: 0;
+  }
+  /*  右侧文字*/
+  .van-nav-bar__text {
+    color: #fff;
   }
 }
 </style>

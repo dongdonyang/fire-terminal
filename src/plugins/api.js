@@ -58,6 +58,8 @@ const API = {
   GET_ADD_ALLOW: "/api/services/app/DutyAndPatrolService/GetAddAllow", //新增时查询今日是否已添加
 
   //  todo 设置
+  UPDATE_EQUIPMENTNO_INFO: "/api/services/app/AppGuideSet/UpdateEquipmentNoInfo", //修改设施编码信息
+  GET_EQUIPMENTNO_LIST: "/api/services/app/AppGuideSet/GetEquipmentNoList", //获取绑定设施编码列表
   ADD_EQUIPMENT_NO: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
   GET_EQUIPMENTNO_INFO: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息
   ADD_ADVICE: "/api/services/app/Version/Add", //添加建议

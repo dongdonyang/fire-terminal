@@ -1,7 +1,7 @@
 <template>
   <van-cell class="describe-qusetion">
     <van-row slot="title" type="flex" justify="space-between">
-      <van-col>问题描述</van-col>
+      <van-col>情况描述</van-col>
       <van-col v-if="!isEdit">
         <img
           width="24px"
@@ -23,7 +23,7 @@
         rows="6"
         :maxlength="200"
         v-model="question.content"
-        placeholder="情况简要描述、200字以内"
+        :placeholder="!isSpeak ? '情况简要描述、200字以内' : ''"
       >
       </van-field>
       <div v-show="question.voice" style="height: 164px">

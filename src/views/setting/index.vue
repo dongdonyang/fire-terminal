@@ -41,8 +41,8 @@ export default {
         },
         {
           icon: require("../../assets/site_img_02.png"),
-          label: "绑定设置编号",
-          router: "/BingNumber"
+          label: "绑定设置编码",
+          router: "/CodeList"
         },
         {
           icon: require("../../assets/site_img_03.png"),

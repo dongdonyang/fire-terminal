@@ -1,6 +1,6 @@
 <template>
   <base-guide :active="3">
-    <van-cell title="选择拥有的消防系统">
+    <van-cell title="选择拥有的消防系统(多选)">
       <van-checkbox-group slot="label" v-model="result">
         <van-cell-group>
           <van-cell
@@ -50,6 +50,11 @@ export default {
   watch: {},
   created() {
     this.getList();
+    let val = localStorage.getItem("guideForm");
+    if (val) {
+      this.result = JSON.parse(val).fireSystenArray;
+      console.log(this.result);
+    }
   },
   mounted() {},
   methods: {
@@ -67,9 +72,11 @@ export default {
     //  todo 完成
     hasFinish() {
       let f = JSON.parse(localStorage.getItem("guideForm"));
+      f.fireSystenArray = this.result;
       f.fireUnitId = this.$store.state.userInfo.fireUnitID;
       this.$axios.put(this.$api.UPDATE_GUIDESET, f).then(res => {
         if (res.success) {
+          localStorage.setItem("guideForm", JSON.stringify(f));
           let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
           console.log(this.$store.state.userInfo);
           let router = role ? "/fault" : "/patrol"; // 路由

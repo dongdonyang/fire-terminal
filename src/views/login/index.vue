@@ -6,7 +6,7 @@
     <!--    todo 登录main-->
     <div class="login-main">
       <div>
-        <img width="90%" src="../../assets/load_img_01.png" alt="" />
+        <img width="60%" src="../../assets/load_img_01.png" alt="" />
         <p>{{ title }}</p>
       </div>
 

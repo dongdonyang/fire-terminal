@@ -22,9 +22,11 @@
         {{ scope.item.userName }} ({{ scope.item.phone }})
       </span>
       <span slot="cellValue" slot-scope="scope">{{
-        // getSource(scope.item.source)
         $store.state.getAction[scope.item.source]
       }}</span>
+      <span slot="cellLabel" slot-scope="scope"
+        >{{timeType[active].label}}{{ scope.item[timeType[active].value] }}</span
+      >
     </base-list>
 
     <!--      todo 选项-->
@@ -53,6 +55,20 @@ export default {
   },
   data() {
     return {
+      timeType: [
+        {
+          label: "发现时间：",
+          value: "creationTime"
+        },
+        {
+          label: "发现时间：",
+          value: "creationTime"
+        },
+        {
+          label: "解决时间：",
+          value: "solutionTime"
+        }
+      ],
       tableList: [],
       tableName: {
         title: "userName",

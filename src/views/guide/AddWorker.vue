@@ -224,18 +224,17 @@ export default {
 @import "../../style/app-variables";
 .add-worker {
   &-cell {
-    line-height: 24px;
     .van-cell__value {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      & > :first-child {
-        width: 20px;
+      display: grid;
+      grid-template-columns: 20% 20% 1fr 25%;
+      & > div {
         display: flex;
+        align-items: center;
+      }
+      & > :first-child {
+        justify-content: end;
       }
       & > :last-child {
-        display: flex;
-        justify-content: end;
         img {
           height: 30px;
           width: 30px;

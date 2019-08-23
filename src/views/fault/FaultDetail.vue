@@ -95,7 +95,7 @@ export default {
     submit() {
       let f = this.form;
       f.breakDownId = this.breakDownId;
-      f.handleStatus = this.handleStatus ? 3 : 2;
+      f.handleStatus = this.handleStatus ? "3" : "2";
       this.$axios.put(this.$api.UPDATE_BREAK_DOWN_INFO, f).then(res => {
         if (res.success) {
           if (res.result.success) {
@@ -116,6 +116,9 @@ export default {
         .then(res => {
           if (res.success) {
             this.form = res.result;
+            this.form.solutionWay = this.form.solutionWay
+              ? this.form.solutionWay
+              : 1;
             //  遍历照片
             this.form.photoList = [];
             for (let i of res.result.patrolPhotosPath) {

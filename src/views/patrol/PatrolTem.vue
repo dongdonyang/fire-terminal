@@ -3,7 +3,7 @@
     <van-cell>
       <van-dropdown-menu slot="title">
         <van-dropdown-item
-          title="故障来源"
+          title="记录状态"
           @change="getList"
           v-model="page[table[active].pageName]"
           :options="actions"
@@ -84,12 +84,12 @@ export default {
           className: "normal"
         },
         {
-          text: "绿色故障",
+          text: "故障",
           value: 2,
           className: "handle"
         },
         {
-          text: "橙色故障",
+          text: "故障",
           value: 3,
           className: "notHandle"
         }
@@ -137,14 +137,17 @@ export default {
       let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/${
         this.active ? val.patrolId : val.dutyId
       }`;
-      this.$router.push(u);
+      this.$router.push({
+        path: u,
+        query: val
+      });
     },
     // todo 新增
     addList() {
       let u = `./${this.active ? "PatrolRecord" : "DutyRecord"}/0`;
       if (this.active) {
         this.$axios.get(this.$api.GET_ADD_ALLOW).then(res => {
-          if (!res.result.success) {
+          if (res.result.success) {
             this.$router.push(u);
           } else {
             this.$toast(res.result.failCause);

@@ -18,8 +18,12 @@
     >
       <div slot-scope="scope" slot="cellValue" class="terminal-index-analog">
         <div>{{ scope.item.stateName }}</div>
-        <span>{{ scope.item.analog }}</span>
-        <span>[标准{{ scope.item.standard }}]</span>
+        <span
+          v-if="scope.item.isAnalog"
+          :style="{ color: scope.item.IsOverRange ? '#F56C6C' : '#10dd01' }"
+          >{{ scope.item.analog }}</span
+        >
+        <span v-if="scope.item.isAnalog">[标准{{ scope.item.standard }}]</span>
       </div>
     </base-list>
   </div>

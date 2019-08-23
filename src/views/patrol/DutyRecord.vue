@@ -3,6 +3,7 @@
     <base-nav title="值班记录"></base-nav>
 
     <van-cell-group>
+      <van-cell title="提交时间" :value="time"></van-cell>
       <van-cell title="值班人员" :value="form.dutyUser"></van-cell>
       <van-cell>
         <van-row slot="title" type="flex" justify="space-between">
@@ -24,18 +25,24 @@
         title="发现问题"
       ></van-switch-cell>
       <!--      查看-->
+
       <div v-else>
-        <van-cell title="问题类型">
-          <div :style="{ color: $store.state.getStatusColor[form.dutyStatus] }">
-            {{ $store.state.getStatus[form.dutyStatus] }}
-          </div>
-        </van-cell>
+        <van-cell title="发现问题">{{
+          form.dutyStatus === 1 ? "否" : "是"
+        }}</van-cell>
+
+        <!--        <van-cell title="问题类型">-->
+        <!--          <div :style="{ color: $store.state.getStatusColor[form.dutyStatus] }">-->
+        <!--            {{ $store.state.getStatus[form.dutyStatus] }}-->
+        <!--          </div>-->
+        <!--        </van-cell>-->
         <describe-qusetion
+          v-if="form.voice || form.content"
           :isEdit="id"
           :voice="form.voice"
           :content.sync="form.content"
         ></describe-qusetion>
-        <van-cell title="附件现场问题图片">
+        <van-cell v-if="photoList2.length" title="现场问题图片">
           <shot-photo
             slot="label"
             :disabled="id"
@@ -86,6 +93,7 @@ export default {
   props: {},
   data() {
     return {
+      time: "", // 提交时间
       question: {},
       photoList1: [],
       photoList2: [],
@@ -98,6 +106,7 @@ export default {
   watch: {},
   created() {
     let { id, status } = this.$route.params;
+    this.time = this.$route.query.creationTime;
     this.status = status * 1;
     this.id = +id;
     +id
@@ -148,6 +157,10 @@ export default {
       console.log("语音地址：", this.form);
       console.log("照片地址：", this.photoList1);
       console.log("照片地址：", this.photoList2);
+      if (!this.photoList1.length) {
+        this.$toast("值班记录不能为空！");
+        return;
+      }
       let that = this;
       let task = plus.uploader.createUpload(
         `http://fd.sctsjkj.com:5081${this.$api.ADD_DUTY_INFO}`,

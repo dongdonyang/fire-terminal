@@ -5,21 +5,12 @@
 
       <van-cell-group>
         <!--        todo 预警单位信息-->
-        <van-cell
-          class="flex-title"
-          :title="form.location"
-          :value="form.checkTime"
-          :label="form.alarm"
-        ></van-cell>
-
-        <!--        todo 查看用户信息-->
-        <van-cell
-          v-if="status"
-          class="flex-title"
-          :title="form.userName"
-          :value="form.time"
-          :label="form.userPhone"
-        ></van-cell>
+        <van-cell class="flex-title" :title="form.location">
+          <div slot="label">
+            <div>{{ form.alarm }}</div>
+            <div>{{ form.checkTime }}</div>
+          </div>
+        </van-cell>
 
         <van-cell v-if="!status">
           <van-radio-group
@@ -56,6 +47,15 @@
           v-else
           title="核警情况"
           :value="form.checkStateName"
+        ></van-cell>
+
+        <!--        todo 查看用户信息-->
+        <van-cell
+          v-if="status"
+          class="flex-title"
+          :title="form.userName"
+          :value="form.time"
+          :label="form.userPhone"
         ></van-cell>
 
         <!--      todo 情况说明-->
@@ -125,7 +125,7 @@ export default {
       },
       status: 0, // 状态
       checkId: 0,
-      result: []
+      result: [1]
     };
   },
   computed: {},

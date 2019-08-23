@@ -4,6 +4,9 @@
     <van-cell-group>
       <van-cell>
         <div slot="title">巡查方式：{{ type[patrolType] }}</div>
+        <div slot="label" v-if="id">
+          <div>巡查人员：{{ userInfo.patrolUser }}</div>
+        </div>
         <van-button
           v-if="patrolType && !id"
           size="mini"
@@ -11,6 +14,9 @@
           @click="$router.push(`/PatrolDetail/${patrolType}/0`)"
           >+新增巡查轨迹</van-button
         >
+        <div v-else>
+          {{ userInfo.creationTime }}
+        </div>
       </van-cell>
 
       <!--      todo 有数据！-->
@@ -29,14 +35,20 @@
             <van-panel
               @click.native="getDetail(item)"
               class="patrol-record-panel"
-              :title="item.patrolAddress"
-              :desc="item.creationTime"
-              :status="
-                id
-                  ? ProblemStatusName[item.patrolStatus]
-                  : item.problemStatusName
-              "
             >
+              <van-cell
+                slot="header"
+                :title="`巡查地点：${item.patrolAddress}`"
+                :label="item.creationTime"
+              >
+                <div
+                  :style="{
+                    color: $store.state.getStatusColor[item.patrolStatus]
+                  }"
+                >
+                  {{ $store.state.getStatus[item.patrolStatus] }}
+                </div>
+              </van-cell>
               <div class="patrol-record-steps-info">
                 <!--                选择的系统-->
                 <div v-if="!id && item.systemId.length">
@@ -116,17 +128,12 @@ export default {
   props: {},
   data() {
     return {
-      ProblemStatusName: {
-        0: "未指定",
-        1: "正常",
-        2: "绿色故障",
-        3: "橙色故障"
-      },
+      userInfo: {}, // 查看时候的人员信息
       list: [],
       patrolType: "",
       type: {
         0: "未设置巡查方式",
-        1: "普通巡查",
+        1: "一般巡查",
         2: "扫码巡查"
       },
       patrolId: 0,
@@ -137,6 +144,7 @@ export default {
   watch: {},
   created() {
     this.getType();
+    this.userInfo = this.$route.query;
     this.id = +this.$route.params.id;
     this.id ? this.getList() : this.getlocalList();
   },
@@ -162,7 +170,7 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.list = res.result;
+            this.list = res.result.reverse();
             //  照片
             for (let i of res.result) {
               i.photoList = [];
@@ -319,6 +327,15 @@ export default {
           display: flex;
         }
       }
+    }
+    /*  左侧进度样式*/
+    .van-step__circle-container,
+    .van-step__line {
+      top: 50%;
+    }
+    .van-step__circle {
+      width: 10px;
+      height: 10px;
     }
   }
 

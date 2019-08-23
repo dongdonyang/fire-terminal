@@ -3,14 +3,12 @@
     <van-cell title="选择巡查方式">
       <van-cell-group slot="label">
         <van-cell
-          label="通常巡查消防设施的方式，直接填报巡查
-      记录并提交巡查问题"
+          label="通常巡查消防设施的方式，直接填报巡查记录并提交巡查问题"
         >
           <el-radio slot="title" v-model="radio" label="1">一般巡查</el-radio>
         </van-cell>
         <van-cell
-          label="通过扫描消防设施上的设施码，填报巡查
-      记录并提交巡查问题"
+          label="通过扫描消防设施上的设施码，填报巡查记录并提交巡查问题"
         >
           <el-radio slot="title" v-model="radio" label="2">扫码巡查</el-radio>
         </van-cell>

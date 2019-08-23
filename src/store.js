@@ -9,8 +9,8 @@ export default new Vuex.Store({
     getStatus: {
       0: "未指定",
       1: "正常",
-      2: "绿色异常",
-      3: "橙色异常"
+      2: "故障",
+      3: "故障"
     },
     // 巡查结果字段颜色
     getStatusColor: {

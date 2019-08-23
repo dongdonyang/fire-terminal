@@ -35,7 +35,8 @@ const router = new Router({
           path: "terminal",
           name: "terminal",
           meta: {
-            active: 2
+            active: 2,
+            keepAlive: true //该字段表示该页面需要缓存
           },
           component: () => import("./views/terminal/index.vue")
         },
@@ -44,7 +45,8 @@ const router = new Router({
           path: "setting",
           name: "setting",
           meta: {
-            active: 3
+            active: 3,
+            keepAlive: true //该字段表示该页面需要缓存
           },
           component: () => import("./views/setting/index.vue")
         }
@@ -85,9 +87,15 @@ const router = new Router({
     //  todo 我的设置
     //  绑定设施编号
     {
-      path: "/BingNumber",
+      path: "/BingNumber/:id",
       name: "BingNumber",
       component: () => import("./views/setting/BingNumber.vue")
+    },
+    //  设施编号列表
+    {
+      path: "/CodeList",
+      name: "CodeList",
+      component: () => import("./views/setting/CodeList.vue")
     },
     //  修改密码
     {

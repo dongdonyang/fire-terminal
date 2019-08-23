@@ -20,6 +20,7 @@
               :loading="loading"
             >
               <el-option
+                @click.native="getUnit(item)"
                 v-for="item in safeUnitsOpt"
                 :key="item.safeUnitId"
                 :label="item.safeUnitName"
@@ -58,6 +59,7 @@ export default {
     return {
       loading: false,
       safeUnitId: "",
+      safeUnitName: "",
       safeUnitsOpt: [],
       checked: true,
       unitList: [],
@@ -66,7 +68,14 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    let val = localStorage.getItem("guideForm");
+    if (val) {
+      this.searchUnit(
+        JSON.parse(localStorage.getItem("guideForm")).safeUnitName
+      );
+    }
+  },
   mounted() {},
   methods: {
     // todo 维保单位模糊查询
@@ -82,6 +91,10 @@ export default {
               if (res.success) {
                 this.loading = false;
                 this.safeUnitsOpt = res.result;
+                if (localStorage.getItem("guideForm")) {
+                  this.safeUnitId = res.result[0].safeUnitId;
+                  this.safeUnitName = res.result[0].safeUnitName;
+                }
               }
             });
         }, 200);
@@ -89,14 +102,20 @@ export default {
         this.safeUnitsOpt = [];
       }
     },
+    getUnit(val) {
+      this.safeUnitName = val.safeUnitName;
+    },
     //  todo 下一步
     nextStep() {
-      let f = {};
+      let f = JSON.parse(localStorage.getItem("guideForm"));
       if (this.checked && !this.safeUnitId) {
         this.$toast("请选择维保单位");
         return;
       }
-      this.safeUnitId ? (f.safeUnitId = this.safeUnitId) : "";
+      if (this.safeUnitId) {
+        f.safeUnitId = this.safeUnitId;
+        f.safeUnitName = this.safeUnitName;
+      }
       localStorage.setItem("guideForm", JSON.stringify(f));
       this.$router.push("./FirePatrol");
     }

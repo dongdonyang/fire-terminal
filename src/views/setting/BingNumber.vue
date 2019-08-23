@@ -2,9 +2,13 @@
   <div class="bing-number">
     <div>
       <base-nav title="绑定设施编号"></base-nav>
-      <base-form :form="form" :form-list="formList"></base-form>
+      <base-form
+        :form="form"
+        :form-list="formList"
+        @codeInfo="setCode"
+      ></base-form>
 
-      <van-cell title="设施所属消防系统">
+      <van-cell title="设施所属消防系统（单选）">
         <van-radio-group slot="label" v-model="form.fireSystemId">
           <van-cell-group>
             <van-cell
@@ -18,19 +22,6 @@
             </van-cell>
           </van-cell-group>
         </van-radio-group>
-        <!--        <van-checkbox-group v-model="form.fireSystemId" slot="label">-->
-        <!--          <van-cell-group>-->
-        <!--            <van-cell-->
-        <!--              v-for="(item, index) in unitList"-->
-        <!--              clickable-->
-        <!--              :key="item"-->
-        <!--              :title="item.systemName"-->
-        <!--              @click="toggle(index)"-->
-        <!--            >-->
-        <!--              <van-checkbox :name="item" ref="checkboxes" slot="right-icon" />-->
-        <!--            </van-cell>-->
-        <!--          </van-cell-group>-->
-        <!--        </van-checkbox-group>-->
       </van-cell>
     </div>
 
@@ -49,7 +40,10 @@ export default {
   props: {},
   data() {
     return {
-      form: {},
+      id: 0,
+      form: {
+        equiNo: ""
+      },
       formList: [
         {
           label: "设施编码",
@@ -69,10 +63,22 @@ export default {
   computed: {},
   watch: {},
   created() {
+    console.log(this.$route);
+    this.id = +this.$route.params.id;
+    let f = this.$route.query;
+    if (this.id) {
+      this.form.equiNo = f.equiNo;
+      this.form.address = f.address;
+      this.form.id = f.id;
+      this.form.opreation = 1; // 0-删除，1-修改
+    }
     this.getUnit();
   },
   mounted() {},
   methods: {
+    setCode(val) {
+      this.form.equiNo = val;
+    },
     toggle(item) {
       this.$set(this.form, "fireSystemId", item.id);
     },
@@ -86,7 +92,10 @@ export default {
     },
     //  todo 提交
     submit() {
-      this.$axios.post(this.$api.ADD_EQUIPMENT_NO, this.form).then(res => {
+      let a = this.id
+        ? this.$axios.put(this.$api.UPDATE_EQUIPMENTNO_INFO, this.form)
+        : this.$axios.post(this.$api.ADD_EQUIPMENT_NO, this.form);
+      a.then(res => {
         if (res.success) {
           if (res.result.success) {
             this.$toast.success("绑定成功！");

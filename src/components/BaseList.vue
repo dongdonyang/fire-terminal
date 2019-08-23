@@ -118,6 +118,9 @@ export default {
 
 <style lang="scss">
 .base-list {
+  /*.van-cell__title {*/
+  /*  flex: 2 0 auto;*/
+  /*}*/
   /*设置最小宽度*/
   .van-cell__value {
     min-width: 70px;

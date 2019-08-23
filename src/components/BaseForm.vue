@@ -111,7 +111,7 @@ export default {
           text = "AZTEC: ";
           break;
       }
-      alert(text + result);
+      console.log(text + result);
       that.$emit("codeInfo", result);
       this.barcode.close();
     }

@@ -45,7 +45,7 @@ export default {
       active: 0,
       tabBars: [
         {
-          label: "设置故障",
+          label: "设施故障",
           active: require("../assets/ssgz_btn_blue01.png"),
           normal: require("../assets/ssgz_btn_gray01.png"),
           router: "fault"

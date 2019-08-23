@@ -5,7 +5,8 @@
       <base-nav title="引导设置" :show-left="false"></base-nav>
       <div class="guide-main">
         <div>
-          <img width="90%" src="../../assets/load_img_01.png" alt="" />
+          <img width="60%" src="../../assets/load_img_01.png" alt="" />
+          <h4>防火单位作业终端</h4>
           <p v-for="(item, index) in contents" :key="index">{{ item }}</p>
         </div>
       </div>
@@ -28,9 +29,9 @@ export default {
     return {
       contents: [
         "感谢您使用城市智慧消防作业终端！",
-        "首先，我们需要您进行一些初步设置，以使得系统更贴切符合贵公司的实际情况。",
-        "初期设置的所有数据，如果后期发生了更改，您都可以进行修改",
-        "接下来开始吧！"
+        "首先，我们需要您进行一些初步设置，以使得系统更贴合贵公司实际情况。",
+        "初期设置的所有数据，如果后期发生了变更，您都可以进行修改。",
+        "接下来，开始吧！"
       ]
     };
   },
@@ -45,11 +46,19 @@ export default {
 <style lang="scss">
 @import "../../style/app";
 .guide {
+  background-color: #fff;
   @include my-flex();
   &-main {
-    margin-top: 50px;
+    margin-top: 40px;
     padding: 10px 20px;
     text-align: center;
+    h4 {
+      margin: 10px;
+    }
+    & > div > p {
+      text-align: left;
+      margin: 38px 0;
+    }
   }
 }
 </style>
