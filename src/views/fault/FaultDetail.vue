@@ -13,7 +13,11 @@
       <!--      todo 建议抽离图片展示-->
       <van-cell title="问题描述">
         <div slot="label">
-          <div class="fault-detail-text">{{ form.remakeText }}</div>
+          <div style="margin: 5px" v-show="form.problemRemakeType === 2">
+            <!--        todo 播放声音-->
+            <base-play-sound :isEdit="1" :voice="form.voice"></base-play-sound>
+          </div>
+          <div v-show="form.problemRemakeType === 1" class="fault-detail-text">{{ form.remakeText }}</div>
           <shot-photo v-model="form.photoList" :disabled="1"></shot-photo>
         </div>
       </van-cell>
@@ -77,19 +81,21 @@ export default {
       title: ["设施故障待处理", "设施故障处理中", "设置故障已解决"],
       active: 0,
       breakDownId: 0,
-      form: {}
+      form: {
+        voice: ""
+      }
     };
   },
   computed: {},
   watch: {},
-  created() {
+  created() {},
+  mounted() {
     ({
       status: this.active,
       breakDownId: this.breakDownId
     } = this.$route.params);
     this.getDetail();
   },
-  mounted() {},
   methods: {
     // todo 更新设施故障、表单验证
     submit() {
@@ -123,6 +129,12 @@ export default {
             this.form.photoList = [];
             for (let i of res.result.patrolPhotosPath) {
               this.form.photoList.push(`${this.$url}${i}`);
+            }
+            //  语音、文字
+            if (this.form.problemRemakeType === 2) {
+              this.form.voice = `${this.$url}${this.form.remakeText}`;
+            } else {
+              this.form.content = `${this.remakeText}`;
             }
           }
         });

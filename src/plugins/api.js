@@ -56,9 +56,12 @@ const API = {
   ADD_PATROL_TRACK_DETAIL:
     "/api/services/app/DutyAndPatrolService/AddPatrolTrackDetail", //添加巡查记录轨迹
   GET_ADD_ALLOW: "/api/services/app/DutyAndPatrolService/GetAddAllow", //新增时查询今日是否已添加
+  GET_PATROL_INFOFORWEB:
+    "/api/services/app/DutyAndPatrolService/GetPatrolInfoForWeb", //Web获取巡查记录轨迹,获取问题点数量
 
   //  todo 设置
-  UPDATE_EQUIPMENTNO_INFO: "/api/services/app/AppGuideSet/UpdateEquipmentNoInfo", //修改设施编码信息
+  UPDATE_EQUIPMENTNO_INFO:
+    "/api/services/app/AppGuideSet/UpdateEquipmentNoInfo", //修改设施编码信息
   GET_EQUIPMENTNO_LIST: "/api/services/app/AppGuideSet/GetEquipmentNoList", //获取绑定设施编码列表
   ADD_EQUIPMENT_NO: "/api/services/app/AppGuideSet/AddEquipmentNo", //绑定设施编码
   GET_EQUIPMENTNO_INFO: "/api/services/app/AppGuideSet/GetEquipmentNoInfo", //扫码获取信息

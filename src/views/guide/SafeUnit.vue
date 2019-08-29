@@ -107,7 +107,13 @@ export default {
     },
     //  todo 下一步
     nextStep() {
-      let f = JSON.parse(localStorage.getItem("guideForm"));
+      let f = {};
+      let val = localStorage.getItem("guideForm");
+      if (val) {
+        f = JSON.parse(val);
+      } else {
+        f = {};
+      }
       if (this.checked && !this.safeUnitId) {
         this.$toast("请选择维保单位");
         return;

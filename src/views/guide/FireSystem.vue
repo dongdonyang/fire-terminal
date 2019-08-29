@@ -77,10 +77,11 @@ export default {
       this.$axios.put(this.$api.UPDATE_GUIDESET, f).then(res => {
         if (res.success) {
           localStorage.setItem("guideForm", JSON.stringify(f));
-          let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
-          console.log(this.$store.state.userInfo);
-          let router = role ? "/fault" : "/patrol"; // 路由
-          this.$router.push(router);
+          // let role = this.$store.state.userInfo.rolelist.includes(1); // 角色
+          // console.log(this.$store.state.userInfo);
+          // let router = role ? "/fault" : "/patrol"; // 路由
+          // this.$router.push(router);
+          this.$router.push("./setting");
         }
       });
     }

@@ -42,7 +42,12 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    let val = localStorage.getItem("guideForm");
+    if (val) {
+      this.radio = JSON.parse(val).patrol;
+    }
+  },
   mounted() {},
   methods: {
     //  todo 下一步

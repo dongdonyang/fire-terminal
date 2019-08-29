@@ -89,7 +89,7 @@
 
     <div class="patrol-detail-but" v-if="!id">
       <base-button @click="submit">保存并返回</base-button>
-      <base-button @click="submit">保存并继续添加</base-button>
+      <base-button @click="submit(1)">保存并继续添加</base-button>
     </div>
   </div>
 </template>
@@ -200,7 +200,7 @@ export default {
         });
     },
     //  todo 本地保存
-    submit() {
+    submit(val1) {
       let f = this.form;
       if (!f.patrolAddress) {
         this.$toast("请输入地点");
@@ -255,7 +255,7 @@ export default {
       console.log(val);
       localStorage.setItem("patrolArray", JSON.stringify(val));
       this.$toast.success("本地保存成功,请尽快提交");
-      this.$router.back();
+      val1 ? this.$router.go(0): this.$router.back();
     }
   }
 };

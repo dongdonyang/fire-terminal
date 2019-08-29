@@ -23,7 +23,7 @@
       <div v-if="list.length">
         <van-cell title="">
           <div slot="label">
-            有效轨迹点{{ list.length }}个，发现0个问题，现场解决0个问题
+            有效轨迹点{{ list.length }}个，发现{{hasQusetion}}个问题，现场解决{{hasDel}}个问题
           </div>
         </van-cell>
         <van-steps
@@ -38,8 +38,8 @@
             >
               <van-cell
                 slot="header"
-                :title="`巡查地点：${item.patrolAddress}`"
-                :label="item.creationTime"
+                :label="`巡查地点：${item.patrolAddress}`"
+                :title="item.creationTime"
               >
                 <div
                   :style="{
@@ -128,6 +128,8 @@ export default {
   props: {},
   data() {
     return {
+      hasQusetion: 0,
+      hasDel: 0,
       userInfo: {}, // 查看时候的人员信息
       list: [],
       patrolType: "",
@@ -150,6 +152,18 @@ export default {
   },
   mounted() {},
   methods: {
+    // todo  获取数量
+    getNum(res) {
+      res.forEach(item => {
+        console.log(item.patrolStatus);
+        if (item.patrolStatus > 1) {
+          this.hasQusetion += 1; // 发现问题
+        }
+        if (item.patrolStatus === 2) {
+          this.hasDel += 1; // 解决问题
+        }
+      });
+    },
     // todo 获取巡查方式
     getType() {
       this.$axios
@@ -170,6 +184,7 @@ export default {
         })
         .then(res => {
           if (res.success) {
+            this.getNum(res.result);
             this.list = res.result.reverse();
             //  照片
             for (let i of res.result) {
@@ -186,6 +201,7 @@ export default {
       let val = localStorage.getItem("patrolArray");
       if (val) {
         this.list = JSON.parse(val);
+        this.getNum(this.list);
         console.log("本地数据", this.list);
       }
     },
